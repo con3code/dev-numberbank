@@ -1,5 +1,6 @@
 // NumberBank for Xcratch
 // 20220606 - ver1.0(067)
+// 20221004 - dev ver(000)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -43,7 +44,7 @@ const EXTENSION_ID = 'numberbank';
  * When it was loaded as a module, 'extensionURL' will be replaced a URL which is retrieved from.
  * @type {string}
  */
-let extensionURL = 'https://con3office.github.io/xcx-numberbank/dist/numberbank.mjs';
+let extensionURL = 'https://con3office.github.io/dev-numberbank/dist/numberbank.mjs';
 
 
 
