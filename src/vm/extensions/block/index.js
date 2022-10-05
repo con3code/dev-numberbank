@@ -8,12 +8,13 @@ import ArgumentType from '../../extension-support/argument-type';
 import translations from './translations.json';
 import blockIcon from './numberbank_icon.png';
 import { initializeApp, deleteApp } from 'firebase/app';
-import * as firestore from 'firebase/firestore';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
-import Variable from '../../engine/variable';
-
-// import * as firestore from 'firebase/firestore/lite';
+// import * as firestore from 'firebase/firestore';
 // import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
+
+import * as firestore from 'firebase/firestore/lite';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
+
+import Variable from '../../engine/variable';
 
 const encoder = new TextEncoder();
 const deoder_utf8 = new TextDecoder('utf-8');
