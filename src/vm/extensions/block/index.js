@@ -987,7 +987,7 @@ function hexString(textStr) {
 
 
 
-
+/*
 
 function fb_comm(){
 
@@ -1168,7 +1168,7 @@ function fb_comm(){
 
 
 
-
+*/
 
 
 

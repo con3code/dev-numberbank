@@ -10922,6 +10922,189 @@ function hexString(textStr) {
 
   return hexCodes.join('');
 }
+/*
+
+function fb_comm(){
+
+
+    // put
+    const now = Date.now();
+    setDoc(doc(db, 'card', uniSha256), {
+        number: settingNum,
+        bank_key: bankSha256,
+        card_key: cardSha256,
+        master_key: masterSha256,
+        time_stamp: now
+    })
+    .then(() => {
+        // console.log("NumberBank put 01:" + bankName);
+
+        return setDoc(doc(db, 'bank', bankSha256), {
+            bank_name: bankName,
+            time_stamp: now
+        });
+    })
+    .then(() => {
+        // console.log("NumberBank put 02");
+        inoutFlag = false;
+    })
+    .catch(function (error) {
+        console.error("Error writing document: ", error);
+        inoutFlag = false;
+    });
+
+
+
+
+
+
+    // set
+    getDoc(doc(db, 'card', uniSha256)).then(function (ckey) {
+        // console.log("NumberBank set 00");
+
+        if (ckey.exists()) {
+            // console.log("NumberBank set 01");
+
+            // cardDb.doc(uniSha256).get()
+            getDoc(doc(db, 'card', uniSha256))
+                .then((doc) => {
+
+                    // console.log("NumberBank set 02");
+                    let data = doc.data();
+                    variable.value = data.number;
+                    
+                })
+                .then(() => {
+                    inoutFlag = false;
+                })
+                .catch(function (error) {
+                    console.error("Error getting document: ", error);
+                });
+
+        } else {
+            // console.log("No Card!");
+            variable.value = '';
+            inoutFlag = false;
+        }
+
+    }).catch(function (error) {
+        console.log("Error cheking document:", error);
+        inoutFlag = false;
+    });
+
+
+
+
+
+    // get
+    getDoc(doc(db, 'card', uniSha256)).then(function (ckey) {
+        // console.log("NumberBank get 00");
+
+        if (ckey.exists()) {
+            // console.log("NumberBank get 01");
+
+            getDoc(doc(db, 'card', uniSha256))
+                .then((doc) => {
+
+                    // console.log("NumberBank get 02");
+                    let data = doc.data();
+                    cloudNum = data.number;
+                    // console.log('cloudNum:', cloudNum);
+
+                })
+                .then(() => {
+                    // console.log("NumberBank get 03");
+                    inoutFlag = false;
+                })
+                .catch(function (error) {
+                    console.error("Error getting document: ", error);
+                });
+
+        } else {
+            // console.log("NumberBank get 04");
+            // console.log("No Card!");
+            cloudNum = '';
+            inoutFlag = false;
+        }
+
+    }).catch(function (error) {
+        console.log("Error cheking document:", error);
+        inoutFlag = false;
+    });
+
+
+
+
+
+    //rep
+    getDoc(doc(db, 'card', uniSha256)).then(function (ckey) {
+        // console.log("NumberBank rep 00");
+
+        if (ckey.exists()) {
+            // console.log("NumberBank rep 01");
+
+            getDoc(doc(db, 'card', uniSha256))
+                .then((doc) => {
+
+                    // console.log("NumberBank rep 02");
+                    let data = doc.data();
+                    rep_cloudNum = data.number;
+
+                })
+                .then(() => {
+                    inoutFlag = false;
+                })
+                .catch(function (error) {
+                    console.error("Error getting document: ", error);
+                });
+
+        } else {
+            // console.log("No Card!");
+            rep_cloudNum = '';
+            inoutFlag = false;
+        }
+
+    }).catch(function (error) {
+        console.log("Error cheking document:", error);
+        inoutFlag = false;
+    });
+
+
+
+    //bool
+    getDoc(doc(db, 'card', uniSha256)).then(function (ckey) {
+        // console.log("NumberBank avl 00");
+
+        if (ckey.exists()) {
+            // console.log("NumberBank avl YES");
+            inoutFlag = false;
+            availableFlag = true;
+        } else {
+            // console.log("NumberBank avl NO");
+            inoutFlag = false;
+            availableFlag = false;
+        }
+
+    }).catch(function (error) {
+        console.log("Error checking document:", error);
+        inoutFlag = false;
+        availableFlag = false;
+    });
+
+
+
+    //
+
+
+
+
+}
+
+
+
+
+*/
+// Firebase関連
 
 
 var fbApp;
