@@ -867,18 +867,18 @@ class ExtensionBlocks {
                         cloudFlag = false;
                         fbApp = initializeApp(firebaseConfig);
                         db = getFirestore(fbApp);
-                        //inoutFlag = false;
+                        inoutFlag = false;
                     })
                     .catch((err) => {
                         console.log('Err deleting app:', err);
-                        //inoutFlag = false;
+                        inoutFlag = false;
                     })
 
                 } else {
 
                     fbApp = initializeApp(firebaseConfig);
                     db = getFirestore(fbApp);
-                    //inoutFlag = false;
+                    inoutFlag = false;
 
                 }
 

@@ -14328,17 +14328,16 @@ var ExtensionBlocks = /*#__PURE__*/function () {
             cloudFlag = false;
             fbApp = initializeApp(firebaseConfig);
             db = getFirestore(fbApp);
-            //inoutFlag = false;
+            inoutFlag = false;
           }).catch(function (err) {
             console.log('Err deleting app:', err);
-            //inoutFlag = false;
+            inoutFlag = false;
           });
         } else {
           fbApp = initializeApp(firebaseConfig);
           db = getFirestore(fbApp);
-          //inoutFlag = false;
+          inoutFlag = false;
         }
-
         return ioWaiter(1);
       }).then(function () {
         masterKey = masterSetted;
