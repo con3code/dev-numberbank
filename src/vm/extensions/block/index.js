@@ -1,23 +1,38 @@
 // NumberBank for Xcratch
 // 20220606 - ver1.0(067)
-// 20221004 - dev ver(000)
+// 20221124 - dev ver(001)
 //
 
 import BlockType from '../../extension-support/block-type';
 import ArgumentType from '../../extension-support/argument-type';
 import translations from './translations.json';
 import blockIcon from './numberbank_icon.png';
+
+//Dev:
+//import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
+//import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+//import { getFirestore, doc, getDoc, setDoc } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore/lite';
+//Relese:
 import { initializeApp, deleteApp } from 'firebase/app';
 import * as firestore from 'firebase/firestore';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
 
+//
 // import * as firestore from 'firebase/firestore/lite';
 // import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
 
+//Dev:
+//import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
+//Relese:
 import Variable from '../../engine/variable';
 
 const encoder = new TextEncoder();
 const deoder_utf8 = new TextDecoder('utf-8');
+
+
+// API呼び出しを管理するキュー
+let apiCallQueue = [];
+let processing = false;
 
 
 /**
@@ -117,8 +132,8 @@ class ExtensionBlocks {
 
         if (args.BANK == '' || args.CARD == '' || args.NUM == '') { return; }
 
-        if (inoutFlag) { return; }
-        inoutFlag = true;
+        //if (inoutFlag) { return; }
+        //inoutFlag = true;
 
         //console.log("putNum...");
 
@@ -168,6 +183,45 @@ class ExtensionBlocks {
 
                     if (masterSha256 != '' && masterSha256 != undefined) {
                         // console.log("NumberBank put 00");
+                    
+                        const now = Date.now();
+                        const cardDocRef = doc(db, 'card', uniSha256);
+                        const bankDocRef = doc(db, 'bank', bankSha256);
+                    
+                        // setDocの呼び出しをenqueueApiCallに渡す
+                        enqueueApiCall(() => {
+                            return setDoc(cardDocRef, {
+                                number: settingNum,
+                                bank_key: bankSha256,
+                                card_key: cardSha256,
+                                master_key: masterSha256,
+                                time_stamp: now
+                            })
+                            .then(() => {
+                                // console.log("NumberBank put 01:" + bankName);
+                                return setDoc(bankDocRef, {
+                                    bank_name: bankName,
+                                    time_stamp: now
+                                });
+                            })
+                            .then(() => {
+                                // console.log("NumberBank put 02");
+                                //inoutFlag = false;
+                            })
+                            .catch(error => {
+                                console.error("Error writing document: ", error);
+                                //inoutFlag = false;
+                            });
+                        });
+                    } else {
+                        // console.log("No MasterKey!");
+                        //inoutFlag = false;
+                    }
+
+
+                    /*
+                    if (masterSha256 != '' && masterSha256 != undefined) {
+                        // console.log("NumberBank put 00");
 
                         const now = Date.now();
                         setDoc(doc(db, 'card', uniSha256), {
@@ -198,6 +252,7 @@ class ExtensionBlocks {
                         // console.log("No MasterKey!");
                         inoutFlag = false;
                     }
+                    */
 
                     // console.log("NumberBank put 03");
 
@@ -207,7 +262,8 @@ class ExtensionBlocks {
 
         // console.log("NumberBank put ioWaiter");
 
-        return ioWaiter(interval.MsPut);
+        return sleep(interval.MsPut);
+        //return ioWaiter(interval.MsPut);
 
     }
 
@@ -218,8 +274,8 @@ class ExtensionBlocks {
 
         if (args.BANK == '' || args.CARD == '') { return; }
 
-        if (inoutFlag) { return; }
-        inoutFlag = true;
+        //if (inoutFlag) { return; }
+        //inoutFlag = true;
 
         const variable = util.target.lookupOrCreateVariable(null, args.VAL);
 
@@ -259,6 +315,36 @@ class ExtensionBlocks {
                     //console.log("masterSha256: " + masterSha256);
 
                     if (masterSha256 != '' && masterSha256 != undefined) {
+                        // getDocの呼び出しをenqueueApiCallに渡す
+                        enqueueApiCall(() => {
+                            return getDoc(doc(db, 'card', uniSha256))
+                                .then(docSnapshot => {
+                                    // console.log("NumberBank set 00");
+                                    if (docSnapshot.exists()) {
+                                        // console.log("NumberBank set 01");
+                                        let data = docSnapshot.data();
+                                        variable.value = data.number;
+                                    } else {
+                                        // console.log("No Card!");
+                                        variable.value = '';
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Error getting document: ", error);
+                                })
+                                .finally(() => {
+                                    //inoutFlag = false;
+                                });
+                        });
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No MasterKey!");
+                        //inoutFlag = false;
+                    }
+
+
+                    /*
+                    if (masterSha256 != '' && masterSha256 != undefined) {
 
                         getDoc(doc(db, 'card', uniSha256)).then(function (ckey) {
                             // console.log("NumberBank set 00");
@@ -296,6 +382,7 @@ class ExtensionBlocks {
                         console.log("No MasterKey!");
                         inoutFlag = false;
                     }
+                    */
 
                     // console.log("NumberBank set 03");
 
@@ -305,14 +392,17 @@ class ExtensionBlocks {
 
         // console.log("NumberBank set ioWaiter");
 
-        return ioWaiter(interval.MsSet);
+        return sleep(interval.MsSet);
+        //return ioWaiter(interval.MsSet);
 
     }
 
 
+    /*
     inoutDone() {
         return !inoutFlag;
     }
+    */
 
 
     getNum(args) {
@@ -326,8 +416,8 @@ class ExtensionBlocks {
         // console.log('args.BANK:', args.BANK);
         // console.log('args.CARD:', args.CARD);
 
-        if (inoutFlag) { return; }
-        inoutFlag = true;
+        //if (inoutFlag) { return; }
+        //inoutFlag = true;
 
         bankKey = new String(args.BANK);
         bankName = args.BANK;
@@ -365,6 +455,39 @@ class ExtensionBlocks {
                 .then(() => {
                     // console.log("masterSha256: " + masterSha256);
 
+                    if (masterSha256 != '' && masterSha256 != undefined) {
+                        // getDocの呼び出しをenqueueApiCallに渡す
+                        enqueueApiCall(() => {
+                            return getDoc(doc(db, 'card', uniSha256))
+                                .then(docSnapshot => {
+                                    // console.log("NumberBank get 00");
+                                    if (docSnapshot.exists()) {
+                                        // console.log("NumberBank get 01");
+                                        let data = docSnapshot.data();
+                                        cloudNum = data.number;
+                                        // console.log('cloudNum:', cloudNum);
+                                    } else {
+                                        // console.log("NumberBank get 04");
+                                        // console.log("No Card!");
+                                        cloudNum = '';
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Error getting document: ", error);
+                                })
+                                .finally(() => {
+                                    // console.log("NumberBank get 05");
+                                    //inoutFlag = false;
+                                });
+                        });
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No MasterKey!");
+                        //inoutFlag = false;
+                    }
+
+
+                    /*
                     if (masterSha256 != '' && masterSha256 != undefined) {
 
                         getDoc(doc(db, 'card', uniSha256)).then(function (ckey) {
@@ -405,6 +528,7 @@ class ExtensionBlocks {
                         console.log("No MasterKey!");
                         inoutFlag = false;
                     }
+                    */
 
                     // console.log("NumberBank get 05");
 
@@ -414,7 +538,8 @@ class ExtensionBlocks {
 
         // console.log("NumberBank get ioWaiter");
 
-        return ioWaiter(interval.MsGet);
+        return sleep(interval.MsGet);
+        //return ioWaiter(interval.MsGet);
 
     }
 
@@ -430,8 +555,8 @@ class ExtensionBlocks {
 
         if (args.BANK == '' || args.CARD == '') { return; }
 
-        if (inoutFlag) { return; }
-        inoutFlag = true;
+        //if (inoutFlag) { return; }
+        //inoutFlag = true;
 
         let rep_cloudNum = '';
 
@@ -472,6 +597,35 @@ class ExtensionBlocks {
                     //console.log("masterSha256: " + masterSha256);
 
                     if (masterSha256 != '' && masterSha256 != undefined) {
+                        // getDocの呼び出しをenqueueApiCallに渡す
+                        enqueueApiCall(() => {
+                            return getDoc(doc(db, 'card', uniSha256))
+                                .then(docSnapshot => {
+                                    if (docSnapshot.exists()) {
+                                        // console.log("NumberBank rep 01");
+                                        let data = docSnapshot.data();
+                                        rep_cloudNum = data.number;
+                                    } else {
+                                        // console.log("No Card!");
+                                        rep_cloudNum = '';
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Error getting document: ", error);
+                                })
+                                .finally(() => {
+                                    //inoutFlag = false;
+                                });
+                        });
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No MasterKey!");
+                        //inoutFlag = false;
+                    }
+
+
+                    /*
+                    if (masterSha256 != '' && masterSha256 != undefined) {
 
                         getDoc(doc(db, 'card', uniSha256)).then(function (ckey) {
                             // console.log("NumberBank rep 00");
@@ -508,6 +662,7 @@ class ExtensionBlocks {
                         console.log("No MasterKey!");
                         inoutFlag = false;
                     }
+                    */
 
                     // console.log("NumberBank rep 03");
 
@@ -517,7 +672,8 @@ class ExtensionBlocks {
 
         // console.log("NumberBank rep ioWaiter");
 
-        return reportNumWaiter(interval.MsRep).then(() => {return rep_cloudNum});
+        return sleep(interval.MsRep).then(() => {return rep_cloudNum});
+        //return reportNumWaiter(interval.MsRep).then(() => {return rep_cloudNum});
 
     }
 
@@ -528,8 +684,8 @@ class ExtensionBlocks {
 
         if (args.BANK == '' || args.CARD == '') { return; }
 
-        if (inoutFlag) { return; }
-        inoutFlag = true;
+        //if (inoutFlag) { return; }
+        //inoutFlag = true;
 
         bankKey = new String(args.BANK);
         bankName = args.BANK;
@@ -542,6 +698,52 @@ class ExtensionBlocks {
         }
 
         if (bankKey != '' && bankKey != undefined) {
+
+            // SHA-256ハッシュ計算後、結果をキューに追加する
+            crypto.subtle.digest('SHA-256', encoder.encode(uniKey))
+            .then(uniStr => {
+                uniSha256 = hexString(uniStr);
+                // console.log("uniSha256: " + uniSha256);
+
+                return sleep(1);
+            })
+            .then(() => {
+                // console.log("masterSha256: " + masterSha256);
+
+                if (masterSha256 != '' && masterSha256 != undefined) {
+                    // getDocの呼び出しをenqueueApiCallに渡す
+                    enqueueApiCall(() => {
+                        return getDoc(doc(db, 'card', uniSha256))
+                            .then(ckey => {
+                                // console.log("NumberBank avl 00");
+
+                                if (ckey.exists()) {
+                                    // console.log("NumberBank avl YES");
+                                    availableFlag = true;
+                                } else {
+                                    // console.log("NumberBank avl NO");
+                                    availableFlag = false;
+                                }
+                            })
+                            .catch(error => {
+                                console.log("Error checking document:", error);
+                                availableFlag = false;
+                            })
+                            .finally(() => {
+                                //inoutFlag = false;
+                            });
+                    });
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No MasterKey!");
+                    //inoutFlag = false;
+                    availableFlag = false;
+                }
+            });
+
+
+
+            /*
             //
             crypto.subtle.digest('SHA-256', encoder.encode(uniKey))
                 .then(uniStr => {
@@ -584,12 +786,14 @@ class ExtensionBlocks {
                     // console.log("NumberBank avl 03");
 
                 })
+                */
 
         }
 
         // console.log("NumberBank avl ioWaiter");
 
-        return availableWaiter(interval.MsAvl);
+        return sleep(interval.MsAvl);
+        //return availableWaiter(interval.MsAvl);
 
     }
 
@@ -601,7 +805,7 @@ class ExtensionBlocks {
 
         if (inoutFlag_setting) { return masterSetted; }
         inoutFlag_setting = true;
-        inoutFlag = true;
+        //inoutFlag = true;
 
         masterSha256 = '';
         masterSetted = args.KEY;
@@ -653,7 +857,7 @@ class ExtensionBlocks {
                 return ioWaiter(1);
 
             }).then(() => {
-                inoutFlag = true;
+                //inoutFlag = true;
 
                 // Initialize Firebase
 
@@ -664,18 +868,18 @@ class ExtensionBlocks {
                         cloudFlag = false;
                         fbApp = initializeApp(firebaseConfig);
                         db = getFirestore(fbApp);
-                        inoutFlag = false;
+                        //inoutFlag = false;
                     })
                     .catch((err) => {
                         console.log('Err deleting app:', err);
-                        inoutFlag = false;
+                        //inoutFlag = false;
                     })
 
                 } else {
 
                     fbApp = initializeApp(firebaseConfig);
                     db = getFirestore(fbApp);
-                    inoutFlag = false;
+                    //inoutFlag = false;
 
                 }
 
@@ -686,7 +890,7 @@ class ExtensionBlocks {
                 masterKey = masterSetted;
                 cloudFlag = true;
                 inoutFlag_setting = false;
-                inoutFlag = false;
+                //inoutFlag = false;
                 console.log("= MasterKey:", masterSetted);
                 console.log('= Interval:', interval);
                 console.log("= MasterKey Accepted! =");
@@ -695,7 +899,7 @@ class ExtensionBlocks {
             .catch(function (error) {
 
                 inoutFlag_setting = false;
-                inoutFlag = false;
+                //inoutFlag = false;
                 console.log("Error setting MasterKey:", error);
 
             });
@@ -907,6 +1111,46 @@ class ExtensionBlocks {
 }
 
 
+// キューの処理を行う関数
+function processQueue() {
+  if (processing || apiCallQueue.length === 0) {
+    // 既に処理中、またはキューが空の場合は何もしない
+    return;
+  }
+  processing = true;
+  const apiCall = apiCallQueue.shift();
+
+  apiCall().then(() => {
+    processing = false;
+    processQueue();
+  }).catch(error => {
+    console.error(error);
+    processing = false;
+    processQueue();
+  });
+}
+
+
+
+
+// API呼び出しをキューに追加する関数
+function enqueueApiCall(apiCall) {
+    return new Promise((resolve, reject) => {
+      apiCallQueue.push(() => apiCall().then(resolve).catch(reject));
+      processQueue();
+    });
+}
+
+
+/*
+// API呼び出しをキューに追加する関数
+function enqueueApiCall(apiCall) {
+  apiCallQueue.push(apiCall);
+  processQueue();
+}
+*/
+
+
 
 function sleep(msec) {
     return new Promise(resolve =>
@@ -915,6 +1159,7 @@ function sleep(msec) {
         }, msec)
     );
 }
+
 
 function ioWaiter(msec) {
     return new Promise((resolve, reject) =>
@@ -931,6 +1176,7 @@ function ioWaiter(msec) {
         });
 }
 
+/*
 function reportNumWaiter(msec) {
     return new Promise((resolve, reject) =>
         setTimeout(() => {
@@ -961,6 +1207,8 @@ function availableWaiter(msec) {
         });
 }
 
+*/
+
 function cloudWaiter(msec) {
     return new Promise((resolve, reject) =>
         setTimeout(() => {
@@ -975,7 +1223,6 @@ function cloudWaiter(msec) {
             return cloudWaiter(msec);
         });
 }
-
 
 
 //
@@ -1308,7 +1555,32 @@ function de_crt(data) {
 
 
 function crypt_decode(cryptedConfigData, decodedConfigData) {
-    if (inoutFlag) { return; }
+
+    decodedConfigData.cccCheck = cryptedConfigData.cccCheck;
+    const cccCheck = de_crt(cryptedConfigData.cccCheck);
+
+    const masterStr = crypto.subtle.digest('SHA-256', encoder.encode(masterSetted));
+    const ckeyPromise = masterStr.then(masterStr => crypto.subtle.importKey('raw', masterStr, 'AES-CTR', false, ['encrypt', 'decrypt']));
+
+    const propertiesToDecrypt = ['apiKey', 'authDomain', 'databaseURL', 'projectId', 'storageBucket', 'messagingSenderId', 'appId', 'measurementId'];
+
+    const decryptPromises = propertiesToDecrypt.map(property => {
+        return ckeyPromise.then(ckey => {
+            const cryptedData = de_get(cryptedConfigData[property]);
+            return crypto.subtle.decrypt({ name: 'AES-CTR', counter: cccCheck, length: 64 }, ckey, cryptedData);
+        }).then(decodedData => {
+            decodedConfigData[property] = de_disp(decodedData);
+        });
+    });
+
+    return Promise.all(decryptPromises);
+}
+
+
+
+/*
+function crypt_decode(cryptedConfigData, decodedConfigData) {
+    //if (inoutFlag) { return; }
     inoutFlag = true;
 
     decodedConfigData.cccCheck = cryptedConfigData.cccCheck;
@@ -1411,7 +1683,7 @@ function crypt_decode(cryptedConfigData, decodedConfigData) {
 
 
 }
-
+*/
 
 
 export {

@@ -2,3 +2,4 @@ node_modules/
 src/vm/*
 !src/vm/extensions/
 .DS_Store
+src/vm/extensions/block/index_10.js
