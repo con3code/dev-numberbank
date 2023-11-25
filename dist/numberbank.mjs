@@ -14279,8 +14279,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         return masterSetted;
       }
       inoutFlag_setting = true;
-      //inoutFlag = true;
-
+      inoutFlag = true;
       masterSha256 = '';
       masterSetted = args.KEY;
       mkbUrl = FBaseUrl + 'mkeybank/?mkey=' + masterSetted;
@@ -14320,7 +14319,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         crypt_decode(cloudConfig_mkey, firebaseConfig);
         return ioWaiter(1);
       }).then(function () {
-        //inoutFlag = true;
+        inoutFlag = true;
 
         // Initialize Firebase
 
@@ -14345,13 +14344,13 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         masterKey = masterSetted;
         cloudFlag = true;
         inoutFlag_setting = false;
-        //inoutFlag = false;
+        inoutFlag = false;
         console.log("= MasterKey:", masterSetted);
         console.log('= Interval:', interval);
         console.log("= MasterKey Accepted! =");
       }).catch(function (error) {
         inoutFlag_setting = false;
-        //inoutFlag = false;
+        inoutFlag = false;
         console.log("Error setting MasterKey:", error);
       });
       return cloudWaiter(1).then(function () {

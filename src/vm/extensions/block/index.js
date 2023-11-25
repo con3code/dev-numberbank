@@ -805,7 +805,7 @@ class ExtensionBlocks {
 
         if (inoutFlag_setting) { return masterSetted; }
         inoutFlag_setting = true;
-        //inoutFlag = true;
+        inoutFlag = true;
 
         masterSha256 = '';
         masterSetted = args.KEY;
@@ -857,7 +857,7 @@ class ExtensionBlocks {
                 return ioWaiter(1);
 
             }).then(() => {
-                //inoutFlag = true;
+                inoutFlag = true;
 
                 // Initialize Firebase
 
@@ -890,7 +890,7 @@ class ExtensionBlocks {
                 masterKey = masterSetted;
                 cloudFlag = true;
                 inoutFlag_setting = false;
-                //inoutFlag = false;
+                inoutFlag = false;
                 console.log("= MasterKey:", masterSetted);
                 console.log('= Interval:', interval);
                 console.log("= MasterKey Accepted! =");
@@ -899,7 +899,7 @@ class ExtensionBlocks {
             .catch(function (error) {
 
                 inoutFlag_setting = false;
-                //inoutFlag = false;
+                inoutFlag = false;
                 console.log("Error setting MasterKey:", error);
 
             });
