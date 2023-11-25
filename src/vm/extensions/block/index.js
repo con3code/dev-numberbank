@@ -800,6 +800,113 @@ class ExtensionBlocks {
 
     setMaster(args) {
         masterSetted = '';
+    
+        if (args.KEY == '') { return Promise.resolve(masterSetted); }
+    
+        if (inoutFlag_setting) { return Promise.resolve(masterSetted); }
+        inoutFlag_setting = true;
+        inoutFlag = true;
+    
+        masterSha256 = '';
+        masterSetted = args.KEY;
+    
+        mkbUrl = FBaseUrl + 'mkeybank/?mkey=' + masterSetted;
+        mkbRequest = new Request(mkbUrl, { mode: 'cors' });
+    
+        if (!crypto || !crypto.subtle) {
+            throw Error("crypto.subtle is not supported.");
+        }
+    
+        return crypto.subtle.digest('SHA-256', encoder.encode(masterSetted))
+            .then(masterStr => {
+                masterSha256 = hexString(masterStr);
+    
+                return fetch(mkbRequest);
+            })
+            .then(response => {
+
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Unexpected responce status ${response.status} or content type');
+                }
+
+            }).then((resBody) => {
+
+                cloudConfig_mkey.masterKey = resBody.masterKey;
+                cloudConfig_mkey.cloudType = resBody.cloudType;
+                cloudConfig_mkey.apiKey = resBody.apiKey;
+                cloudConfig_mkey.authDomain = resBody.authDomain;
+                cloudConfig_mkey.databaseURL = resBody.databaseURL;
+                cloudConfig_mkey.projectId = resBody.projectId;
+                cloudConfig_mkey.storageBucket = resBody.storageBucket;
+                cloudConfig_mkey.messagingSenderId = resBody.messagingSenderId;
+                cloudConfig_mkey.appId = resBody.appId;
+                cloudConfig_mkey.measurementId = resBody.measurementId;
+                cloudConfig_mkey.cccCheck = resBody.cccCheck;
+                interval.MsPut = resBody.intervalMsPut;
+                interval.MsSet = resBody.intervalMsSet;
+                interval.MsGet = resBody.intervalMsGet;
+                interval.MsRep = resBody.intervalMsRep;
+                interval.MsAvl = resBody.intervalMsAvl;
+
+
+                inoutFlag = false;
+                crypt_decode(cloudConfig_mkey, firebaseConfig);
+                return ioWaiter(1);
+
+            }).then(() => {
+                inoutFlag = true;
+
+                // Initialize Firebase
+
+                if (cloudFlag) {
+
+                    deleteApp(fbApp)
+                    .then(() => {
+                        cloudFlag = false;
+                        fbApp = initializeApp(firebaseConfig);
+                        db = getFirestore(fbApp);
+                        //inoutFlag = false;
+                    })
+                    .catch((err) => {
+                        console.log('Err deleting app:', err);
+                        //inoutFlag = false;
+                    })
+
+                } else {
+
+                    fbApp = initializeApp(firebaseConfig);
+                    db = getFirestore(fbApp);
+                    //inoutFlag = false;
+
+                }
+
+                return ioWaiter(1);
+
+            }).then(() => {
+                masterKey = masterSetted;
+                cloudFlag = true;
+                inoutFlag_setting = false;
+                inoutFlag = false;
+                console.log("= MasterKey:", masterSetted);
+                console.log('= Interval:', interval);
+                console.log("= MasterKey Accepted! =");
+    
+                return masterKey;  // masterKeyを直接返す
+            })
+            .catch(function (error) {
+                inoutFlag_setting = false;
+                inoutFlag = false;
+                console.log("Error setting MasterKey:", error);
+            });
+    }
+
+
+
+/*
+    setMaster(args) {
+        masterSetted = '';
 
         if (args.KEY == '') { return masterSetted; }
 
@@ -908,8 +1015,7 @@ class ExtensionBlocks {
         return cloudWaiter(1).then(() => { return masterKey; });
 
     }
-
-
+*/
 
 
     /**

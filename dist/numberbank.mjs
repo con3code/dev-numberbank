@@ -14273,10 +14273,10 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     value: function setMaster(args) {
       masterSetted = '';
       if (args.KEY == '') {
-        return masterSetted;
+        return Promise.resolve(masterSetted);
       }
       if (inoutFlag_setting) {
-        return masterSetted;
+        return Promise.resolve(masterSetted);
       }
       inoutFlag_setting = true;
       inoutFlag = true;
@@ -14289,7 +14289,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       if (!crypto || !crypto.subtle) {
         throw Error("crypto.subtle is not supported.");
       }
-      crypto.subtle.digest('SHA-256', encoder.encode(masterSetted)).then(function (masterStr) {
+      return crypto.subtle.digest('SHA-256', encoder.encode(masterSetted)).then(function (masterStr) {
         masterSha256 = hexString(masterStr);
         return fetch(mkbRequest);
       }).then(function (response) {
@@ -14348,15 +14348,126 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         console.log("= MasterKey:", masterSetted);
         console.log('= Interval:', interval);
         console.log("= MasterKey Accepted! =");
+        return masterKey; // masterKeyを直接返す
       }).catch(function (error) {
         inoutFlag_setting = false;
         inoutFlag = false;
         console.log("Error setting MasterKey:", error);
       });
-      return cloudWaiter(1).then(function () {
-        return masterKey;
-      });
     }
+
+    /*
+        setMaster(args) {
+            masterSetted = '';
+    
+            if (args.KEY == '') { return masterSetted; }
+    
+            if (inoutFlag_setting) { return masterSetted; }
+            inoutFlag_setting = true;
+            inoutFlag = true;
+    
+            masterSha256 = '';
+            masterSetted = args.KEY;
+    
+            mkbUrl = FBaseUrl + 'mkeybank/?mkey=' + masterSetted;
+            mkbRequest = new Request(mkbUrl, { mode: 'cors' });
+    
+    
+            if (!crypto || !crypto.subtle) {
+                throw Error("crypto.subtle is not supported.");
+            }
+    
+            crypto.subtle.digest('SHA-256', encoder.encode(masterSetted))
+                .then(masterStr => {
+                    masterSha256 = hexString(masterStr);
+    
+                    return fetch(mkbRequest);
+                })
+                .then(response => {
+    
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Unexpected responce status ${response.status} or content type');
+                    }
+    
+                }).then((resBody) => {
+    
+                    cloudConfig_mkey.masterKey = resBody.masterKey;
+                    cloudConfig_mkey.cloudType = resBody.cloudType;
+                    cloudConfig_mkey.apiKey = resBody.apiKey;
+                    cloudConfig_mkey.authDomain = resBody.authDomain;
+                    cloudConfig_mkey.databaseURL = resBody.databaseURL;
+                    cloudConfig_mkey.projectId = resBody.projectId;
+                    cloudConfig_mkey.storageBucket = resBody.storageBucket;
+                    cloudConfig_mkey.messagingSenderId = resBody.messagingSenderId;
+                    cloudConfig_mkey.appId = resBody.appId;
+                    cloudConfig_mkey.measurementId = resBody.measurementId;
+                    cloudConfig_mkey.cccCheck = resBody.cccCheck;
+                    interval.MsPut = resBody.intervalMsPut;
+                    interval.MsSet = resBody.intervalMsSet;
+                    interval.MsGet = resBody.intervalMsGet;
+                    interval.MsRep = resBody.intervalMsRep;
+                    interval.MsAvl = resBody.intervalMsAvl;
+    
+    
+                    inoutFlag = false;
+                    crypt_decode(cloudConfig_mkey, firebaseConfig);
+                    return ioWaiter(1);
+    
+                }).then(() => {
+                    inoutFlag = true;
+    
+                    // Initialize Firebase
+    
+                    if (cloudFlag) {
+    
+                        deleteApp(fbApp)
+                        .then(() => {
+                            cloudFlag = false;
+                            fbApp = initializeApp(firebaseConfig);
+                            db = getFirestore(fbApp);
+                            //inoutFlag = false;
+                        })
+                        .catch((err) => {
+                            console.log('Err deleting app:', err);
+                            //inoutFlag = false;
+                        })
+    
+                    } else {
+    
+                        fbApp = initializeApp(firebaseConfig);
+                        db = getFirestore(fbApp);
+                        //inoutFlag = false;
+    
+                    }
+    
+                    return ioWaiter(1);
+    
+                }).then(() => {
+    
+                    masterKey = masterSetted;
+                    cloudFlag = true;
+                    inoutFlag_setting = false;
+                    inoutFlag = false;
+                    console.log("= MasterKey:", masterSetted);
+                    console.log('= Interval:', interval);
+                    console.log("= MasterKey Accepted! =");
+    
+                })
+                .catch(function (error) {
+    
+                    inoutFlag_setting = false;
+                    inoutFlag = false;
+                    console.log("Error setting MasterKey:", error);
+    
+                });
+    
+    
+            return cloudWaiter(1).then(() => { return masterKey; });
+    
+        }
+    */
 
     /**
      * @returns {object} metadata for this extension and its blocks.
@@ -14637,53 +14748,6 @@ function ioWaiter(msec) {
     }, msec);
   }).catch(function () {
     return ioWaiter(msec);
-  });
-}
-
-/*
-function reportNumWaiter(msec) {
-    return new Promise((resolve, reject) =>
-        setTimeout(() => {
-            if (inoutFlag) {
-                reject();
-            } else {
-                resolve();
-            }
-        }, msec)
-    )
-        .catch(() => {
-            return reportNumWaiter(msec);
-        });
-}
-
-function availableWaiter(msec) {
-    return new Promise((resolve, reject) =>
-        setTimeout(() => {
-            if (inoutFlag) {
-                reject();
-            } else {
-                resolve(availableFlag);
-            }
-        }, msec)
-    )
-        .catch(() => {
-            return availableWaiter(msec);
-        });
-}
-
-*/
-
-function cloudWaiter(msec) {
-  return new Promise(function (resolve, reject) {
-    return setTimeout(function () {
-      if (inoutFlag_setting) {
-        reject();
-      } else {
-        resolve(cloudFlag);
-      }
-    }, msec);
-  }).catch(function () {
-    return cloudWaiter(msec);
   });
 }
 
