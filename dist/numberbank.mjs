@@ -13685,7 +13685,7 @@ var extensionURL = 'https://con3office.github.io/dev-numberbank/dist/numberbank.
  */
 var ExtensionBlocks = /*#__PURE__*/function () {
   /**
-   * Construct a set of blocks for NumberBank1.0.
+   * Construct a set of blocks for NumberBank1.1.
    * @param {Runtime} runtime - the Scratch 3.0 runtime.
    */
   function ExtensionBlocks(runtime) {

@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221127 - dev ver1.1(028)
+// 20221127 - dev ver1.1(029)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -107,7 +107,7 @@ class ExtensionBlocks {
     }
 
     /**
-     * Construct a set of blocks for NumberBank1.0.
+     * Construct a set of blocks for NumberBank1.1.
      * @param {Runtime} runtime - the Scratch 3.0 runtime.
      */
     constructor(runtime) {
