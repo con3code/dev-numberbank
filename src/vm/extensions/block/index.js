@@ -1,12 +1,16 @@
 // NumberBank for Xcratch
-// 20220606 - ver1.0(067)
-// 20221126 - dev ver(027)
+// 20221127 - dev ver1.1(028)
 //
 
 import BlockType from '../../extension-support/block-type';
 import ArgumentType from '../../extension-support/argument-type';
 import translations from './translations.json';
 import blockIcon from './numberbank_icon.png';
+
+//Dev:
+//import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
+//Relese:
+import Variable from '../../engine/variable';
 
 //Dev:
 //import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
@@ -21,16 +25,11 @@ import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
 // import * as firestore from 'firebase/firestore/lite';
 // import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
 
-//Dev:
-//import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
-//Relese:
-import Variable from '../../engine/variable';
-
 const encoder = new TextEncoder();
 const deoder_utf8 = new TextDecoder('utf-8');
 
 
-// API呼び出しを管理するキュー
+// API呼び出し管理キュー
 let apiCallQueue = [];
 let processing = false;
 
@@ -193,11 +192,11 @@ class ExtensionBlocks {
 
                         } else {
                             console.log("No MasterKey!");
-                            resolve();
+                            resolve();  // MasterKeyがない場合
                         }
                     }).catch(error => {
                         console.error("Error: ", error);
-                        reject(error);  // エラーを拒否値として返す
+                        reject(error);
                     });
             } else {
                 resolve();
@@ -271,7 +270,7 @@ class ExtensionBlocks {
 
                         } else {
                             console.log("No MasterKey!");
-                            resolve();
+                            resolve();  // MasterKeyがない場合
                         }
                     });
             } else {
@@ -345,7 +344,7 @@ class ExtensionBlocks {
 
                         } else {
                             console.log("No MasterKey!");
-                            resolve('');
+                            resolve('');  // MasterKeyがない場合
                         }
                     });
             } else {
@@ -408,29 +407,29 @@ class ExtensionBlocks {
                                         if (docSnapshot.exists()) {
                                             let data = docSnapshot.data();
                                             rep_cloudNum = data.number;
-                                            resolve(rep_cloudNum);  // rep_cloudNumを直接返す
+                                            resolve(rep_cloudNum);
                                         } else {
                                             rep_cloudNum = '';
-                                            resolve(rep_cloudNum);  // rep_cloudNumを直接返す
+                                            resolve(rep_cloudNum);
                                         }
                                     })
                                     .catch(error => {
                                         console.error("Error getting document: ", error);
-                                        reject(error);  // エラーを拒否値として返す
+                                        reject(error);
                                     })
                             });
 
                         } else {
                             console.log("No MasterKey!");
-                            resolve('');  // MasterKeyがない場合は空文字を返す
+                            resolve('');  // MasterKeyがない場合
                         }
                     })
                     .catch(error => {
                         console.error("Error: ", error);
-                        reject(error);  // エラーを拒否値として返す
+                        reject(error);
                     });
             } else {
-                resolve('');  // bankKeyがない場合は空文字を返す
+                resolve('');  // bankKeyがない場合
             }
         }).then((ret) => {
             return new Promise((resolve) => {
@@ -484,7 +483,7 @@ class ExtensionBlocks {
                         
                     } else {
                         console.log("No MasterKey!");
-                        reject('');
+                        reject('');  // MasterKeyがない場合
                     }
                 });
             } else {
@@ -599,14 +598,14 @@ class ExtensionBlocks {
     
                 })
                 .then(() => {
-                    resolve(masterKey);  // masterKeyを直接返す
+                    resolve(masterKey);
                 })
                 .catch(function (error) {
                     inoutFlag_setting = false;
                     inoutFlag = false;
                     console.error("Error setting MasterKey:", error);
                     console.log("No such MasterKey!");
-                    reject(error);
+                    reject(error);  // MasterKeyがマッチしない場合
                 });
         });
     }
@@ -811,10 +810,9 @@ class ExtensionBlocks {
 }
 
 
-// キューの処理を行う関数
+//
 function processQueue() {
   if (processing || apiCallQueue.length === 0) {
-    // 既に処理中、またはキューが空の場合は何もしない
     return;
   }
   processing = true;
@@ -831,9 +829,7 @@ function processQueue() {
 }
 
 
-
-
-// API呼び出しをキューに追加する関数
+//
 function enqueueApiCall(apiCall) {
     return new Promise((resolve, reject) => {
       apiCallQueue.push(() => apiCall().then(resolve).catch(reject));
@@ -842,6 +838,7 @@ function enqueueApiCall(apiCall) {
 }
 
 
+//
 function sleep(msec) {
     return new Promise(resolve =>
         setTimeout(() => {
