@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221127 - dev ver1.1(031)
+// 20221127 - dev ver1.1(032)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -589,12 +589,11 @@ class ExtensionBlocks {
                         masterKey = masterSetted;
                         cloudFlag = true;
                         inoutFlag_setting = false;
-                        inoutFlag = false;
                         console.log("= MasterKey:", masterSetted);
                         console.log('= Interval:', interval);
                         console.log("= MasterKey Accepted! =");
 
-                        return ioWaiter(10);
+                        return sleep(10);
         
                     })
                     .then(() => {

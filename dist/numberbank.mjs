@@ -14092,11 +14092,10 @@ var ExtensionBlocks = /*#__PURE__*/function () {
               masterKey = masterSetted;
               cloudFlag = true;
               inoutFlag_setting = false;
-              inoutFlag = false;
               console.log("= MasterKey:", masterSetted);
               console.log('= Interval:', interval);
               console.log("= MasterKey Accepted! =");
-              return ioWaiter(10);
+              return sleep(10);
             }).then(function () {
               resolve(masterKey);
             }).catch(function (error) {
