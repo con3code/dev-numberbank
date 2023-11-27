@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221127 - dev ver1.1(029)
+// 20221127 - dev ver1.1(031)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -522,94 +522,99 @@ class ExtensionBlocks {
                 .then(masterStr => {
                     masterSha256 = hexString(masterStr);
     
-                    return fetch(mkbRequest);
+                    //return fetch(mkbRequest);
 
-                }).then(response => {
-
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Unexpected responce status ${response.status} or content type');
-                    }
-    
-                }).then((resBody) => {
-    
-                    cloudConfig_mkey.masterKey = resBody.masterKey;
-                    cloudConfig_mkey.cloudType = resBody.cloudType;
-                    cloudConfig_mkey.apiKey = resBody.apiKey;
-                    cloudConfig_mkey.authDomain = resBody.authDomain;
-                    cloudConfig_mkey.databaseURL = resBody.databaseURL;
-                    cloudConfig_mkey.projectId = resBody.projectId;
-                    cloudConfig_mkey.storageBucket = resBody.storageBucket;
-                    cloudConfig_mkey.messagingSenderId = resBody.messagingSenderId;
-                    cloudConfig_mkey.appId = resBody.appId;
-                    cloudConfig_mkey.measurementId = resBody.measurementId;
-                    cloudConfig_mkey.cccCheck = resBody.cccCheck;
-                    interval.MsPut = resBody.intervalMsPut;
-                    interval.MsSet = resBody.intervalMsSet;
-                    interval.MsGet = resBody.intervalMsGet;
-                    interval.MsRep = resBody.intervalMsRep;
-                    interval.MsAvl = resBody.intervalMsAvl;
-    
-    
-                    inoutFlag = false;
-                    crypt_decode(cloudConfig_mkey, firebaseConfig);
-                    return ioWaiter(1);
-    
-                }).then(() => {
-                    inoutFlag = true;
-    
-                    // Initialize Firebase
-    
-                    if (cloudFlag) {
-    
-                        deleteApp(fbApp)
-                        .then(() => {
-                            cloudFlag = false;
+                    enqueueApiCall(() => fetch(mkbRequest).then(response => {
+                    
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Unexpected responce status ${response.status} or content type');
+                        }
+                        
+                    }).then((resBody) => {
+        
+                        cloudConfig_mkey.masterKey = resBody.masterKey;
+                        cloudConfig_mkey.cloudType = resBody.cloudType;
+                        cloudConfig_mkey.apiKey = resBody.apiKey;
+                        cloudConfig_mkey.authDomain = resBody.authDomain;
+                        cloudConfig_mkey.databaseURL = resBody.databaseURL;
+                        cloudConfig_mkey.projectId = resBody.projectId;
+                        cloudConfig_mkey.storageBucket = resBody.storageBucket;
+                        cloudConfig_mkey.messagingSenderId = resBody.messagingSenderId;
+                        cloudConfig_mkey.appId = resBody.appId;
+                        cloudConfig_mkey.measurementId = resBody.measurementId;
+                        cloudConfig_mkey.cccCheck = resBody.cccCheck;
+                        interval.MsPut = resBody.intervalMsPut;
+                        interval.MsSet = resBody.intervalMsSet;
+                        interval.MsGet = resBody.intervalMsGet;
+                        interval.MsRep = resBody.intervalMsRep;
+                        interval.MsAvl = resBody.intervalMsAvl;
+        
+        
+                        inoutFlag = false;
+                        crypt_decode(cloudConfig_mkey, firebaseConfig);
+                        return ioWaiter(1);
+        
+                    }).then(() => {
+                        inoutFlag = true;
+        
+                        // Initialize Firebase
+        
+                        if (cloudFlag) {
+        
+                            deleteApp(fbApp)
+                            .then(() => {
+                                cloudFlag = false;
+                                fbApp = initializeApp(firebaseConfig);
+                                db = getFirestore(fbApp);
+                                inoutFlag = false;
+                            })
+                            .catch((err) => {
+                                console.log('Err deleting app:', err);
+                                inoutFlag = false;
+                            })
+        
+                        } else {
+        
                             fbApp = initializeApp(firebaseConfig);
                             db = getFirestore(fbApp);
                             inoutFlag = false;
-                        })
-                        .catch((err) => {
-                            console.log('Err deleting app:', err);
-                            inoutFlag = false;
-                        })
-    
-                    } else {
-    
-                        fbApp = initializeApp(firebaseConfig);
-                        db = getFirestore(fbApp);
+        
+                        }
+        
+                        return ioWaiter(1);
+        
+                    }).then(() => {
+                        masterKey = masterSetted;
+                        cloudFlag = true;
+                        inoutFlag_setting = false;
                         inoutFlag = false;
-    
-                    }
-    
-                    return ioWaiter(1);
-    
-                }).then(() => {
-                    masterKey = masterSetted;
-                    cloudFlag = true;
-                    inoutFlag_setting = false;
-                    inoutFlag = false;
-                    console.log("= MasterKey:", masterSetted);
-                    console.log('= Interval:', interval);
-                    console.log("= MasterKey Accepted! =");
+                        console.log("= MasterKey:", masterSetted);
+                        console.log('= Interval:', interval);
+                        console.log("= MasterKey Accepted! =");
 
-                    return ioWaiter(1);
-    
+                        return ioWaiter(10);
+        
+                    })
+                    .then(() => {
+                        resolve(masterKey);
+                    })
+                    .catch(function (error) {
+                        inoutFlag_setting = false;
+                        inoutFlag = false;
+                        console.error("Error setting MasterKey:", error);
+                        console.log("No such MasterKey!");
+                        reject(error);  // MasterKeyがマッチしない場合
+                    }));
+
                 })
-                .then(() => {
-                    resolve(masterKey);
-                })
-                .catch(function (error) {
-                    inoutFlag_setting = false;
-                    inoutFlag = false;
-                    console.error("Error setting MasterKey:", error);
-                    console.log("No such MasterKey!");
-                    reject(error);  // MasterKeyがマッチしない場合
+                .catch((err) => {
+                    console.log('Err fetch:', err);
+
                 });
         });
     }
-
 
     /**
      * @returns {object} metadata for this extension and its blocks.

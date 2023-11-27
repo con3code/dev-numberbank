@@ -14037,71 +14037,78 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         }
         crypto.subtle.digest('SHA-256', encoder.encode(masterSetted)).then(function (masterStr) {
           masterSha256 = hexString(masterStr);
-          return fetch(mkbRequest);
-        }).then(function (response) {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error('Unexpected responce status ${response.status} or content type');
-          }
-        }).then(function (resBody) {
-          cloudConfig_mkey.masterKey = resBody.masterKey;
-          cloudConfig_mkey.cloudType = resBody.cloudType;
-          cloudConfig_mkey.apiKey = resBody.apiKey;
-          cloudConfig_mkey.authDomain = resBody.authDomain;
-          cloudConfig_mkey.databaseURL = resBody.databaseURL;
-          cloudConfig_mkey.projectId = resBody.projectId;
-          cloudConfig_mkey.storageBucket = resBody.storageBucket;
-          cloudConfig_mkey.messagingSenderId = resBody.messagingSenderId;
-          cloudConfig_mkey.appId = resBody.appId;
-          cloudConfig_mkey.measurementId = resBody.measurementId;
-          cloudConfig_mkey.cccCheck = resBody.cccCheck;
-          interval.MsPut = resBody.intervalMsPut;
-          interval.MsSet = resBody.intervalMsSet;
-          interval.MsGet = resBody.intervalMsGet;
-          interval.MsRep = resBody.intervalMsRep;
-          interval.MsAvl = resBody.intervalMsAvl;
-          inoutFlag = false;
-          crypt_decode(cloudConfig_mkey, firebaseConfig);
-          return ioWaiter(1);
-        }).then(function () {
-          inoutFlag = true;
 
-          // Initialize Firebase
+          //return fetch(mkbRequest);
 
-          if (cloudFlag) {
-            deleteApp(fbApp).then(function () {
-              cloudFlag = false;
-              fbApp = initializeApp(firebaseConfig);
-              db = getFirestore(fbApp);
+          enqueueApiCall(function () {
+            return fetch(mkbRequest).then(function (response) {
+              if (response.ok) {
+                return response.json();
+              } else {
+                throw new Error('Unexpected responce status ${response.status} or content type');
+              }
+            }).then(function (resBody) {
+              cloudConfig_mkey.masterKey = resBody.masterKey;
+              cloudConfig_mkey.cloudType = resBody.cloudType;
+              cloudConfig_mkey.apiKey = resBody.apiKey;
+              cloudConfig_mkey.authDomain = resBody.authDomain;
+              cloudConfig_mkey.databaseURL = resBody.databaseURL;
+              cloudConfig_mkey.projectId = resBody.projectId;
+              cloudConfig_mkey.storageBucket = resBody.storageBucket;
+              cloudConfig_mkey.messagingSenderId = resBody.messagingSenderId;
+              cloudConfig_mkey.appId = resBody.appId;
+              cloudConfig_mkey.measurementId = resBody.measurementId;
+              cloudConfig_mkey.cccCheck = resBody.cccCheck;
+              interval.MsPut = resBody.intervalMsPut;
+              interval.MsSet = resBody.intervalMsSet;
+              interval.MsGet = resBody.intervalMsGet;
+              interval.MsRep = resBody.intervalMsRep;
+              interval.MsAvl = resBody.intervalMsAvl;
               inoutFlag = false;
-            }).catch(function (err) {
-              console.log('Err deleting app:', err);
+              crypt_decode(cloudConfig_mkey, firebaseConfig);
+              return ioWaiter(1);
+            }).then(function () {
+              inoutFlag = true;
+
+              // Initialize Firebase
+
+              if (cloudFlag) {
+                deleteApp(fbApp).then(function () {
+                  cloudFlag = false;
+                  fbApp = initializeApp(firebaseConfig);
+                  db = getFirestore(fbApp);
+                  inoutFlag = false;
+                }).catch(function (err) {
+                  console.log('Err deleting app:', err);
+                  inoutFlag = false;
+                });
+              } else {
+                fbApp = initializeApp(firebaseConfig);
+                db = getFirestore(fbApp);
+                inoutFlag = false;
+              }
+              return ioWaiter(1);
+            }).then(function () {
+              masterKey = masterSetted;
+              cloudFlag = true;
+              inoutFlag_setting = false;
               inoutFlag = false;
+              console.log("= MasterKey:", masterSetted);
+              console.log('= Interval:', interval);
+              console.log("= MasterKey Accepted! =");
+              return ioWaiter(10);
+            }).then(function () {
+              resolve(masterKey);
+            }).catch(function (error) {
+              inoutFlag_setting = false;
+              inoutFlag = false;
+              console.error("Error setting MasterKey:", error);
+              console.log("No such MasterKey!");
+              reject(error); // MasterKeyがマッチしない場合
             });
-          } else {
-            fbApp = initializeApp(firebaseConfig);
-            db = getFirestore(fbApp);
-            inoutFlag = false;
-          }
-          return ioWaiter(1);
-        }).then(function () {
-          masterKey = masterSetted;
-          cloudFlag = true;
-          inoutFlag_setting = false;
-          inoutFlag = false;
-          console.log("= MasterKey:", masterSetted);
-          console.log('= Interval:', interval);
-          console.log("= MasterKey Accepted! =");
-          return ioWaiter(1);
-        }).then(function () {
-          resolve(masterKey);
-        }).catch(function (error) {
-          inoutFlag_setting = false;
-          inoutFlag = false;
-          console.error("Error setting MasterKey:", error);
-          console.log("No such MasterKey!");
-          reject(error); // MasterKeyがマッチしない場合
+          });
+        }).catch(function (err) {
+          console.log('Err fetch:', err);
         });
       });
     }
