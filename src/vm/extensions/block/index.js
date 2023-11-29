@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221127 - dev ver1.1(032)
+// 20221128 - dev ver1.2(001)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -8,18 +8,20 @@ import translations from './translations.json';
 import blockIcon from './numberbank_icon.png';
 
 //Dev:
-//import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
+import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
 //Relese:
-import Variable from '../../engine/variable';
+//import Variable from '../../engine/variable';
 
 //Dev:
-//import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
-//import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-//import { getFirestore, doc, getDoc, setDoc } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore/lite';
+import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
+import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+import { initializeFirestore, CACHE_SIZE_UNLIMITED } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore/lite';
 //Relese:
-import { initializeApp, deleteApp } from 'firebase/app';
-import * as firestore from 'firebase/firestore';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
+//import { initializeApp, deleteApp } from 'firebase/app';
+//import * as firestore from 'firebase/firestore';
+//import { initializeFirestore, CACHE_SIZE_UNLIMITED } from "firebase/firestore";
+//import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
 
 //
 // import * as firestore from 'firebase/firestore/lite';
@@ -32,6 +34,11 @@ const deoder_utf8 = new TextDecoder('utf-8');
 // API呼び出し管理キュー
 let apiCallQueue = [];
 let processing = false;
+
+// Firebaseキャッシュサイズ設定
+const firestoreDb = initializeFirestore(app, {
+  cacheSizeBytes: CACHE_SIZE_UNLIMITED
+});
 
 
 /**
@@ -579,6 +586,10 @@ class ExtensionBlocks {
         
                             fbApp = initializeApp(firebaseConfig);
                             db = getFirestore(fbApp);
+                            initializeFirestore(fbApp,
+                                {localCache:
+                                  persistentLocalCache(/*settings*/{tabManager: persistentMultipleTabManager()})
+                                });
                             inoutFlag = false;
         
                         }
