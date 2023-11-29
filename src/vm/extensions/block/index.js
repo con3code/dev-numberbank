@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221128 - dev ver1.2(002)
+// 20221130 - dev ver1.2(003)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -17,7 +17,7 @@ import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compa
 //Dev:
 import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
 import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-import { initializeFirestore, persistentLocalCache, persistentSingleTabManager, memoryLocalCache, CACHE_SIZE_UNLIMITED } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
+import { initializeFirestore, PersistentLocalCache, CACHE_SIZE_UNLIMITED } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
 import { getFirestore, doc, getDoc, setDoc } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
 //import { initializeApp, deleteApp } from 'firebase/app';
@@ -564,45 +564,54 @@ class ExtensionBlocks {
                         inoutFlag = true;
         
                         // Initialize Firebase
-        
-                        if (cloudFlag) {
-        
-                            deleteApp(fbApp)
-                            .then(() => {
-                                cloudFlag = false;
-                                fbApp = initializeApp(firebaseConfig);
-                                db = getFirestore(fbApp);
-                                inoutFlag = false;
-                            })
-                            .catch((err) => {
-                                console.log('Err deleting app:', err);
-                                inoutFlag = false;
-                            })
-        
-                        } else {
-        
-                            fbApp = initializeApp(firebaseConfig);
-    
-                            //db = getFirestore(fbApp);
-
-                            // Firebaseキャッシュサイズ設定
-                            db = initializeFirestore(fbApp, {
-                                localCache: persistentLocalCache({tabManager: persistentSingleTabManager({})})
-                            });
-
-/*
+                        try {
                             if (!firebase.apps.length) {
+    //                      if (cloudFlag) {
+                                        
+                                fbApp = initializeApp(firebaseConfig);
+                                    
+                                //db = getFirestore(fbApp);
+
+                                // Firebaseキャッシュサイズ設定
+                                db = initializeFirestore(fbApp, {
+                                    localCache: PersistentLocalCache
+                                });
+
+                                /*
+                                if (!firebase.apps.length) {
 
 
+                                } else {
+                                    //firebase.app(); // 既に初期化されている場合は、既存のアプリインスタンスを使用
+                                }
+                                */                          
+
+                                inoutFlag = false;
+
+            
                             } else {
-                                //firebase.app(); // 既に初期化されている場合は、既存のアプリインスタンスを使用
+            
+
+                                deleteApp(fbApp)
+                                .then(() => {
+                                    cloudFlag = false;
+                                    fbApp = initializeApp(firebaseConfig);
+                                    db = initializeFirestore(fbApp, {localCache: PersistentLocalCache}); 
+                                    //getFirestore(fbApp);
+                                    inoutFlag = false;
+                                })
+                                .catch((err) => {
+                                    console.log('Err deleting app:', err);
+                                    inoutFlag = false;
+                                })
+
                             }
-  */                          
-                            
+
+                        } catch (err) {
+                            console.log('Err initializing or deleting app:', err);
                             inoutFlag = false;
-        
                         }
-        
+            
                         return ioWaiter(1);
         
                     }).then(() => {
@@ -860,6 +869,12 @@ function enqueueApiCall(apiCall) {
       processQueue();
     });
 }
+
+
+function resetQueue() {
+    apiCallQueue = [];
+    processing = false;
+  }
 
 
 //
