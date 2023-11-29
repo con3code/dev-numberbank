@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221128 - dev ver1.2(001)
+// 20221128 - dev ver1.2(002)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -12,11 +12,13 @@ import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src
 //Relese:
 //import Variable from '../../engine/variable';
 
+import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compat/app';
+
 //Dev:
 import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
 import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-import { initializeFirestore, CACHE_SIZE_UNLIMITED } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
-import { getFirestore, doc, getDoc, setDoc } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore/lite';
+import { initializeFirestore, persistentLocalCache, persistentSingleTabManager, memoryLocalCache, CACHE_SIZE_UNLIMITED } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
 //import { initializeApp, deleteApp } from 'firebase/app';
 //import * as firestore from 'firebase/firestore';
@@ -34,11 +36,6 @@ const deoder_utf8 = new TextDecoder('utf-8');
 // API呼び出し管理キュー
 let apiCallQueue = [];
 let processing = false;
-
-// Firebaseキャッシュサイズ設定
-const firestoreDb = initializeFirestore(app, {
-  cacheSizeBytes: CACHE_SIZE_UNLIMITED
-});
 
 
 /**
@@ -585,11 +582,23 @@ class ExtensionBlocks {
                         } else {
         
                             fbApp = initializeApp(firebaseConfig);
-                            db = getFirestore(fbApp);
-                            initializeFirestore(fbApp,
-                                {localCache:
-                                  persistentLocalCache(/*settings*/{tabManager: persistentMultipleTabManager()})
-                                });
+    
+                            //db = getFirestore(fbApp);
+
+                            // Firebaseキャッシュサイズ設定
+                            db = initializeFirestore(fbApp, {
+                                localCache: persistentLocalCache({tabManager: persistentSingleTabManager({})})
+                            });
+
+/*
+                            if (!firebase.apps.length) {
+
+
+                            } else {
+                                //firebase.app(); // 既に初期化されている場合は、既存のアプリインスタンスを使用
+                            }
+  */                          
+                            
                             inoutFlag = false;
         
                         }
@@ -878,7 +887,7 @@ function ioWaiter(msec) {
         });
 }
 
-
+/*
 function availableWaiter(msec) {
     return new Promise((resolve, reject) =>
         setTimeout(() => {
@@ -909,7 +918,7 @@ function cloudWaiter(msec) {
             return cloudWaiter(msec);
         });
 }
-
+*/
 
 //
 function hexString(textStr) {
