@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221130 - dev ver1.2(003)
+// 20221130 - dev ver1.2(004)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -644,6 +644,19 @@ class ExtensionBlocks {
         });
     }
 
+
+    whenUpdate(args, util) {
+
+
+
+
+    }
+
+
+
+
+
+
     /**
      * @returns {object} metadata for this extension and its blocks.
      */
@@ -823,7 +836,18 @@ class ExtensionBlocks {
                         }
                     }
 
+                },
+                '---',
+                {
+                    opcode: 'whenUpdate',
+                    blockType: BlockType.HAT,
+                    text: formatMessage({
+                        id: 'numberbank.whenUpdate',
+                        default: 'whenUpdate',
+                        description: 'whenFirebaseUpdate'
+                    }),
                 }
+
             ],
             menus: {
                 valMenu: {
