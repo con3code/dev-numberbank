@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221202 - dev ver1.2(019)
+// 20221202 - dev ver1.2(020)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -641,7 +641,7 @@ class ExtensionBlocks {
                             inoutFlag_setting = false;
                         }
             
-                        return ioWaiter(1);
+                        return sleep(1);
         
                     }).then(() => {
                         masterKey = masterSetted;

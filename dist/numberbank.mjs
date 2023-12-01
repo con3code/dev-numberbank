@@ -12643,7 +12643,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
                 inoutFlag = false;
                 inoutFlag_setting = false;
               }
-              return ioWaiter(1);
+              return sleep(1);
             }).then(function () {
               masterKey = masterSetted;
               cloudFlag = true;
