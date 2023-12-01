@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221130 - dev ver1.2(005)
+// 20221130 - dev ver1.2(011)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -17,7 +17,7 @@ import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compa
 //Dev:
 import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
 import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-import { initializeFirestore, PersistentLocalCache, CACHE_SIZE_UNLIMITED } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
+import { initializeFirestore, PersistentLocalCache } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
 import { getFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
 //import { initializeApp, deleteApp } from 'firebase/app';
@@ -69,13 +69,14 @@ const EXTENSION_ID = 'numberbank';
 let extensionURL = 'https://con3office.github.io/dev-numberbank/dist/numberbank.mjs';
 
 
+//onSnapshot対象
 const Lisning = {
-
     OFF: 'off',
     ON: 'on',
     BANK:'',
-    CARD:''
-
+    CARD:'',
+    UNI:'',
+    FIRST:false
 }
 
 
@@ -132,20 +133,16 @@ class ExtensionBlocks {
 
         this.firstInstall = true;
 
+        //onSnapshot
+        this.lisningFirst = true;
         this.LisningBankCard_flag = false;
+        this.unsubscribe = () => {};
 
         if (runtime.formatMessage) {
             // Replace 'formatMessage' to a formatter which is used in the runtime.
             formatMessage = runtime.formatMessage;
         }
     }
-
-
-
-
-
-
-
 
         /**
          * Create data for a menu in scratch-blocks format, consisting of an array
@@ -166,13 +163,15 @@ class ExtensionBlocks {
     }
 
 
-
-
-
-
-
-
-
+    lisningState () {
+        const first = Lisning.FIRST;
+        if (first) {
+            Lisning.FIRST = false;
+            this.LisningBankCard_flag = false;
+        }else {
+            this.LisningBankCard_flag = true;
+        }
+    }
 
 
 
@@ -573,8 +572,6 @@ class ExtensionBlocks {
                 .then(masterStr => {
                     masterSha256 = hexString(masterStr);
     
-                    //return fetch(mkbRequest);
-
                     enqueueApiCall(() => fetch(mkbRequest).then(response => {
                     
                         if (response.ok) {
@@ -613,49 +610,32 @@ class ExtensionBlocks {
                         // Initialize Firebase
                         try {
                             if (!firebase.apps.length) {
-    //                      if (cloudFlag) {
                                         
                                 fbApp = initializeApp(firebaseConfig);
-                                    
-                                //db = getFirestore(fbApp);
-
-                                // Firebaseキャッシュサイズ設定
-                                db = initializeFirestore(fbApp, {
-                                    localCache: PersistentLocalCache
-                                });
-
-                                /*
-                                if (!firebase.apps.length) {
-
-
-                                } else {
-                                    //firebase.app(); // 既に初期化されている場合は、既存のアプリインスタンスを使用
-                                }
-                                */                          
+                                db = initializeFirestore(fbApp, {localCache: PersistentLocalCache});
 
                                 inoutFlag = false;
-
             
                             } else {
             
-
                                 deleteApp(fbApp)
                                 .then(() => {
                                     cloudFlag = false;
+
                                     fbApp = initializeApp(firebaseConfig);
                                     db = initializeFirestore(fbApp, {localCache: PersistentLocalCache}); 
-                                    //getFirestore(fbApp);
+
                                     inoutFlag = false;
                                 })
                                 .catch((err) => {
-                                    console.log('Err deleting app:', err);
+                                    console.log('Error deleting fbApp:', err);
                                     inoutFlag = false;
                                 })
 
                             }
 
                         } catch (err) {
-                            console.log('Err initializing or deleting app:', err);
+                            console.log('Error initializing or deleting fbApp:', err);
                             inoutFlag = false;
                         }
             
@@ -678,8 +658,8 @@ class ExtensionBlocks {
                     .catch(function (error) {
                         inoutFlag_setting = false;
                         inoutFlag = false;
-                        console.error("Error setting MasterKey:", error);
                         console.log("No such MasterKey!");
+                        console.error("Error setting MasterKey:", error);
                         reject(error);  // MasterKeyがマッチしない場合
                     }));
 
@@ -697,13 +677,15 @@ class ExtensionBlocks {
 
         if(state === Lisning.ON) {
 
-            console.log("Lisning ON");
             //onSnapshotに登録
 
             return new Promise((resolve, reject) => {
+
                 if (masterSha256 == '') { resolve(); }
     
                 if (args.BANK == '' || args.CARD == '') { resolve(); }
+
+                console.log("Lisning ON");
         
                 bankKey = bankName = new String(args.BANK);
                 cardKey = new String(args.CARD);
@@ -717,46 +699,42 @@ class ExtensionBlocks {
                 if (bankKey != '' && bankKey != undefined) {
                     crypto.subtle.digest('SHA-256', encoder.encode(bankKey))
                         .then(bankStr => {
-                            bankSha256 = hexString(bankStr);
+                            bankSha256 = Lisning.BANK = hexString(bankStr);
     
                             return crypto.subtle.digest('SHA-256', encoder.encode(cardKey));
                         })
                         .then(cardStr => {
-                            cardSha256 = hexString(cardStr);
+                            cardSha256 = Lisning.CARD = hexString(cardStr);
     
                             return crypto.subtle.digest('SHA-256', encoder.encode(uniKey));
                         })
                         .then(uniStr => {
-                            uniSha256 = hexString(uniStr);
-    
-                            return sleep(1);
-                        })
-                        .then(() => {
+                            uniSha256 = Lisning.UNI = hexString(uniStr);
 
                             if (masterSha256 != '' && masterSha256 != undefined) {
-                                console.log("Lisning Setting 01");
     
-                                
-                                onSnapshot(doc(db, 'card', uniSha256), (doc) => {
-                                    this.LisningBankCard_flag = true;
+                                this.unsubscribe();
+                                this.unsubscribe = onSnapshot(doc(db, 'card', uniSha256), (doc) => {
+                                    this.lisningState();
+                                    //this.LisningBankCard_flag = true;
                                     console.log("Current data: ", doc.data());
                                 },
                                 (err) => {
                                     console.log("onSnapshot Error:",err);
                                 
                                 });
-                                
-                                resolve();
-    
+                                //Lisning.FIRST = true;
+                                resolve(state);
+                                                                    
                             } else {
                                 console.log("No MasterKey!");
                                 resolve();  // MasterKeyがない場合
                             }
-                        
+    
                         });
 
                 } else {
-                    resolve();
+                    resolve(state);
                 }
             });
 
@@ -765,27 +743,22 @@ class ExtensionBlocks {
 
             console.log("Lisning OFF");
 
-            //inSnapshotをオフ
-            const unsubscribe = onSnapshot(doc(db, 'card', uniSha256), (doc) => {
-                console.log("Current data: ", doc.data());
-            });
-
-            unsubscribe();
-            return state;
-            
+            //onSnapshotを解除
+            this.unsubscribe();
+         
         }
-   
-        this.LisningBankCard_flag = false;
 
+        return state;
     }
 
     whenUpdate(args, util) {
-        const state = this.LisningBankCard_flag;
+
+        let state = this.LisningBankCard_flag;
+
         if (state) {
-            console.log("when:", state)
             this.LisningBankCard_flag = false;
-        }else {
         }
+
         return state;
     }
 
@@ -793,6 +766,7 @@ class ExtensionBlocks {
     static get Lisning () {
         return Lisning;
     }
+
 
 
     /**
@@ -1129,38 +1103,7 @@ function ioWaiter(msec) {
         });
 }
 
-/*
-function availableWaiter(msec) {
-    return new Promise((resolve, reject) =>
-        setTimeout(() => {
-            if (inoutFlag) {
-                reject();
-            } else {
-                resolve(availableFlag);
-            }
-        }, msec)
-    )
-        .catch(() => {
-            return availableWaiter(msec);
-        });
-}
 
-
-function cloudWaiter(msec) {
-    return new Promise((resolve, reject) =>
-        setTimeout(() => {
-            if (inoutFlag_setting) {
-                reject();
-            } else {
-                resolve(cloudFlag);
-            }
-        }, msec)
-    )
-        .catch(() => {
-            return cloudWaiter(msec);
-        });
-}
-*/
 
 //
 function hexString(textStr) {
