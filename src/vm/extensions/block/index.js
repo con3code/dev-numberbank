@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221201 - dev ver1.2(017)
+// 20221201 - dev ver1.2(018)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -812,12 +812,12 @@ class ExtensionBlocks {
             blocks: [
                 {
                     opcode: 'putNum',
-                    blockType: BlockType.COMMAND,
                     text: formatMessage({
                         id: 'numberbank.putNum',
                         default: 'put[NUM]to[CARD]of[BANK]',
                         description: 'put number to Firebase'
                     }),
+                    blockType: BlockType.COMMAND,
                     arguments: {
                         BANK: {
                             type: ArgumentType.STRING,
@@ -842,12 +842,12 @@ class ExtensionBlocks {
                 '---',
                 {
                     opcode: 'setNum',
-                    blockType: BlockType.COMMAND,
                     text: formatMessage({
                         id: 'numberbank.setNum',
                         default: 'set [VAL] to number of[CARD]of[BANK]',
                         description: 'set number by Firebase'
                     }),
+                    blockType: BlockType.COMMAND,
                     arguments: {
                         BANK: {
                             type: ArgumentType.STRING,
@@ -874,12 +874,12 @@ class ExtensionBlocks {
                 '---',
                 {
                     opcode: 'getNum',
-                    blockType: BlockType.COMMAND,
                     text: formatMessage({
                         id: 'numberbank.getNum',
                         default: 'get number of[CARD]of[BANK]',
                         description: 'get number from Firebase'
                     }),
+                    blockType: BlockType.COMMAND,
                     arguments: {
                         BANK: {
                             type: ArgumentType.STRING,
@@ -899,12 +899,12 @@ class ExtensionBlocks {
                 },
                 {
                     opcode: 'repNum',
+                    blockType: BlockType.REPORTER,
                     text: formatMessage({
                         id: 'numberbank.repNum',
                         default: 'cloud number',
                         description: 'report Number'
-                    }),
-                    blockType: BlockType.REPORTER
+                    })
                 },
                 '---',
                 {

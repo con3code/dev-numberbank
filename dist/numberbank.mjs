@@ -12776,12 +12776,12 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         color2: '#78A0B4',
         blocks: [{
           opcode: 'putNum',
-          blockType: blockType.COMMAND,
           text: formatMessage({
             id: 'numberbank.putNum',
             default: 'put[NUM]to[CARD]of[BANK]',
             description: 'put number to Firebase'
           }),
+          blockType: blockType.COMMAND,
           arguments: {
             BANK: {
               type: argumentType.STRING,
@@ -12804,12 +12804,12 @@ var ExtensionBlocks = /*#__PURE__*/function () {
           }
         }, '---', {
           opcode: 'setNum',
-          blockType: blockType.COMMAND,
           text: formatMessage({
             id: 'numberbank.setNum',
             default: 'set [VAL] to number of[CARD]of[BANK]',
             description: 'set number by Firebase'
           }),
+          blockType: blockType.COMMAND,
           arguments: {
             BANK: {
               type: argumentType.STRING,
@@ -12834,12 +12834,12 @@ var ExtensionBlocks = /*#__PURE__*/function () {
           }
         }, '---', {
           opcode: 'getNum',
-          blockType: blockType.COMMAND,
           text: formatMessage({
             id: 'numberbank.getNum',
             default: 'get number of[CARD]of[BANK]',
             description: 'get number from Firebase'
           }),
+          blockType: blockType.COMMAND,
           arguments: {
             BANK: {
               type: argumentType.STRING,
@@ -12858,12 +12858,12 @@ var ExtensionBlocks = /*#__PURE__*/function () {
           }
         }, {
           opcode: 'repNum',
+          blockType: blockType.REPORTER,
           text: formatMessage({
             id: 'numberbank.repNum',
             default: 'cloud number',
             description: 'report Number'
-          }),
-          blockType: blockType.REPORTER
+          })
         }, '---', {
           opcode: 'repCloudNum',
           blockType: blockType.REPORTER,
