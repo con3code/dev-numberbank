@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221201 - dev ver1.2(012)
+// 20221201 - dev ver1.2(013)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -752,7 +752,7 @@ class ExtensionBlocks {
         return state;
     }
 
-    whenUpdate(args, util) {
+    whenUpdated(args, util) {
 
         let state = this.LisningBankCard_flag;
 
@@ -986,7 +986,7 @@ class ExtensionBlocks {
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
                         id: 'numberbank.lisningNum',
-                        default: 'lisning number of[CARD]of[BANK][LISNING_STATE]',
+                        default: ' turn lisning number of[CARD]of[BANK][LISNING_STATE]',
                         description: 'lisning number by Firebase'
                     }),
                     arguments: {
@@ -1012,12 +1012,12 @@ class ExtensionBlocks {
                     }
                 },
                 {
-                    opcode: 'whenUpdate',
+                    opcode: 'whenUpdated',
                     blockType: BlockType.HAT,
                     text: formatMessage({
-                        id: 'numberbank.whenUpdate',
-                        default: 'whenUpdate',
-                        description: 'whenFirebaseUpdate'
+                        id: 'numberbank.whenUpdated',
+                        default: 'when updated',
+                        description: 'whenFirebaseUpdated'
                     }),
                 },
 

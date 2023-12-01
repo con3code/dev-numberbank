@@ -15,7 +15,9 @@
     "numberbank.repNum": "クラウド数字",
     "numberbank.repCloudNum": "[BANK]の[CARD]の数字",
     "numberbank.boolAvl": "[BANK]の[CARD]がある",
-    "numberbank.setMaster": "マスター[KEY]をセット"
+    "numberbank.setMaster": "マスター[KEY]をセット",
+    "numberbank.lisningNum":"[BANK]の[CARD]の更新確認を[LISNING_STATE]にする",
+    "numberbank.whenUpdated":"更新されたとき"
   },
   "ja-Hira": {
     "numberbank.name": "なんばーばんく",
@@ -30,6 +32,8 @@
     "numberbank.repNum": "クラウドすうじ",
     "numberbank.repCloudNum": "[BANK]の[CARD]のすうじ",
     "numberbank.boolAvl": "[BANK]の[CARD]がある",
-    "numberbank.setMaster": "ますたー[KEY]をセット"
+    "numberbank.setMaster": "ますたー[KEY]をセット",
+    "numberbank.lisningNum":"[BANK]の[CARD]のこうしんかくにんを[LISNING_STATE]にする",
+    "numberbank.whenUpdated":"こうしんされたとき"
   }
 }
