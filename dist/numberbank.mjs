@@ -12624,42 +12624,42 @@ var ExtensionBlocks = /*#__PURE__*/function () {
                   fbApp = initializeApp(firebaseConfig);
                   //db = initializeFirestore(fbApp, {localCache: PersistentLocalCache});
                   db = ka(fbApp, {});
-                  inoutFlag = false;
+                  inoutFlag_setting = false;
                 } else {
                   deleteApp(fbApp).then(function () {
                     cloudFlag = false;
                     fbApp = initializeApp(firebaseConfig);
                     //db = initializeFirestore(fbApp, {localCache: PersistentLocalCache}); 
                     db = ka(fbApp, {});
-                    inoutFlag = false;
-                  }).catch(function (err) {
-                    console.log('Error deleting fbApp:', err);
-                    inoutFlag = false;
+                    inoutFlag_setting = false;
+                  }).catch(function (error) {
+                    console.log('Error deleting fbApp:', error);
+                    inoutFlag_setting = false;
                   });
+                  inoutFlag = false;
                 }
-              } catch (err) {
-                console.log('Error initializing or deleting fbApp:', err);
+              } catch (error) {
+                console.log('Error initializing or deleting fbApp:', error);
                 inoutFlag = false;
+                inoutFlag_setting = false;
               }
               return ioWaiter(1);
             }).then(function () {
               masterKey = masterSetted;
               cloudFlag = true;
-              inoutFlag_setting = false;
               console.log("= MasterKey:", masterSetted);
               console.log('= Interval:', interval);
               console.log("= MasterKey Accepted! =");
               resolve(masterKey);
             }).catch(function (error) {
-              inoutFlag_setting = false;
-              inoutFlag = false;
               console.log("No such MasterKey!");
               console.error("Error setting MasterKey:", error);
               reject(error); // MasterKeyがマッチしない場合
             });
           });
-        }).catch(function (err) {
-          console.log('Err fetch:', err);
+        }).catch(function (error) {
+          console.log('Err fetch:', error);
+          reject(error);
         });
       }).then(function () {
         return ioSettingWaiter(1);
