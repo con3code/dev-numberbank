@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221201 - dev ver1.2(015)
+// 20221201 - dev ver1.2(016)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -811,6 +811,8 @@ class ExtensionBlocks {
             extensionURL: ExtensionBlocks.extensionURL,
             blockIconURI: blockIcon,
             showStatusButton: false,
+            color1: '#78A0B4',
+            color2: '#78A0B4',      
             blocks: [
                 {
                     opcode: 'putNum',

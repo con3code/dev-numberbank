@@ -12772,6 +12772,8 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         extensionURL: ExtensionBlocks.extensionURL,
         blockIconURI: img,
         showStatusButton: false,
+        color1: '#78A0B4',
+        color2: '#78A0B4',
         blocks: [{
           opcode: 'putNum',
           blockType: blockType.COMMAND,
