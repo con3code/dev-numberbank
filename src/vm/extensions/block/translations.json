@@ -17,7 +17,9 @@
     "numberbank.boolAvl": "[BANK]の[CARD]がある",
     "numberbank.setMaster": "マスター[KEY]をセット",
     "numberbank.lisningNum":"[BANK]の[CARD]の更新確認を[LISNING_STATE]にする",
-    "numberbank.whenUpdated":"更新されたとき"
+    "numberbank.whenUpdated":"更新されたとき",
+    "lisning.off":"切",
+    "lisning.on":"入"
   },
   "ja-Hira": {
     "numberbank.name": "なんばーばんく",
@@ -34,6 +36,8 @@
     "numberbank.boolAvl": "[BANK]の[CARD]がある",
     "numberbank.setMaster": "ますたー[KEY]をセット",
     "numberbank.lisningNum":"[BANK]の[CARD]のこうしんかくにんを[LISNING_STATE]にする",
-    "numberbank.whenUpdated":"こうしんされたとき"
+    "numberbank.whenUpdated":"こうしんされたとき",
+    "lisning.off":"きり",
+    "lisning.on":"いり"
   }
 }

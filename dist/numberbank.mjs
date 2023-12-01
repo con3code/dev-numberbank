@@ -245,7 +245,9 @@ var ja$1 = {
 	"numberbank.boolAvl": "[BANK]の[CARD]がある",
 	"numberbank.setMaster": "マスター[KEY]をセット",
 	"numberbank.lisningNum": "[BANK]の[CARD]の更新確認を[LISNING_STATE]にする",
-	"numberbank.whenUpdated": "更新されたとき"
+	"numberbank.whenUpdated": "更新されたとき",
+	"lisning.off": "切",
+	"lisning.on": "入"
 };
 var translations = {
 	en: en$1,
@@ -265,7 +267,9 @@ var translations = {
 	"numberbank.boolAvl": "[BANK]の[CARD]がある",
 	"numberbank.setMaster": "ますたー[KEY]をセット",
 	"numberbank.lisningNum": "[BANK]の[CARD]のこうしんかくにんを[LISNING_STATE]にする",
-	"numberbank.whenUpdated": "こうしんされたとき"
+	"numberbank.whenUpdated": "こうしんされたとき",
+	"lisning.off": "きり",
+	"lisning.on": "いり"
 }
 };
 
