@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221201 - dev ver1.2(016)
+// 20221201 - dev ver1.2(017)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -178,7 +178,6 @@ class ExtensionBlocks {
     putNum(args) {
         return new Promise((resolve, reject) => {
             if (masterSha256 == '') { resolve(); }
-
             if (args.BANK == '' || args.CARD == '' || args.NUM == '') { resolve(); }
 
             bankKey = new String(args.BANK);
@@ -265,7 +264,6 @@ class ExtensionBlocks {
     setNum(args, util) {
         return new Promise((resolve, reject) => {
             if (masterSha256 == '') { resolve(); }
-
             if (args.BANK == '' || args.CARD == '') { resolve(); }
 
             const variable = util.target.lookupOrCreateVariable(null, args.VAL);
@@ -339,11 +337,10 @@ class ExtensionBlocks {
 
     getNum(args) {
         return new Promise((resolve, reject) => {
-            cloudNum = '';
-
             if (masterSha256 == '') { resolve(''); }
-
             if (args.BANK == '' || args.CARD == '') { resolve(''); }
+
+            cloudNum = '';
 
             bankKey = new String(args.BANK);
             bankName = args.BANK;
@@ -553,8 +550,8 @@ class ExtensionBlocks {
     setMaster(args) {
         return new Promise((resolve, reject) => {
             if (args.KEY == '') { resolve(''); }
-    
             if (inoutFlag_setting) { resolve(''); }
+
             inoutFlag_setting = true;
             inoutFlag = true;
     
@@ -651,11 +648,8 @@ class ExtensionBlocks {
                         console.log('= Interval:', interval);
                         console.log("= MasterKey Accepted! =");
 
-                        return sleep(10);
-        
-                    })
-                    .then(() => {
                         resolve(masterKey);
+        
                     })
                     .catch(function (error) {
                         inoutFlag_setting = false;
@@ -670,11 +664,17 @@ class ExtensionBlocks {
                     console.log('Err fetch:', err);
 
                 });
+        })
+        .then(() => {
+            return ioSettingWaiter(1);
         });
     }
 
 
     lisningNum(args, util) {
+        if (masterSha256 == '') { return false; }
+        if (args.BANK == '' || args.CARD == '') { return false; }
+
         const state = args.LISNING_STATE;
 
         if(state === Lisning.ON) {
@@ -682,10 +682,6 @@ class ExtensionBlocks {
             //onSnapshotに登録
 
             return new Promise((resolve, reject) => {
-
-                if (masterSha256 == '') { resolve(); }
-    
-                if (args.BANK == '' || args.CARD == '') { resolve(); }
 
                 console.log("Lisning ON");
         
@@ -1106,6 +1102,21 @@ function ioWaiter(msec) {
         });
 }
 
+
+function ioSettingWaiter(msec) {
+    return new Promise((resolve, reject) =>
+        setTimeout(() => {
+            if (inoutFlag_setting) {
+                reject();
+            } else {
+                resolve();
+            }
+        }, msec)
+    )
+        .catch(() => {
+            return ioSettingWaiter(msec);
+        });
+}
 
 
 //

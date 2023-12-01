@@ -12388,13 +12388,13 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     key: "getNum",
     value: function getNum(args) {
       return new Promise(function (resolve, reject) {
-        cloudNum = '';
         if (masterSha256 == '') {
           resolve('');
         }
         if (args.BANK == '' || args.CARD == '') {
           resolve('');
         }
+        cloudNum = '';
         bankKey = new String(args.BANK);
         bankName = args.BANK;
         cardKey = new String(args.CARD);
@@ -12649,8 +12649,6 @@ var ExtensionBlocks = /*#__PURE__*/function () {
               console.log("= MasterKey:", masterSetted);
               console.log('= Interval:', interval);
               console.log("= MasterKey Accepted! =");
-              return sleep(10);
-            }).then(function () {
               resolve(masterKey);
             }).catch(function (error) {
               inoutFlag_setting = false;
@@ -12663,23 +12661,25 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         }).catch(function (err) {
           console.log('Err fetch:', err);
         });
+      }).then(function () {
+        return ioSettingWaiter(1);
       });
     }
   }, {
     key: "lisningNum",
     value: function lisningNum(args, util) {
       var _this = this;
+      if (masterSha256 == '') {
+        return false;
+      }
+      if (args.BANK == '' || args.CARD == '') {
+        return false;
+      }
       var state = args.LISNING_STATE;
       if (state === Lisning.ON) {
         //onSnapshotに登録
 
         return new Promise(function (resolve, reject) {
-          if (masterSha256 == '') {
-            resolve();
-          }
-          if (args.BANK == '' || args.CARD == '') {
-            resolve();
-          }
           console.log("Lisning ON");
           bankKey = bankName = new String(args.BANK);
           cardKey = new String(args.CARD);
@@ -13078,6 +13078,19 @@ function ioWaiter(msec) {
     }, msec);
   }).catch(function () {
     return ioWaiter(msec);
+  });
+}
+function ioSettingWaiter(msec) {
+  return new Promise(function (resolve, reject) {
+    return setTimeout(function () {
+      if (inoutFlag_setting) {
+        reject();
+      } else {
+        resolve();
+      }
+    }, msec);
+  }).catch(function () {
+    return ioSettingWaiter(msec);
   });
 }
 
