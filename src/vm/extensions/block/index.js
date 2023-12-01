@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221130 - dev ver1.2(011)
+// 20221201 - dev ver1.2(012)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -8,22 +8,23 @@ import translations from './translations.json';
 import blockIcon from './numberbank_icon.png';
 
 //Dev:
-import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
+//import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
 //Relese:
-//import Variable from '../../engine/variable';
+import Variable from '../../engine/variable';
 
-import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compat/app';
 
 //Dev:
-import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
-import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-import { initializeFirestore, PersistentLocalCache } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+//import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compat/app';
+//import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
+//import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+//import { initializeFirestore } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
+//import { getFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
-//import { initializeApp, deleteApp } from 'firebase/app';
-//import * as firestore from 'firebase/firestore';
-//import { initializeFirestore, CACHE_SIZE_UNLIMITED } from "firebase/firestore";
-//import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
+import firebase from 'firebase/compat/app';
+import { initializeApp, deleteApp } from 'firebase/app';
+import * as firestore from 'firebase/firestore';
+import { initializeFirestore } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
 //
 // import * as firestore from 'firebase/firestore/lite';
@@ -134,7 +135,6 @@ class ExtensionBlocks {
         this.firstInstall = true;
 
         //onSnapshot
-        this.lisningFirst = true;
         this.LisningBankCard_flag = false;
         this.unsubscribe = () => {};
 
@@ -168,7 +168,7 @@ class ExtensionBlocks {
         if (first) {
             Lisning.FIRST = false;
             this.LisningBankCard_flag = false;
-        }else {
+        } else {
             this.LisningBankCard_flag = true;
         }
     }
@@ -612,7 +612,8 @@ class ExtensionBlocks {
                             if (!firebase.apps.length) {
                                         
                                 fbApp = initializeApp(firebaseConfig);
-                                db = initializeFirestore(fbApp, {localCache: PersistentLocalCache});
+                                //db = initializeFirestore(fbApp, {localCache: PersistentLocalCache});
+                                db = initializeFirestore(fbApp, {});
 
                                 inoutFlag = false;
             
@@ -623,7 +624,8 @@ class ExtensionBlocks {
                                     cloudFlag = false;
 
                                     fbApp = initializeApp(firebaseConfig);
-                                    db = initializeFirestore(fbApp, {localCache: PersistentLocalCache}); 
+                                    //db = initializeFirestore(fbApp, {localCache: PersistentLocalCache}); 
+                                    db = initializeFirestore(fbApp, {});
 
                                     inoutFlag = false;
                                 })
@@ -714,16 +716,15 @@ class ExtensionBlocks {
                             if (masterSha256 != '' && masterSha256 != undefined) {
     
                                 this.unsubscribe();
+                                Lisning.FIRST = true;
                                 this.unsubscribe = onSnapshot(doc(db, 'card', uniSha256), (doc) => {
                                     this.lisningState();
-                                    //this.LisningBankCard_flag = true;
                                     console.log("Current data: ", doc.data());
                                 },
                                 (err) => {
                                     console.log("onSnapshot Error:",err);
                                 
                                 });
-                                //Lisning.FIRST = true;
                                 resolve(state);
                                                                     
                             } else {
