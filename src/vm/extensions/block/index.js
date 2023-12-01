@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221201 - dev ver1.2(014)
+// 20221201 - dev ver1.2(015)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -719,7 +719,7 @@ class ExtensionBlocks {
                                 Lisning.FIRST = true;
                                 this.unsubscribe = onSnapshot(doc(db, 'card', uniSha256), (doc) => {
                                     this.lisningState();
-                                    console.log("Current data: ", doc.data());
+                                    //console.log("Current data: ", doc.data());
                                 },
                                 (err) => {
                                     console.log("onSnapshot Error:",err);

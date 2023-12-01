@@ -12701,7 +12701,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
                 Lisning.FIRST = true;
                 _this.unsubscribe = yl(Pa(db, 'card', uniSha256), function (doc) {
                   _this.lisningState();
-                  console.log("Current data: ", doc.data());
+                  //console.log("Current data: ", doc.data());
                 }, function (err) {
                   console.log("onSnapshot Error:", err);
                 });
