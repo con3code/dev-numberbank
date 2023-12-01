@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221130 - dev ver1.2(004)
+// 20221130 - dev ver1.2(005)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -18,7 +18,7 @@ import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compa
 import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
 import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 import { initializeFirestore, PersistentLocalCache, CACHE_SIZE_UNLIMITED } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
-import { getFirestore, doc, getDoc, setDoc } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
 //import { initializeApp, deleteApp } from 'firebase/app';
 //import * as firestore from 'firebase/firestore';
@@ -68,6 +68,15 @@ const EXTENSION_ID = 'numberbank';
  */
 let extensionURL = 'https://con3office.github.io/dev-numberbank/dist/numberbank.mjs';
 
+
+const Lisning = {
+
+    OFF: 'off',
+    ON: 'on',
+    BANK:'',
+    CARD:''
+
+}
 
 
 /**
@@ -121,11 +130,49 @@ class ExtensionBlocks {
          */
         this.runtime = runtime;
 
+        this.firstInstall = true;
+
+        this.LisningBankCard_flag = false;
+
         if (runtime.formatMessage) {
             // Replace 'formatMessage' to a formatter which is used in the runtime.
             formatMessage = runtime.formatMessage;
         }
     }
+
+
+
+
+
+
+
+
+        /**
+         * Create data for a menu in scratch-blocks format, consisting of an array
+         * of objects with text and value properties. The text is a translated
+         * string, and the value is one-indexed.
+         * @param {object[]} info - An array of info objects each having a name
+         *   property.
+         * @return {array} - An array of objects with text and value properties.
+         * @private
+         */
+    _buildMenu (info) {
+        return info.map((entry, index) => {
+            const obj = {};
+            obj.text = entry.name;
+            obj.value = entry.value || String(index + 1);
+            return obj;
+        });
+    }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -645,14 +692,135 @@ class ExtensionBlocks {
     }
 
 
-    whenUpdate(args, util) {
+    lisningNum(args, util) {
+        const state = args.LISNING_STATE;
+
+        if(state === Lisning.ON) {
+
+            console.log("Lisning ON");
+            //onSnapshotに登録
+
+            return new Promise((resolve, reject) => {
+                if (masterSha256 == '') { resolve(); }
+    
+                if (args.BANK == '' || args.CARD == '') { resolve(); }
+        
+                bankKey = bankName = new String(args.BANK);
+                cardKey = new String(args.CARD);
+    
+                uniKey = bankKey.trim().concat(cardKey.trim());
+    
+                if (!crypto || !crypto.subtle) {
+                    reject("crypto.subtle is not supported.");
+                }
+    
+                if (bankKey != '' && bankKey != undefined) {
+                    crypto.subtle.digest('SHA-256', encoder.encode(bankKey))
+                        .then(bankStr => {
+                            bankSha256 = hexString(bankStr);
+    
+                            return crypto.subtle.digest('SHA-256', encoder.encode(cardKey));
+                        })
+                        .then(cardStr => {
+                            cardSha256 = hexString(cardStr);
+    
+                            return crypto.subtle.digest('SHA-256', encoder.encode(uniKey));
+                        })
+                        .then(uniStr => {
+                            uniSha256 = hexString(uniStr);
+    
+                            return sleep(1);
+                        })
+                        .then(() => {
+
+                            if (masterSha256 != '' && masterSha256 != undefined) {
+                                console.log("Lisning Setting 01");
+    
+                                
+                                onSnapshot(doc(db, 'card', uniSha256), (doc) => {
+                                    this.LisningBankCard_flag = true;
+                                    console.log("Current data: ", doc.data());
+                                },
+                                (err) => {
+                                    console.log("onSnapshot Error:",err);
+                                
+                                });
+                                
+                                resolve();
+    
+                            } else {
+                                console.log("No MasterKey!");
+                                resolve();  // MasterKeyがない場合
+                            }
+                        
+                        });
+
+                } else {
+                    resolve();
+                }
+            });
 
 
+        } else {
 
+            console.log("Lisning OFF");
+
+            //inSnapshotをオフ
+            const unsubscribe = onSnapshot(doc(db, 'card', uniSha256), (doc) => {
+                console.log("Current data: ", doc.data());
+            });
+
+            unsubscribe();
+            return state;
+            
+        }
+   
+        this.LisningBankCard_flag = false;
 
     }
 
+    whenUpdate(args, util) {
+        const state = this.LisningBankCard_flag;
+        if (state) {
+            console.log("when:", state)
+            this.LisningBankCard_flag = false;
+        }else {
+        }
+        return state;
+    }
 
+
+    static get Lisning () {
+        return Lisning;
+    }
+
+
+    /**
+     * An array of info on video state options for the "lisning" block.
+     * @type {object[]}
+     * @param {string} name - the translatable name to display in the state menu
+     * @param {string} value - the serializable value stored in the block
+     */
+    get LISNING_INFO () {
+        return [
+            {
+                name: formatMessage({
+                    id: 'lisning.off',
+                    default: 'off',
+                    description: 'Option for the "lisning [STATE]" block'
+                }),
+                value: Lisning.OFF
+            },
+            {
+                name: formatMessage({
+                    id: 'lisning.on',
+                    default: 'on',
+                    description: 'Option for the "lisning [STATE]" block'
+                }),
+                value: Lisning.ON
+            }
+        ];
+    }
 
 
 
@@ -839,6 +1007,36 @@ class ExtensionBlocks {
                 },
                 '---',
                 {
+                    opcode: 'lisningNum',
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'numberbank.lisningNum',
+                        default: 'lisning number of[CARD]of[BANK][LISNING_STATE]',
+                        description: 'lisning number by Firebase'
+                    }),
+                    arguments: {
+                        BANK: {
+                            type: ArgumentType.STRING,
+                            defaultValue: formatMessage({
+                                id: 'numberbank.argments.bank',
+                                default: 'bank'
+                            })
+                        },
+                        CARD: {
+                            type: ArgumentType.STRING,
+                            defaultValue: formatMessage({
+                                id: 'numberbank.argments.card',
+                                default: 'card'
+                            })
+                        },
+                        LISNING_STATE: {
+                            type: ArgumentType.STRING,
+                            menu: 'lisningMenu',
+                            defaultValue: Lisning.ON
+                        }
+                    }
+                },
+                {
                     opcode: 'whenUpdate',
                     blockType: BlockType.HAT,
                     text: formatMessage({
@@ -846,13 +1044,18 @@ class ExtensionBlocks {
                         default: 'whenUpdate',
                         description: 'whenFirebaseUpdate'
                     }),
-                }
+                },
+
 
             ],
             menus: {
                 valMenu: {
                     acceptReporters: true,
                     items: 'getDynamicMenuItems'
+                },
+                lisningMenu: {
+                    acceptReporters: true,
+                    items: this._buildMenu(this.LISNING_INFO)
                 }
             }
         };
