@@ -12146,6 +12146,13 @@ return s=t?n&&(n.merge||n.mergeFields)?t.toFirestore(e,n):t.toFirestore(e):e,s;}
  */ /** Sentinel value that sorts before any Mutation Batch ID. */(i,n),i);return s=Object.assign({useFetchStreams:e},s),r._setSettings(s),r;},"PUBLIC").setMultipleInstances(!0)),registerVersion(R,"3.5.0",t),// BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
 registerVersion(R,"3.5.0","esm2017");}();
 
+//Relese:
+//import firebase from 'firebase/compat/app';
+//import { initializeApp, deleteApp } from 'firebase/app';
+//import * as firestore from 'firebase/firestore';
+//import { initializeFirestore } from "firebase/firestore";
+//import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+
 //
 // import * as firestore from 'firebase/firestore/lite';
 // import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
@@ -12663,6 +12670,8 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         });
       }).then(function () {
         return ioSettingWaiter(1);
+      }).then(function () {
+        return masterKey;
       });
     }
   }, {
