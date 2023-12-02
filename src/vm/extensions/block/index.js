@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221202 - dev ver1.2(021)
+// 20221202 - dev ver1.2(022)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -8,23 +8,23 @@ import translations from './translations.json';
 import blockIcon from './numberbank_icon.png';
 
 //Dev:
-import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
+//import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
 //Relese:
-//import Variable from '../../engine/variable';
+import Variable from '../../engine/variable';
 
 
 //Dev:
-import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compat/app';
-import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
-import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-import { initializeFirestore } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+//import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compat/app';
+//import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
+//import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+//import { initializeFirestore } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
+//import { getFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
-//import firebase from 'firebase/compat/app';
-//import { initializeApp, deleteApp } from 'firebase/app';
-//import * as firestore from 'firebase/firestore';
-//import { initializeFirestore } from "firebase/firestore";
-//import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import { initializeApp, deleteApp } from 'firebase/app';
+import * as firestore from 'firebase/firestore';
+import { initializeFirestore } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
 //
 // import * as firestore from 'firebase/firestore/lite';
