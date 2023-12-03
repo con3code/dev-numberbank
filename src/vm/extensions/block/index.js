@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221202 - dev ver1.2(022)
+// 20221203 - dev ver1.2(028)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -32,7 +32,6 @@ import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestor
 
 const encoder = new TextEncoder();
 const deoder_utf8 = new TextDecoder('utf-8');
-
 
 // API呼び出し管理キュー
 let apiCallQueue = [];
@@ -134,8 +133,10 @@ class ExtensionBlocks {
 
         this.firstInstall = true;
 
-        //onSnapshot
+        //
+        this.whenUpdatedCallCountMap = new Map();
         this.LisningBankCard_flag = false;
+        //onSnapshot
         this.unsubscribe = () => {};
 
         if (runtime.formatMessage) {
@@ -162,7 +163,7 @@ class ExtensionBlocks {
         });
     }
 
-
+    //onSnapshot設定時にトリガーしてしまう初回を回避
     lisningState () {
         const first = Lisning.FIRST;
         if (first) {
@@ -170,6 +171,7 @@ class ExtensionBlocks {
             this.LisningBankCard_flag = false;
         } else {
             this.LisningBankCard_flag = true;
+            this.snapshotCalled();
         }
     }
 
@@ -751,22 +753,66 @@ class ExtensionBlocks {
         return state;
     }
 
-    whenUpdated(args, util) {
 
-        let state = this.LisningBankCard_flag;
+    snapshotCalled() {
 
-        if (state) {
-            this.LisningBankCard_flag = false;
+        for (let [blockId, callCount] of this.whenUpdatedCallCountMap.entries()) {
+            callCount += 1;
+            this.whenUpdatedCallCountMap.set(blockId, callCount);
         }
 
-        return state;
+        //console.log('==snapCalled:', Array.from(this.whenUpdatedCallCountMap));
+
+
     }
+
+
+    whenUpdatedCalled(blockId) {
+        //console.log('Called:', instanceId);
+        let callCount = this.whenUpdatedCallCountMap.get(blockId) || 0;
+
+        if (this.LisningBankCard_flag) {
+            if(callCount > 0){
+                callCount -= 1;
+                this.whenUpdatedCallCountMap.set(blockId, callCount);
+            } 
+            //console.log('checkCalled', Array.from(this.whenUpdatedCallCountMap));
+            this.checkAllWhenUpdatedCalled();
+        } else {
+            this.whenUpdatedCallCountMap.set(blockId, callCount);
+        }
+
+    }
+
+    
+    checkAllWhenUpdatedCalled() {
+        const allCalled = Array.from(this.whenUpdatedCallCountMap.values()).every(count => count === 0);
+        //console.log('checkCalled', Array.from(this.whenUpdatedCallCountMap));
+
+        if (allCalled) {
+            this.LisningBankCard_flag = false;
+        } 
+    }
+
+
+    whenUpdated(args, util) {
+        const blockId = util.target.id;
+        //console.log('ARGUTIL:', args, util);
+        //const instanceId = util.target.id; 
+        //const blockId = ?
+
+        let callCount = this.whenUpdatedCallCountMap.get(blockId) || 0;
+
+        this.whenUpdatedCalled(blockId);
+
+        return callCount > 0;
+    }
+
 
 
     static get Lisning () {
         return Lisning;
     }
-
 
 
     /**

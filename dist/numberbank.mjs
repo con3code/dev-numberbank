@@ -63,27 +63,27 @@ var entry = {
   translationMap: translations$1
 };
 
-function _arrayLikeToArray$6(arr, len) {
+function _arrayLikeToArray$7(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
   for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
   return arr2;
 }
 
 function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray$6(arr);
+  if (Array.isArray(arr)) return _arrayLikeToArray$7(arr);
 }
 
 function _iterableToArray(iter) {
   if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
-function _unsupportedIterableToArray$6(o, minLen) {
+function _unsupportedIterableToArray$7(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray$6(o, minLen);
+  if (typeof o === "string") return _arrayLikeToArray$7(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
   if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$6(o, minLen);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$7(o, minLen);
 }
 
 function _nonIterableSpread() {
@@ -91,7 +91,47 @@ function _nonIterableSpread() {
 }
 
 function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray$6(arr) || _nonIterableSpread();
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray$7(arr) || _nonIterableSpread();
+}
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+function _iterableToArrayLimit(r, l) {
+  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+  if (null != t) {
+    var e,
+      n,
+      i,
+      u,
+      a = [],
+      f = !0,
+      o = !1;
+    try {
+      if (i = (t = t.call(r)).next, 0 === l) {
+        if (Object(t) !== t) return;
+        f = !1;
+      } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+    } catch (r) {
+      o = !0, n = r;
+    } finally {
+      try {
+        if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return;
+      } finally {
+        if (o) throw n;
+      }
+    }
+    return a;
+  }
+}
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray$7(arr, i) || _nonIterableRest();
 }
 
 function _classCallCheck(instance, Constructor) {
@@ -929,46 +969,6 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArrayLimit(r, l) {
-  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
-  if (null != t) {
-    var e,
-      n,
-      i,
-      u,
-      a = [],
-      f = !0,
-      o = !1;
-    try {
-      if (i = (t = t.call(r)).next, 0 === l) {
-        if (Object(t) !== t) return;
-        f = !1;
-      } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
-    } catch (r) {
-      o = !0, n = r;
-    } finally {
-      try {
-        if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return;
-      } finally {
-        if (o) throw n;
-      }
-    }
-    return a;
-  }
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray$6(arr, i) || _nonIterableRest();
-}
-
 function _assertThisInitialized(self) {
   if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -1082,9 +1082,9 @@ function _wrapNativeSuper(Class) {
 
 var global$1 = typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};
 
-function _createForOfIteratorHelper$5(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$5(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray$5(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$5(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$5(o, minLen); }
-function _arrayLikeToArray$5(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _createForOfIteratorHelper$6(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$6(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray$6(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$6(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$6(o, minLen); }
+function _arrayLikeToArray$6(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
@@ -1888,7 +1888,7 @@ function implementsAnyMethods(obj, methods) {
   if (_typeof$1(obj) !== 'object' || obj === null) {
     return false;
   }
-  var _iterator = _createForOfIteratorHelper$5(methods),
+  var _iterator = _createForOfIteratorHelper$6(methods),
     _step;
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -2304,9 +2304,9 @@ try {
   }
 }
 
-function _createForOfIteratorHelper$4(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$4(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray$4(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$4(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$4(o, minLen); }
-function _arrayLikeToArray$4(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _createForOfIteratorHelper$5(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$5(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray$5(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$5(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$5(o, minLen); }
+function _arrayLikeToArray$5(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 
 /**
  * Component for service name T, e.g. `auth`, `auth-internal`
@@ -2499,7 +2499,7 @@ var Provider = /*#__PURE__*/function () {
       // Create service instances for the pending promises and resolve them
       // NOTE: if this.multipleInstances is false, only the default instance will be created
       // and all promises with resolve with it regardless of the identifier.
-      var _iterator = _createForOfIteratorHelper$4(this.instancesDeferred.entries()),
+      var _iterator = _createForOfIteratorHelper$5(this.instancesDeferred.entries()),
         _step;
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -2603,7 +2603,7 @@ var Provider = /*#__PURE__*/function () {
         options: options
       });
       // resolve any pending promise waiting for the service instance
-      var _iterator2 = _createForOfIteratorHelper$4(this.instancesDeferred.entries()),
+      var _iterator2 = _createForOfIteratorHelper$5(this.instancesDeferred.entries()),
         _step2;
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
@@ -2657,7 +2657,7 @@ var Provider = /*#__PURE__*/function () {
       if (!callbacks) {
         return;
       }
-      var _iterator3 = _createForOfIteratorHelper$4(callbacks),
+      var _iterator3 = _createForOfIteratorHelper$5(callbacks),
         _step3;
       try {
         for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
@@ -2814,9 +2814,9 @@ var ComponentContainer = /*#__PURE__*/function () {
   return ComponentContainer;
 }();
 
-function _createForOfIteratorHelper$3(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$3(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray$3(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$3(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$3(o, minLen); }
-function _arrayLikeToArray$3(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _createForOfIteratorHelper$4(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$4(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray$4(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$4(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$4(o, minLen); }
+function _arrayLikeToArray$4(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -3018,7 +3018,7 @@ function setLogLevel$1(level) {
   });
 }
 function setUserLogHandler(logCallback, options) {
-  var _iterator = _createForOfIteratorHelper$3(instances),
+  var _iterator = _createForOfIteratorHelper$4(instances),
     _step;
   try {
     var _loop = function _loop() {
@@ -3352,9 +3352,9 @@ replaceTraps(function (oldTraps) {
 });
 
 var _PLATFORM_LOG_STRING;
-function _createForOfIteratorHelper$2(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$2(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
-function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _createForOfIteratorHelper$3(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$3(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray$3(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$3(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$3(o, minLen); }
+function _arrayLikeToArray$3(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 
 /**
  * @license
@@ -3542,7 +3542,7 @@ function _registerComponent(component) {
   }
   _components.set(componentName, component);
   // add the component to existing app instances
-  var _iterator = _createForOfIteratorHelper$2(_apps.values()),
+  var _iterator = _createForOfIteratorHelper$3(_apps.values()),
     _step;
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -3753,7 +3753,7 @@ function initializeApp(options) {
     }
   }
   var container = new ComponentContainer(name);
-  var _iterator2 = _createForOfIteratorHelper$2(_components.values()),
+  var _iterator2 = _createForOfIteratorHelper$3(_components.values()),
     _step2;
   try {
     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
@@ -4228,7 +4228,7 @@ function extractHeartbeatsForHeader(heartbeatsCache) {
   var heartbeatsToSend = [];
   // Single date format heartbeats that are not sent.
   var unsentEntries = heartbeatsCache.slice();
-  var _iterator3 = _createForOfIteratorHelper$2(heartbeatsCache),
+  var _iterator3 = _createForOfIteratorHelper$3(heartbeatsCache),
     _step3;
   try {
     var _loop = function _loop() {
@@ -5026,9 +5026,9 @@ performance.now || performance.mozNow || performance.msNow || performance.oNow |
   return new Date().getTime();
 };
 
-function _createForOfIteratorHelper$1(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$1(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
-function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _createForOfIteratorHelper$2(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$2(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
+function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global$1 !== 'undefined' ? global$1 : typeof self !== 'undefined' ? self : {};
@@ -6394,7 +6394,7 @@ function xc$1(a, b) {
 Wc$1.prototype.cancel = function () {
   this.i = Zc$1(this);
   if (this.h) this.h.cancel(), this.h = null;else if (this.g && 0 !== this.g.size) {
-    var _iterator = _createForOfIteratorHelper$1(this.g.values()),
+    var _iterator = _createForOfIteratorHelper$2(this.g.values()),
       _step;
     try {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -6413,7 +6413,7 @@ function Zc$1(a) {
   if (null != a.h) return a.i.concat(a.h.D);
   if (null != a.g && 0 !== a.g.size) {
     var b = a.i;
-    var _iterator2 = _createForOfIteratorHelper$1(a.g.values()),
+    var _iterator2 = _createForOfIteratorHelper$2(a.g.values()),
       _step2;
     try {
       for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
@@ -6635,7 +6635,7 @@ k$1.da = function (a, b, c, d) {
   a = c || "";
   c = new Map(this.headers);
   if (d) if (Object.getPrototypeOf(d) === Object.prototype) for (var e in d) c.set(e, d[e]);else if ("function" === typeof d.keys && "function" === typeof d.get) {
-    var _iterator3 = _createForOfIteratorHelper$1(d.keys()),
+    var _iterator3 = _createForOfIteratorHelper$2(d.keys()),
       _step3;
     try {
       for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
@@ -6653,7 +6653,7 @@ k$1.da = function (a, b, c, d) {
   });
   e = l.FormData && a instanceof l.FormData;
   !(0 <= la$1(nd, b)) || d || e || c.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-  var _iterator4 = _createForOfIteratorHelper$1(c),
+  var _iterator4 = _createForOfIteratorHelper$2(c),
     _step4;
   try {
     for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
@@ -7337,7 +7337,7 @@ var FetchXmlHttpFactory = ed;
 var WebChannel = Ub;
 var XhrIo = W$1;
 
-function _createForOfIteratorHelper(o,allowArrayLike){var it=typeof Symbol!=="undefined"&&o[Symbol.iterator]||o["@@iterator"];if(!it){if(Array.isArray(o)||(it=_unsupportedIterableToArray(o))||allowArrayLike&&o&&typeof o.length==="number"){if(it)o=it;var i=0;var F=function F(){};return {s:F,n:function n(){if(i>=o.length)return {done:true};return {done:false,value:o[i++]};},e:function e(_e68){throw _e68;},f:F};}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var normalCompletion=true,didErr=false,err;return {s:function s(){it=it.call(o);},n:function n(){var step=it.next();normalCompletion=step.done;return step;},e:function e(_e69){didErr=true;err=_e69;},f:function f(){try{if(!normalCompletion&&it.return!=null)it.return();}finally{if(didErr)throw err;}}};}function _unsupportedIterableToArray(o,minLen){if(!o)return;if(typeof o==="string")return _arrayLikeToArray(o,minLen);var n=Object.prototype.toString.call(o).slice(8,-1);if(n==="Object"&&o.constructor)n=o.constructor.name;if(n==="Map"||n==="Set")return Array.from(o);if(n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return _arrayLikeToArray(o,minLen);}function _arrayLikeToArray(arr,len){if(len==null||len>arr.length)len=arr.length;for(var i=0,arr2=new Array(len);i<len;i++)arr2[i]=arr[i];return arr2;}function _createSuper(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var R="@firebase/firestore";/**
+function _createForOfIteratorHelper$1(o,allowArrayLike){var it=typeof Symbol!=="undefined"&&o[Symbol.iterator]||o["@@iterator"];if(!it){if(Array.isArray(o)||(it=_unsupportedIterableToArray$1(o))||allowArrayLike&&o&&typeof o.length==="number"){if(it)o=it;var i=0;var F=function F(){};return {s:F,n:function n(){if(i>=o.length)return {done:true};return {done:false,value:o[i++]};},e:function e(_e68){throw _e68;},f:F};}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var normalCompletion=true,didErr=false,err;return {s:function s(){it=it.call(o);},n:function n(){var step=it.next();normalCompletion=step.done;return step;},e:function e(_e69){didErr=true;err=_e69;},f:function f(){try{if(!normalCompletion&&it.return!=null)it.return();}finally{if(didErr)throw err;}}};}function _unsupportedIterableToArray$1(o,minLen){if(!o)return;if(typeof o==="string")return _arrayLikeToArray$1(o,minLen);var n=Object.prototype.toString.call(o).slice(8,-1);if(n==="Object"&&o.constructor)n=o.constructor.name;if(n==="Map"||n==="Set")return Array.from(o);if(n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return _arrayLikeToArray$1(o,minLen);}function _arrayLikeToArray$1(arr,len){if(len==null||len>arr.length)len=arr.length;for(var i=0,arr2=new Array(len);i<len;i++)arr2[i]=arr[i];return arr2;}function _createSuper(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var R="@firebase/firestore";/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -7965,7 +7965,7 @@ t){return new Et(function(e,n){var s=0,i=0,r=!1;t.forEach(function(t){++s,t.next
      * boolean, implements a short-circuiting `or` between the results. Predicates
      * will be evaluated until one of them returns `true`, then stop. The final
      * result will be whether any of them returned `true`.
-     */},{key:"or",value:function or(t){var e=Et.resolve(!1);var _iterator=_createForOfIteratorHelper(t),_step;try{var _loop=function _loop(){var n=_step.value;e=e.next(function(t){return t?Et.resolve(t):n();});};for(_iterator.s();!(_step=_iterator.n()).done;){_loop();}}catch(err){_iterator.e(err);}finally{_iterator.f();}return e;}},{key:"forEach",value:function forEach(t,e){var _this11=this;var n=[];return t.forEach(function(t,s){n.push(e.call(_this11,t,s));}),this.waitFor(n);}/**
+     */},{key:"or",value:function or(t){var e=Et.resolve(!1);var _iterator=_createForOfIteratorHelper$1(t),_step;try{var _loop=function _loop(){var n=_step.value;e=e.next(function(t){return t?Et.resolve(t):n();});};for(_iterator.s();!(_step=_iterator.n()).done;){_loop();}}catch(err){_iterator.e(err);}finally{_iterator.f();}return e;}},{key:"forEach",value:function forEach(t,e){var _this11=this;var n=[];return t.forEach(function(t,s){n.push(e.call(_this11,t,s));}),this.waitFor(n);}/**
      * Concurrently map all array elements through asynchronous function.
      */},{key:"mapArray",value:function mapArray(t,e){return new Et(function(n,s){var i=t.length,r=new Array(i);var o=0;var _loop2=function _loop2(){var c=u;e(t[c]).next(function(t){r[c]=t,++o,o===i&&n(r);},function(t){return s(t);});};for(var u=0;u<i;u++){_loop2();}});}/**
      * An alternative to recursive PersistencePromise calls, that avoids
@@ -8153,12 +8153,12 @@ return e.size<t.size&&(e=t,t=this),t.forEach(function(t){e=e.add(t);}),e;}},{key
 t.sort(ot.comparator);}_createClass(Gt,[{key:"unionWith",value:/**
      * Returns a new FieldMask object that is the result of adding all the given
      * fields paths to this field mask.
-     */function unionWith(t){var e=new Ut(ot.comparator);var _iterator2=_createForOfIteratorHelper(this.fields),_step2;try{for(_iterator2.s();!(_step2=_iterator2.n()).done;){var _t10=_step2.value;e=e.add(_t10);}}catch(err){_iterator2.e(err);}finally{_iterator2.f();}var _iterator3=_createForOfIteratorHelper(t),_step3;try{for(_iterator3.s();!(_step3=_iterator3.n()).done;){var n=_step3.value;e=e.add(n);}}catch(err){_iterator3.e(err);}finally{_iterator3.f();}return new Gt(e.toArray());}/**
+     */function unionWith(t){var e=new Ut(ot.comparator);var _iterator2=_createForOfIteratorHelper$1(this.fields),_step2;try{for(_iterator2.s();!(_step2=_iterator2.n()).done;){var _t10=_step2.value;e=e.add(_t10);}}catch(err){_iterator2.e(err);}finally{_iterator2.f();}var _iterator3=_createForOfIteratorHelper$1(t),_step3;try{for(_iterator3.s();!(_step3=_iterator3.n()).done;){var n=_step3.value;e=e.add(n);}}catch(err){_iterator3.e(err);}finally{_iterator3.f();}return new Gt(e.toArray());}/**
      * Verifies that `fieldPath` is included by at least one field in this field
      * mask.
      *
      * This is an O(n) operation, where `n` is the size of the field mask.
-     */},{key:"covers",value:function covers(t){var _iterator4=_createForOfIteratorHelper(this.fields),_step4;try{for(_iterator4.s();!(_step4=_iterator4.n()).done;){var e=_step4.value;if(e.isPrefixOf(t))return !0;}}catch(err){_iterator4.e(err);}finally{_iterator4.f();}return !1;}},{key:"isEqual",value:function isEqual(t){return Z(this.fields,t.fields,function(t,e){return t.isEqual(e);});}}],[{key:"empty",value:function empty(){return new Gt([]);}}]);return Gt;}();/**
+     */},{key:"covers",value:function covers(t){var _iterator4=_createForOfIteratorHelper$1(this.fields),_step4;try{for(_iterator4.s();!(_step4=_iterator4.n()).done;){var e=_step4.value;if(e.isPrefixOf(t))return !0;}}catch(err){_iterator4.e(err);}finally{_iterator4.f();}return !1;}},{key:"isEqual",value:function isEqual(t){return Z(this.fields,t.fields,function(t,e){return t.isEqual(e);});}}],[{key:"empty",value:function empty(){return new Gt([]);}}]);return Gt;}();/**
  * @license
  * Copyright 2020 Google LLC
  *
@@ -8324,9 +8324,9 @@ isNaN(n)?isNaN(s)?0:-1:1;}(t,e);case 3/* TimestampValue */:return le(t.timestamp
 s.sort(),r.sort();for(var _t15=0;_t15<s.length&&_t15<r.length;++_t15){var _e11=X(s[_t15],r[_t15]);if(0!==_e11)return _e11;var o=he(n[s[_t15]],i[r[_t15]]);if(0!==o)return o;}return X(s.length,r.length);}/**
  * Generates the canonical ID for the provided field value (as used in Target
  * serialization).
- */(t.mapValue,e.mapValue);default:throw k();}}function le(t,e){if("string"==typeof t&&"string"==typeof e&&t.length===e.length)return X(t,e);var n=zt(t),s=zt(e),i=X(n.seconds,s.seconds);return 0!==i?i:X(n.nanos,s.nanos);}function fe(t){return de(t);}function de(t){return "nullValue"in t?"null":"booleanValue"in t?""+t.booleanValue:"integerValue"in t?""+t.integerValue:"doubleValue"in t?""+t.doubleValue:"timestampValue"in t?function(t){var e=zt(t);return "time(".concat(e.seconds,",").concat(e.nanos,")");}(t.timestampValue):"stringValue"in t?t.stringValue:"bytesValue"in t?Jt(t.bytesValue).toBase64():"referenceValue"in t?(n=t.referenceValue,ut.fromName(n).toString()):"geoPointValue"in t?"geo(".concat((e=t.geoPointValue).latitude,",").concat(e.longitude,")"):"arrayValue"in t?function(t){var e="[",n=!0;var _iterator5=_createForOfIteratorHelper(t.values||[]),_step5;try{for(_iterator5.s();!(_step5=_iterator5.n()).done;){var s=_step5.value;n?n=!1:e+=",",e+=de(s);}}catch(err){_iterator5.e(err);}finally{_iterator5.f();}return e+"]";}/** Returns a reference value for the provided database and key. */(t.arrayValue):"mapValue"in t?function(t){// Iteration order in JavaScript is not guaranteed. To ensure that we generate
+ */(t.mapValue,e.mapValue);default:throw k();}}function le(t,e){if("string"==typeof t&&"string"==typeof e&&t.length===e.length)return X(t,e);var n=zt(t),s=zt(e),i=X(n.seconds,s.seconds);return 0!==i?i:X(n.nanos,s.nanos);}function fe(t){return de(t);}function de(t){return "nullValue"in t?"null":"booleanValue"in t?""+t.booleanValue:"integerValue"in t?""+t.integerValue:"doubleValue"in t?""+t.doubleValue:"timestampValue"in t?function(t){var e=zt(t);return "time(".concat(e.seconds,",").concat(e.nanos,")");}(t.timestampValue):"stringValue"in t?t.stringValue:"bytesValue"in t?Jt(t.bytesValue).toBase64():"referenceValue"in t?(n=t.referenceValue,ut.fromName(n).toString()):"geoPointValue"in t?"geo(".concat((e=t.geoPointValue).latitude,",").concat(e.longitude,")"):"arrayValue"in t?function(t){var e="[",n=!0;var _iterator5=_createForOfIteratorHelper$1(t.values||[]),_step5;try{for(_iterator5.s();!(_step5=_iterator5.n()).done;){var s=_step5.value;n?n=!1:e+=",",e+=de(s);}}catch(err){_iterator5.e(err);}finally{_iterator5.f();}return e+"]";}/** Returns a reference value for the provided database and key. */(t.arrayValue):"mapValue"in t?function(t){// Iteration order in JavaScript is not guaranteed. To ensure that we generate
 // matching canonical IDs for identical maps, we need to sort the keys.
-var e=Object.keys(t.fields||{}).sort();var n="{",s=!0;var _iterator6=_createForOfIteratorHelper(e),_step6;try{for(_iterator6.s();!(_step6=_iterator6.n()).done;){var i=_step6.value;s?s=!1:n+=",",n+="".concat(i,":").concat(de(t.fields[i]));}}catch(err){_iterator6.e(err);}finally{_iterator6.f();}return n+"}";}(t.mapValue):k();var e,n;}/** Returns true if `value` is an IntegerValue . */function we(t){return !!t&&"integerValue"in t;}/** Returns true if `value` is a DoubleValue. */ /** Returns true if `value` is an ArrayValue. */function me(t){return !!t&&"arrayValue"in t;}/** Returns true if `value` is a NullValue. */function ge(t){return !!t&&"nullValue"in t;}/** Returns true if `value` is NaN. */function ye(t){return !!t&&"doubleValue"in t&&isNaN(Number(t.doubleValue));}/** Returns true if `value` is a MapValue. */function pe(t){return !!t&&"mapValue"in t;}/** Creates a deep copy of `source`. */function Ie(t){if(t.geoPointValue)return {geoPointValue:Object.assign({},t.geoPointValue)};if(t.timestampValue&&"object"==_typeof$1(t.timestampValue))return {timestampValue:Object.assign({},t.timestampValue)};if(t.mapValue){var e={mapValue:{fields:{}}};return Ot(t.mapValue.fields,function(t,n){return e.mapValue.fields[t]=Ie(n);}),e;}if(t.arrayValue){var _e12={arrayValue:{values:[]}};for(var n=0;n<(t.arrayValue.values||[]).length;++n)_e12.arrayValue.values[n]=Ie(t.arrayValue.values[n]);return _e12;}return Object.assign({},t);}/** Returns true if the Value represents the canonical {@link #MAX_VALUE} . */function Te(t){return "__max__"===(((t.mapValue||{}).fields||{}).__type__||{}).stringValue;}/**
+var e=Object.keys(t.fields||{}).sort();var n="{",s=!0;var _iterator6=_createForOfIteratorHelper$1(e),_step6;try{for(_iterator6.s();!(_step6=_iterator6.n()).done;){var i=_step6.value;s?s=!1:n+=",",n+="".concat(i,":").concat(de(t.fields[i]));}}catch(err){_iterator6.e(err);}finally{_iterator6.f();}return n+"}";}(t.mapValue):k();var e,n;}/** Returns true if `value` is an IntegerValue . */function we(t){return !!t&&"integerValue"in t;}/** Returns true if `value` is a DoubleValue. */ /** Returns true if `value` is an ArrayValue. */function me(t){return !!t&&"arrayValue"in t;}/** Returns true if `value` is a NullValue. */function ge(t){return !!t&&"nullValue"in t;}/** Returns true if `value` is NaN. */function ye(t){return !!t&&"doubleValue"in t&&isNaN(Number(t.doubleValue));}/** Returns true if `value` is a MapValue. */function pe(t){return !!t&&"mapValue"in t;}/** Creates a deep copy of `source`. */function Ie(t){if(t.geoPointValue)return {geoPointValue:Object.assign({},t.geoPointValue)};if(t.timestampValue&&"object"==_typeof$1(t.timestampValue))return {timestampValue:Object.assign({},t.timestampValue)};if(t.mapValue){var e={mapValue:{fields:{}}};return Ot(t.mapValue.fields,function(t,n){return e.mapValue.fields[t]=Ie(n);}),e;}if(t.arrayValue){var _e12={arrayValue:{values:[]}};for(var n=0;n<(t.arrayValue.values||[]).length;++n)_e12.arrayValue.values[n]=Ie(t.arrayValue.values[n]);return _e12;}return Object.assign({},t);}/** Returns true if the Value represents the canonical {@link #MAX_VALUE} . */function Te(t){return "__max__"===(((t.mapValue||{}).fields||{}).__type__||{}).stringValue;}/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -8370,12 +8370,12 @@ var _t16=_this23.getFieldsMap(e);_this23.applyChanges(_t16,n,s),n={},s=[],e=i.po
      */},{key:"getFieldsMap",value:function getFieldsMap(t){var e=this.value;e.mapValue.fields||(e.mapValue={fields:{}});for(var n=0;n<t.length;++n){var s=e.mapValue.fields[t.get(n)];pe(s)&&s.mapValue.fields||(s={mapValue:{fields:{}}},e.mapValue.fields[t.get(n)]=s),e=s;}return e.mapValue.fields;}/**
      * Modifies `fieldsMap` by adding, replacing or deleting the specified
      * entries.
-     */},{key:"applyChanges",value:function applyChanges(t,e,n){Ot(e,function(e,n){return t[e]=n;});var _iterator7=_createForOfIteratorHelper(n),_step7;try{for(_iterator7.s();!(_step7=_iterator7.n()).done;){var _e13=_step7.value;delete t[_e13];}}catch(err){_iterator7.e(err);}finally{_iterator7.f();}}},{key:"clone",value:function clone(){return new Pe(Ie(this.value));}}],[{key:"empty",value:function empty(){return new Pe({mapValue:{}});}}]);return Pe;}();/**
+     */},{key:"applyChanges",value:function applyChanges(t,e,n){Ot(e,function(e,n){return t[e]=n;});var _iterator7=_createForOfIteratorHelper$1(n),_step7;try{for(_iterator7.s();!(_step7=_iterator7.n()).done;){var _e13=_step7.value;delete t[_e13];}}catch(err){_iterator7.e(err);}finally{_iterator7.f();}}},{key:"clone",value:function clone(){return new Pe(Ie(this.value));}}],[{key:"empty",value:function empty(){return new Pe({mapValue:{}});}}]);return Pe;}();/**
  * Returns a FieldMask built from all fields in a MapValue.
  */function ve(t){var e=[];return Ot(t.fields,function(t,n){var s=new ot([t]);if(pe(n)){var _t17=ve(n.mapValue).fields;if(0===_t17.length)// Preserve the empty map by adding it to the FieldMask.
 e.push(s);else {// For nested and non-empty ObjectValues, add the FieldPath of the
 // leaf nodes.
-var _iterator8=_createForOfIteratorHelper(_t17),_step8;try{for(_iterator8.s();!(_step8=_iterator8.n()).done;){var _n5=_step8.value;e.push(s.child(_n5));}}catch(err){_iterator8.e(err);}finally{_iterator8.f();}}}else// For nested and non-empty ObjectValues, add the FieldPath of the leaf
+var _iterator8=_createForOfIteratorHelper$1(_t17),_step8;try{for(_iterator8.s();!(_step8=_iterator8.n()).done;){var _n5=_step8.value;e.push(s.child(_n5));}}catch(err){_iterator8.e(err);}finally{_iterator8.f();}}}else// For nested and non-empty ObjectValues, add the FieldPath of the leaf
 // nodes.
 e.push(s);}),new Gt(e);}/**
  * @license
@@ -8503,7 +8503,7 @@ this.wt=null,this.startAt,this.endAt;});/** Creates a new Query instance with th
  */ /**
  * Returns true if this query does not specify any query constraints that
  * could remove results.
- */function en(t){return 0===t.filters.length&&null===t.limit&&null==t.startAt&&null==t.endAt&&(0===t.explicitOrderBy.length||1===t.explicitOrderBy.length&&t.explicitOrderBy[0].field.isKeyField());}function nn(t){return t.explicitOrderBy.length>0?t.explicitOrderBy[0].field:null;}function sn(t){var _iterator11=_createForOfIteratorHelper(t.filters),_step11;try{for(_iterator11.s();!(_step11=_iterator11.n()).done;){var e=_step11.value;if(e.dt())return e.field;}}catch(err){_iterator11.e(err);}finally{_iterator11.f();}return null;}/**
+ */function en(t){return 0===t.filters.length&&null===t.limit&&null==t.startAt&&null==t.endAt&&(0===t.explicitOrderBy.length||1===t.explicitOrderBy.length&&t.explicitOrderBy[0].field.isKeyField());}function nn(t){return t.explicitOrderBy.length>0?t.explicitOrderBy[0].field:null;}function sn(t){var _iterator11=_createForOfIteratorHelper$1(t.filters),_step11;try{for(_iterator11.s();!(_step11=_iterator11.n()).done;){var e=_step11.value;if(e.dt())return e.field;}}catch(err){_iterator11.e(err);}finally{_iterator11.f();}return null;}/**
  * Checks if any of the provided Operators are included in the query and
  * returns the first one that is, or null if none are.
  */ /**
@@ -8516,12 +8516,12 @@ this.wt=null,this.startAt,this.endAt;});/** Creates a new Query instance with th
  */function on(t){var e=F(t);if(null===e._t){e._t=[];var _t23=sn(e),n=nn(e);if(null!==_t23&&null===n)// In order to implicitly add key ordering, we must also add the
 // inequality filter field for it to be a valid query.
 // Note that the default inequality field and key ordering is ascending.
-_t23.isKeyField()||e._t.push(new ze(_t23)),e._t.push(new ze(ot.keyField(),"asc"/* ASCENDING */));else {var _t24=!1;var _iterator12=_createForOfIteratorHelper(e.explicitOrderBy),_step12;try{for(_iterator12.s();!(_step12=_iterator12.n()).done;){var _n9=_step12.value;e._t.push(_n9),_n9.field.isKeyField()&&(_t24=!0);}}catch(err){_iterator12.e(err);}finally{_iterator12.f();}if(!_t24){// The order of the implicit key ordering always matches the last
+_t23.isKeyField()||e._t.push(new ze(_t23)),e._t.push(new ze(ot.keyField(),"asc"/* ASCENDING */));else {var _t24=!1;var _iterator12=_createForOfIteratorHelper$1(e.explicitOrderBy),_step12;try{for(_iterator12.s();!(_step12=_iterator12.n()).done;){var _n9=_step12.value;e._t.push(_n9),_n9.field.isKeyField()&&(_t24=!0);}}catch(err){_iterator12.e(err);}finally{_iterator12.f();}if(!_t24){// The order of the implicit key ordering always matches the last
 // explicit order by
 var _t25=e.explicitOrderBy.length>0?e.explicitOrderBy[e.explicitOrderBy.length-1].dir:"asc"/* ASCENDING */;e._t.push(new ze(ot.keyField(),_t25));}}}return e._t;}/**
  * Converts this `Query` instance to it's corresponding `Target` representation.
  */function un(t){var e=F(t);if(!e.wt)if("F"/* First */===e.limitType)e.wt=De(e.path,e.collectionGroup,on(e),e.filters,e.limit,e.startAt,e.endAt);else {// Flip the orderBy directions since we want the last results
-var _t26=[];var _iterator13=_createForOfIteratorHelper(on(e)),_step13;try{for(_iterator13.s();!(_step13=_iterator13.n()).done;){var _n10=_step13.value;var _e16="desc"/* DESCENDING */===_n10.dir?"asc"/* ASCENDING */:"desc"/* DESCENDING */;_t26.push(new ze(_n10.field,_e16));}// We need to swap the cursors to match the now-flipped query ordering.
+var _t26=[];var _iterator13=_createForOfIteratorHelper$1(on(e)),_step13;try{for(_iterator13.s();!(_step13=_iterator13.n()).done;){var _n10=_step13.value;var _e16="desc"/* DESCENDING */===_n10.dir?"asc"/* ASCENDING */:"desc"/* DESCENDING */;_t26.push(new ze(_n10.field,_e16));}// We need to swap the cursors to match the now-flipped query ordering.
 }catch(err){_iterator13.e(err);}finally{_iterator13.f();}var n=e.endAt?new We(e.endAt.position,e.endAt.inclusive):null,s=e.startAt?new We(e.startAt.position,e.startAt.inclusive):null;// Now return as a LimitType.First query.
 e.wt=De(e.path,e.collectionGroup,_t26,e.filters,e.limit,n,s);}return e.wt;}function cn(t,e,n){return new Xe(t.path,t.collectionGroup,t.explicitOrderBy.slice(),t.filters.slice(),e,n,t.startAt,t.endAt);}function an(t,e){return Ne(un(t),un(e))&&t.limitType===e.limitType;}// TODO(b/29183165): This is used to get a unique string from a query to, for
 // example, use as a dictionary key, but the implementation is subject to
@@ -8529,8 +8529,8 @@ e.wt=De(e.path,e.collectionGroup,_t26,e.filters,e.limit,n,s);}return e.wt;}funct
 function hn(t){return "".concat(Ce(un(t)),"|lt:").concat(t.limitType);}function ln(t){return "Query(target=".concat(xe(un(t)),"; limitType=").concat(t.limitType,")");}/** Returns whether `doc` matches the constraints of `query`. */function fn(t,e){return e.isFoundDocument()&&function(t,e){var n=e.key.path;return null!==t.collectionGroup?e.key.hasCollectionId(t.collectionGroup)&&t.path.isPrefixOf(n):ut.isDocumentKey(t.path)?t.path.isEqual(n):t.path.isImmediateParentOf(n);}/**
  * A document must have a value for every ordering clause in order to show up
  * in the results.
- */(t,e)&&function(t,e){var _iterator14=_createForOfIteratorHelper(t.explicitOrderBy),_step14;try{for(_iterator14.s();!(_step14=_iterator14.n()).done;)// order by key always matches
-{var n=_step14.value;if(!n.field.isKeyField()&&null===e.data.field(n.field))return !1;}}catch(err){_iterator14.e(err);}finally{_iterator14.f();}return !0;}(t,e)&&function(t,e){var _iterator15=_createForOfIteratorHelper(t.filters),_step15;try{for(_iterator15.s();!(_step15=_iterator15.n()).done;){var n=_step15.value;if(!n.matches(e))return !1;}}catch(err){_iterator15.e(err);}finally{_iterator15.f();}return !0;}/** Makes sure a document is within the bounds, if provided. */(t,e)&&function(t,e){if(t.startAt&&!/**
+ */(t,e)&&function(t,e){var _iterator14=_createForOfIteratorHelper$1(t.explicitOrderBy),_step14;try{for(_iterator14.s();!(_step14=_iterator14.n()).done;)// order by key always matches
+{var n=_step14.value;if(!n.field.isKeyField()&&null===e.data.field(n.field))return !1;}}catch(err){_iterator14.e(err);}finally{_iterator14.f();}return !0;}(t,e)&&function(t,e){var _iterator15=_createForOfIteratorHelper$1(t.filters),_step15;try{for(_iterator15.s();!(_step15=_iterator15.n()).done;){var n=_step15.value;if(!n.matches(e))return !1;}}catch(err){_iterator15.e(err);}finally{_iterator15.f();}return !0;}/** Makes sure a document is within the bounds, if provided. */(t,e)&&function(t,e){if(t.startAt&&!/**
  * Returns true if a document sorts before a bound using the provided sort
  * order.
  */function(t,e,n){var s=Je(t,e,n);return t.inclusive?s<=0:s<0;}(t.startAt,on(t),e))return !1;if(t.endAt&&!function(t,e,n){var s=Je(t,e,n);return t.inclusive?s>=0:s>0;}(t.endAt,on(t),e))return !1;return !0;}/**
@@ -8541,7 +8541,7 @@ function hn(t){return "".concat(Ce(un(t)),"|lt:").concat(t.limitType);}function 
  */(t,e);}function dn(t){return t.collectionGroup||(t.path.length%2==1?t.path.lastSegment():t.path.get(t.path.length-2));}/**
  * Returns a new comparator function that can be used to compare two documents
  * based on the Query's ordering constraint.
- */function _n(t){return function(e,n){var s=!1;var _iterator16=_createForOfIteratorHelper(on(t)),_step16;try{for(_iterator16.s();!(_step16=_iterator16.n()).done;){var i=_step16.value;var _t27=wn(i,e,n);if(0!==_t27)return _t27;s=s||i.field.isKeyField();}}catch(err){_iterator16.e(err);}finally{_iterator16.f();}return 0;};}function wn(t,e,n){var s=t.field.isKeyField()?ut.comparator(e.key,n.key):function(t,e,n){var s=e.data.field(t),i=n.data.field(t);return null!==s&&null!==i?he(s,i):k();}(t.field,e,n);switch(t.dir){case"asc"/* ASCENDING */:return s;case"desc"/* DESCENDING */:return -1*s;default:return k();}}/**
+ */function _n(t){return function(e,n){var s=!1;var _iterator16=_createForOfIteratorHelper$1(on(t)),_step16;try{for(_iterator16.s();!(_step16=_iterator16.n()).done;){var i=_step16.value;var _t27=wn(i,e,n);if(0!==_t27)return _t27;s=s||i.field.isKeyField();}}catch(err){_iterator16.e(err);}finally{_iterator16.f();}return 0;};}function wn(t,e,n){var s=t.field.isKeyField()?ut.comparator(e.key,n.key):function(t,e,n){var s=e.data.field(t),i=n.data.field(t);return null!==s&&null!==i?he(s,i):k();}(t.field,e,n);switch(t.dir){case"asc"/* ASCENDING */:return s;case"desc"/* DESCENDING */:return -1*s;default:return k();}}/**
  * @license
  * Copyright 2020 Google LLC
  *
@@ -8608,7 +8608,7 @@ return t instanceof Rn?bn(t,e):t instanceof Pn?vn(t,e):n;}/**
  *
  * @returns a base value to store along with the mutation, or null for
  * idempotent transforms.
- */function En(t,e){return t instanceof Vn?we(n=e)||function(t){return !!t&&"doubleValue"in t;}/** Returns true if `value` is either an IntegerValue or a DoubleValue. */(n)?e:{integerValue:0}:null;var n;}/** Transforms a value into a server-generated timestamp. */var An=/*#__PURE__*/function(_pn){_inherits(An,_pn);var _super13=_createSuper(An);function An(){_classCallCheck(this,An);return _super13.apply(this,arguments);}return _createClass(An);}(pn);/** Transforms an array value via a union operation. */var Rn=/*#__PURE__*/function(_pn2){_inherits(Rn,_pn2);var _super14=_createSuper(Rn);function Rn(t){var _this29;_classCallCheck(this,Rn);_this29=_super14.call(this),_this29.elements=t;return _this29;}return _createClass(Rn);}(pn);function bn(t,e){var n=Dn(e);var _iterator17=_createForOfIteratorHelper(t.elements),_step17;try{var _loop4=function _loop4(){var e=_step17.value;n.some(function(t){return ce(t,e);})||n.push(e);};for(_iterator17.s();!(_step17=_iterator17.n()).done;){_loop4();}}catch(err){_iterator17.e(err);}finally{_iterator17.f();}return {arrayValue:{values:n}};}/** Transforms an array value via a remove operation. */var Pn=/*#__PURE__*/function(_pn3){_inherits(Pn,_pn3);var _super15=_createSuper(Pn);function Pn(t){var _this30;_classCallCheck(this,Pn);_this30=_super15.call(this),_this30.elements=t;return _this30;}return _createClass(Pn);}(pn);function vn(t,e){var n=Dn(e);var _iterator18=_createForOfIteratorHelper(t.elements),_step18;try{var _loop5=function _loop5(){var e=_step18.value;n=n.filter(function(t){return !ce(t,e);});};for(_iterator18.s();!(_step18=_iterator18.n()).done;){_loop5();}}catch(err){_iterator18.e(err);}finally{_iterator18.f();}return {arrayValue:{values:n}};}/**
+ */function En(t,e){return t instanceof Vn?we(n=e)||function(t){return !!t&&"doubleValue"in t;}/** Returns true if `value` is either an IntegerValue or a DoubleValue. */(n)?e:{integerValue:0}:null;var n;}/** Transforms a value into a server-generated timestamp. */var An=/*#__PURE__*/function(_pn){_inherits(An,_pn);var _super13=_createSuper(An);function An(){_classCallCheck(this,An);return _super13.apply(this,arguments);}return _createClass(An);}(pn);/** Transforms an array value via a union operation. */var Rn=/*#__PURE__*/function(_pn2){_inherits(Rn,_pn2);var _super14=_createSuper(Rn);function Rn(t){var _this29;_classCallCheck(this,Rn);_this29=_super14.call(this),_this29.elements=t;return _this29;}return _createClass(Rn);}(pn);function bn(t,e){var n=Dn(e);var _iterator17=_createForOfIteratorHelper$1(t.elements),_step17;try{var _loop4=function _loop4(){var e=_step17.value;n.some(function(t){return ce(t,e);})||n.push(e);};for(_iterator17.s();!(_step17=_iterator17.n()).done;){_loop4();}}catch(err){_iterator17.e(err);}finally{_iterator17.f();}return {arrayValue:{values:n}};}/** Transforms an array value via a remove operation. */var Pn=/*#__PURE__*/function(_pn3){_inherits(Pn,_pn3);var _super15=_createSuper(Pn);function Pn(t){var _this30;_classCallCheck(this,Pn);_this30=_super15.call(this),_this30.elements=t;return _this30;}return _createClass(Pn);}(pn);function vn(t,e){var n=Dn(e);var _iterator18=_createForOfIteratorHelper$1(t.elements),_step18;try{var _loop5=function _loop5(){var e=_step18.value;n=n.filter(function(t){return !ce(t,e);});};for(_iterator18.s();!(_step18=_iterator18.n()).done;){_loop5();}}catch(err){_iterator18.e(err);}finally{_iterator18.f();}return {arrayValue:{values:n}};}/**
  * Implements the backend semantics for locally computed NUMERIC_ADD (increment)
  * transforms. Converts all field values to integers or doubles, but unlike the
  * backend does not cap integer values at 2^63. Instead, JavaScript number
@@ -8680,7 +8680,7 @@ return t instanceof Rn?bn(t,e):t instanceof Pn?vn(t,e):n;}/**
  * final state of the document, and a `FieldMask` representing the fields that
  * are mutated by the local mutations.
  */function Fn(t,e){if(!t.hasLocalMutations||e&&0===e.fields.length)return null;// mask is null when sets or deletes are applied to the current document.
-if(null===e)return t.isNoDocument()?new Wn(t.key,kn.none()):new qn(t.key,t.data,kn.none());{var n=t.data,s=Pe.empty();var i=new Ut(ot.comparator);var _iterator19=_createForOfIteratorHelper(e.fields),_step19;try{for(_iterator19.s();!(_step19=_iterator19.n()).done;){var _t28=_step19.value;if(!i.has(_t28)){var _e17=n.field(_t28);// If we are deleting a nested field, we take the immediate parent as
+if(null===e)return t.isNoDocument()?new Wn(t.key,kn.none()):new qn(t.key,t.data,kn.none());{var n=t.data,s=Pe.empty();var i=new Ut(ot.comparator);var _iterator19=_createForOfIteratorHelper$1(e.fields),_step19;try{for(_iterator19.s();!(_step19=_iterator19.n()).done;){var _t28=_step19.value;if(!i.has(_t28)){var _e17=n.field(_t28);// If we are deleting a nested field, we take the immediate parent as
 // the mask used to construct the resulting mutation.
 // Justification: Nested fields can create parent fields implicitly. If
 // only a leaf entry is deleted in later mutations, the parent field
@@ -8761,7 +8761,7 @@ return n;var i=t.value.clone(),r=jn(t.fieldTransforms,s,e);return i.setAll(r),e.
  *
  * @returns a base value to store along with the mutation, or null for
  * idempotent mutations.
- */function Ln(t,e){var n=null;var _iterator20=_createForOfIteratorHelper(t.fieldTransforms),_step20;try{for(_iterator20.s();!(_step20=_iterator20.n()).done;){var s=_step20.value;var _t29=e.data.field(s.field),i=En(s.transform,_t29||null);null!=i&&(null===n&&(n=Pe.empty()),n.set(s.field,i));}}catch(err){_iterator20.e(err);}finally{_iterator20.f();}return n||null;}function Un(t,e){return t.type===e.type&&!!t.key.isEqual(e.key)&&!!t.precondition.isEqual(e.precondition)&&!!function(t,e){return void 0===t&&void 0===e||!(!t||!e)&&Z(t,e,function(t,e){return xn(t,e);});}(t.fieldTransforms,e.fieldTransforms)&&(0/* Set */===t.type?t.value.isEqual(e.value):1/* Patch */!==t.type||t.data.isEqual(e.data)&&t.fieldMask.isEqual(e.fieldMask));}/**
+ */function Ln(t,e){var n=null;var _iterator20=_createForOfIteratorHelper$1(t.fieldTransforms),_step20;try{for(_iterator20.s();!(_step20=_iterator20.n()).done;){var s=_step20.value;var _t29=e.data.field(s.field),i=En(s.transform,_t29||null);null!=i&&(null===n&&(n=Pe.empty()),n.set(s.field,i));}}catch(err){_iterator20.e(err);}finally{_iterator20.f();}return n||null;}function Un(t,e){return t.type===e.type&&!!t.key.isEqual(e.key)&&!!t.precondition.isEqual(e.precondition)&&!!function(t,e){return void 0===t&&void 0===e||!(!t||!e)&&Z(t,e,function(t,e){return xn(t,e);});}(t.fieldTransforms,e.fieldTransforms)&&(0/* Set */===t.type?t.value.isEqual(e.value):1/* Patch */!==t.type||t.data.isEqual(e.data)&&t.fieldMask.isEqual(e.fieldMask));}/**
  * A mutation that creates or replaces the document at the given key with the
  * object value contents.
  */var qn=/*#__PURE__*/function(_On){_inherits(qn,_On);var _super17=_createSuper(qn);function qn(t,e,n){var _this32;var s=arguments.length>3&&arguments[3]!==undefined?arguments[3]:[];_classCallCheck(this,qn);_this32=_super17.call(this),_this32.key=t,_this32.value=e,_this32.precondition=n,_this32.fieldTransforms=s,_this32.type=0/* Set */;return _this32;}_createClass(qn,[{key:"getFieldMask",value:function getFieldMask(){return null;}}]);return qn;}(On);var Kn=/*#__PURE__*/function(_On2){_inherits(Kn,_On2);var _super18=_createSuper(Kn);function Kn(t,e,n,s){var _this33;var i=arguments.length>4&&arguments[4]!==undefined?arguments[4]:[];_classCallCheck(this,Kn);_this33=_super18.call(this),_this33.key=t,_this33.data=e,_this33.fieldMask=n,_this33.precondition=s,_this33.fieldTransforms=i,_this33.type=1/* Patch */;return _this33;}_createClass(Kn,[{key:"getFieldMask",value:function getFieldMask(){return this.fieldMask;}}]);return Kn;}(On);function Gn(t){var e=new Map();return t.fieldMask.fields.forEach(function(n){if(!n.isEmpty()){var s=t.data.field(n);e.set(n,s);}}),e;}/**
@@ -8784,7 +8784,7 @@ return n;var i=t.value.clone(),r=jn(t.fieldTransforms,s,e);return i.setAll(r),e.
  *     generate ServerTimestampValues).
  * @param mutableDocument - The document to apply transforms on.
  * @returns The transform results list.
- */function jn(t,e,n){var s=new Map();var _iterator21=_createForOfIteratorHelper(t),_step21;try{for(_iterator21.s();!(_step21=_iterator21.n()).done;){var i=_step21.value;var _t30=i.transform,r=n.data.field(i.field);s.set(i.field,In(_t30,r,e));}}catch(err){_iterator21.e(err);}finally{_iterator21.f();}return s;}/** A mutation that deletes the document at the given key. */var Wn=/*#__PURE__*/function(_On3){_inherits(Wn,_On3);var _super19=_createSuper(Wn);function Wn(t,e){var _this34;_classCallCheck(this,Wn);_this34=_super19.call(this),_this34.key=t,_this34.precondition=e,_this34.type=2/* Delete */,_this34.fieldTransforms=[];return _this34;}_createClass(Wn,[{key:"getFieldMask",value:function getFieldMask(){return null;}}]);return Wn;}(On);var zn=/*#__PURE__*/function(_On4){_inherits(zn,_On4);var _super20=_createSuper(zn);function zn(t,e){var _this35;_classCallCheck(this,zn);_this35=_super20.call(this),_this35.key=t,_this35.precondition=e,_this35.type=3/* Verify */,_this35.fieldTransforms=[];return _this35;}_createClass(zn,[{key:"getFieldMask",value:function getFieldMask(){return null;}}]);return zn;}(On);/**
+ */function jn(t,e,n){var s=new Map();var _iterator21=_createForOfIteratorHelper$1(t),_step21;try{for(_iterator21.s();!(_step21=_iterator21.n()).done;){var i=_step21.value;var _t30=i.transform,r=n.data.field(i.field);s.set(i.field,In(_t30,r,e));}}catch(err){_iterator21.e(err);}finally{_iterator21.f();}return s;}/** A mutation that deletes the document at the given key. */var Wn=/*#__PURE__*/function(_On3){_inherits(Wn,_On3);var _super19=_createSuper(Wn);function Wn(t,e){var _this34;_classCallCheck(this,Wn);_this34=_super19.call(this),_this34.key=t,_this34.precondition=e,_this34.type=2/* Delete */,_this34.fieldTransforms=[];return _this34;}_createClass(Wn,[{key:"getFieldMask",value:function getFieldMask(){return null;}}]);return Wn;}(On);var zn=/*#__PURE__*/function(_On4){_inherits(zn,_On4);var _super20=_createSuper(zn);function zn(t,e){var _this35;_classCallCheck(this,zn);_this35=_super20.call(this),_this35.key=t,_this35.precondition=e,_this35.type=3/* Verify */,_this35.fieldTransforms=[];return _this35;}_createClass(zn,[{key:"getFieldMask",value:function getFieldMask(){return null;}}]);return zn;}(On);/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -8885,10 +8885,10 @@ return C("GRPC error has no .code"),$.UNKNOWN;switch(t){case Jn.OK:return $.OK;c
          * keep a list of entries that we do a linear search through to find an actual
          * match. Note that collisions should be rare, so we still expect near
          * constant time lookups in practice.
-         */this.inner={},/** The number of entries stored in the map */this.innerSize=0;}/** Get a value for this key, or undefined if it does not exist. */_createClass(ts,[{key:"get",value:function get(t){var e=this.mapKeyFn(t),n=this.inner[e];if(void 0!==n){var _iterator22=_createForOfIteratorHelper(n),_step22;try{for(_iterator22.s();!(_step22=_iterator22.n()).done;){var _step22$value=_slicedToArray(_step22.value,2),_e18=_step22$value[0],s=_step22$value[1];if(this.equalsFn(_e18,t))return s;}}catch(err){_iterator22.e(err);}finally{_iterator22.f();}}}},{key:"has",value:function has(t){return void 0!==this.get(t);}/** Put this key and value in the map. */},{key:"set",value:function set(t,e){var n=this.mapKeyFn(t),s=this.inner[n];if(void 0===s)return this.inner[n]=[[t,e]],void this.innerSize++;for(var _n11=0;_n11<s.length;_n11++)if(this.equalsFn(s[_n11][0],t))// This is updating an existing entry and does not increase `innerSize`.
+         */this.inner={},/** The number of entries stored in the map */this.innerSize=0;}/** Get a value for this key, or undefined if it does not exist. */_createClass(ts,[{key:"get",value:function get(t){var e=this.mapKeyFn(t),n=this.inner[e];if(void 0!==n){var _iterator22=_createForOfIteratorHelper$1(n),_step22;try{for(_iterator22.s();!(_step22=_iterator22.n()).done;){var _step22$value=_slicedToArray(_step22.value,2),_e18=_step22$value[0],s=_step22$value[1];if(this.equalsFn(_e18,t))return s;}}catch(err){_iterator22.e(err);}finally{_iterator22.f();}}}},{key:"has",value:function has(t){return void 0!==this.get(t);}/** Put this key and value in the map. */},{key:"set",value:function set(t,e){var n=this.mapKeyFn(t),s=this.inner[n];if(void 0===s)return this.inner[n]=[[t,e]],void this.innerSize++;for(var _n11=0;_n11<s.length;_n11++)if(this.equalsFn(s[_n11][0],t))// This is updating an existing entry and does not increase `innerSize`.
 return void(s[_n11]=[t,e]);s.push([t,e]),this.innerSize++;}/**
      * Remove this key from the map. Returns a boolean if anything was deleted.
-     */},{key:"delete",value:function _delete(t){var e=this.mapKeyFn(t),n=this.inner[e];if(void 0===n)return !1;for(var s=0;s<n.length;s++)if(this.equalsFn(n[s][0],t))return 1===n.length?delete this.inner[e]:n.splice(s,1),this.innerSize--,!0;return !1;}},{key:"forEach",value:function forEach(t){Ot(this.inner,function(e,n){var _iterator23=_createForOfIteratorHelper(n),_step23;try{for(_iterator23.s();!(_step23=_iterator23.n()).done;){var _step23$value=_slicedToArray(_step23.value,2),_e19=_step23$value[0],s=_step23$value[1];t(_e19,s);}}catch(err){_iterator23.e(err);}finally{_iterator23.f();}});}},{key:"isEmpty",value:function isEmpty(){return Ft(this.inner);}},{key:"size",value:function size(){return this.innerSize;}}]);return ts;}();/**
+     */},{key:"delete",value:function _delete(t){var e=this.mapKeyFn(t),n=this.inner[e];if(void 0===n)return !1;for(var s=0;s<n.length;s++)if(this.equalsFn(n[s][0],t))return 1===n.length?delete this.inner[e]:n.splice(s,1),this.innerSize--,!0;return !1;}},{key:"forEach",value:function forEach(t){Ot(this.inner,function(e,n){var _iterator23=_createForOfIteratorHelper$1(n),_step23;try{for(_iterator23.s();!(_step23=_iterator23.n()).done;){var _step23$value=_slicedToArray(_step23.value,2),_e19=_step23$value[0],s=_step23$value[1];t(_e19,s);}}catch(err){_iterator23.e(err);}finally{_iterator23.f();}});}},{key:"isEmpty",value:function isEmpty(){return Ft(this.inner);}},{key:"size",value:function size(){return this.innerSize;}}]);return ts;}();/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -9029,7 +9029,7 @@ _createClass(_s,null,[{key:"createSynthesizedRemoteEventForCurrentChange",value:
          * RemoteStore.
          */this.Kt=new Ut(X);}/**
      * Processes and adds the DocumentWatchChange to the current set of changes.
-     */_createClass(Is,[{key:"Gt",value:function Gt(t){var _iterator24=_createForOfIteratorHelper(t.Tt),_step24;try{for(_iterator24.s();!(_step24=_iterator24.n()).done;){var e=_step24.value;t.Et&&t.Et.isFoundDocument()?this.Qt(e,t.Et):this.jt(e,t.key,t.Et);}}catch(err){_iterator24.e(err);}finally{_iterator24.f();}var _iterator25=_createForOfIteratorHelper(t.removedTargetIds),_step25;try{for(_iterator25.s();!(_step25=_iterator25.n()).done;){var _e20=_step25.value;this.jt(_e20,t.key,t.Et);}}catch(err){_iterator25.e(err);}finally{_iterator25.f();}}/** Processes and adds the WatchTargetChange to the current set of changes. */},{key:"Wt",value:function Wt(t){var _this36=this;this.forEachTarget(t,function(e){var n=_this36.zt(e);switch(t.state){case 0/* NoChange */:_this36.Ht(e)&&n.Ct(t.resumeToken);break;case 1/* Added */:// We need to decrement the number of pending acks needed from watch
+     */_createClass(Is,[{key:"Gt",value:function Gt(t){var _iterator24=_createForOfIteratorHelper$1(t.Tt),_step24;try{for(_iterator24.s();!(_step24=_iterator24.n()).done;){var e=_step24.value;t.Et&&t.Et.isFoundDocument()?this.Qt(e,t.Et):this.jt(e,t.key,t.Et);}}catch(err){_iterator24.e(err);}finally{_iterator24.f();}var _iterator25=_createForOfIteratorHelper$1(t.removedTargetIds),_step25;try{for(_iterator25.s();!(_step25=_iterator25.n()).done;){var _e20=_step25.value;this.jt(_e20,t.key,t.Et);}}catch(err){_iterator25.e(err);}finally{_iterator25.f();}}/** Processes and adds the WatchTargetChange to the current set of changes. */},{key:"Wt",value:function Wt(t){var _this36=this;this.forEachTarget(t,function(e){var n=_this36.zt(e);switch(t.state){case 0/* NoChange */:_this36.Ht(e)&&n.Ct(t.resumeToken);break;case 1/* Added */:// We need to decrement the number of pending acks needed from watch
 // for this targetId.
 n.Ft(),n.St||// We have a freshly added target, so we need to reset any state
 // that we had previously. This can happen e.g. when remove and add
@@ -9218,8 +9218,8 @@ return t.length>=4&&"projects"===t.get(0)&&"databases"===t.get(2);}/**
      * @returns A `FieldMask` representing all the fields that are mutated.
      */},{key:"applyToLocalView",value:function applyToLocalView(t,e){// First, apply the base state. This allows us to apply non-idempotent
 // transform against a consistent set of values.
-var _iterator26=_createForOfIteratorHelper(this.baseMutations),_step26;try{for(_iterator26.s();!(_step26=_iterator26.n()).done;){var n=_step26.value;n.key.isEqual(t.key)&&(e=Bn(n,t,e,this.localWriteTime));}// Second, apply all user-provided mutations.
-}catch(err){_iterator26.e(err);}finally{_iterator26.f();}var _iterator27=_createForOfIteratorHelper(this.mutations),_step27;try{for(_iterator27.s();!(_step27=_iterator27.n()).done;){var _n14=_step27.value;_n14.key.isEqual(t.key)&&(e=Bn(_n14,t,e,this.localWriteTime));}}catch(err){_iterator27.e(err);}finally{_iterator27.f();}return e;}/**
+var _iterator26=_createForOfIteratorHelper$1(this.baseMutations),_step26;try{for(_iterator26.s();!(_step26=_iterator26.n()).done;){var n=_step26.value;n.key.isEqual(t.key)&&(e=Bn(n,t,e,this.localWriteTime));}// Second, apply all user-provided mutations.
+}catch(err){_iterator26.e(err);}finally{_iterator26.f();}var _iterator27=_createForOfIteratorHelper$1(this.mutations),_step27;try{for(_iterator27.s();!(_step27=_iterator27.n()).done;){var _n14=_step27.value;_n14.key.isEqual(t.key)&&(e=Bn(_n14,t,e,this.localWriteTime));}}catch(err){_iterator27.e(err);}finally{_iterator27.f();}return e;}/**
      * Computes the local view for all provided documents given the mutations in
      * this batch. Returns a `DocumentKey` to `Mutation` map which can be used to
      * replace all the mutation applications.
@@ -9319,7 +9319,7 @@ o=e.has(s.key)?null:o;var u=Fn(r,o);null!==u&&n.set(s.key,u),r.isValidDocument()
 /** Writes an index value.  */_createClass(er,[{key:"ce",value:function ce(t,e){this.ae(t,e),// Write separator to split index values
 // (see go/firestore-storage-format#encodings).
 e.he();}},{key:"ae",value:function ae(t,e){if("nullValue"in t)this.le(e,5);else if("booleanValue"in t)this.le(e,10),e.fe(t.booleanValue?1:0);else if("integerValue"in t)this.le(e,15),e.fe(Ht(t.integerValue));else if("doubleValue"in t){var n=Ht(t.doubleValue);isNaN(n)?this.le(e,13):(this.le(e,15),se(n)?// -0.0, 0 and 0.0 are all considered the same
-e.fe(0):e.fe(n));}else if("timestampValue"in t){var _n16=t.timestampValue;this.le(e,20),"string"==typeof _n16?e.de(_n16):(e.de("".concat(_n16.seconds||"")),e.fe(_n16.nanos||0));}else if("stringValue"in t)this._e(t.stringValue,e),this.we(e);else if("bytesValue"in t)this.le(e,30),e.me(Jt(t.bytesValue)),this.we(e);else if("referenceValue"in t)this.ge(t.referenceValue,e);else if("geoPointValue"in t){var _n17=t.geoPointValue;this.le(e,45),e.fe(_n17.latitude||0),e.fe(_n17.longitude||0);}else "mapValue"in t?Te(t)?this.le(e,Number.MAX_SAFE_INTEGER):(this.ye(t.mapValue,e),this.we(e)):"arrayValue"in t?(this.pe(t.arrayValue,e),this.we(e)):k();}},{key:"_e",value:function _e(t,e){this.le(e,25),this.Ie(t,e);}},{key:"Ie",value:function Ie(t,e){e.de(t);}},{key:"ye",value:function ye(t,e){var n=t.fields||{};this.le(e,55);for(var _i9=0,_Object$keys=Object.keys(n);_i9<_Object$keys.length;_i9++){var _t44=_Object$keys[_i9];this._e(_t44,e),this.ae(n[_t44],e);}}},{key:"pe",value:function pe(t,e){var n=t.values||[];this.le(e,50);var _iterator29=_createForOfIteratorHelper(n),_step29;try{for(_iterator29.s();!(_step29=_iterator29.n()).done;){var _t45=_step29.value;this.ae(_t45,e);}}catch(err){_iterator29.e(err);}finally{_iterator29.f();}}},{key:"ge",value:function ge(t,e){var _this48=this;this.le(e,37);ut.fromName(t).path.forEach(function(t){_this48.le(e,60),_this48.Ie(t,e);});}},{key:"le",value:function le(t,e){t.fe(e);}},{key:"we",value:function we(t){// While the SDK does not implement truncation, the truncation marker is
+e.fe(0):e.fe(n));}else if("timestampValue"in t){var _n16=t.timestampValue;this.le(e,20),"string"==typeof _n16?e.de(_n16):(e.de("".concat(_n16.seconds||"")),e.fe(_n16.nanos||0));}else if("stringValue"in t)this._e(t.stringValue,e),this.we(e);else if("bytesValue"in t)this.le(e,30),e.me(Jt(t.bytesValue)),this.we(e);else if("referenceValue"in t)this.ge(t.referenceValue,e);else if("geoPointValue"in t){var _n17=t.geoPointValue;this.le(e,45),e.fe(_n17.latitude||0),e.fe(_n17.longitude||0);}else "mapValue"in t?Te(t)?this.le(e,Number.MAX_SAFE_INTEGER):(this.ye(t.mapValue,e),this.we(e)):"arrayValue"in t?(this.pe(t.arrayValue,e),this.we(e)):k();}},{key:"_e",value:function _e(t,e){this.le(e,25),this.Ie(t,e);}},{key:"Ie",value:function Ie(t,e){e.de(t);}},{key:"ye",value:function ye(t,e){var n=t.fields||{};this.le(e,55);for(var _i9=0,_Object$keys=Object.keys(n);_i9<_Object$keys.length;_i9++){var _t44=_Object$keys[_i9];this._e(_t44,e),this.ae(n[_t44],e);}}},{key:"pe",value:function pe(t,e){var n=t.values||[];this.le(e,50);var _iterator29=_createForOfIteratorHelper$1(n),_step29;try{for(_iterator29.s();!(_step29=_iterator29.n()).done;){var _t45=_step29.value;this.ae(_t45,e);}}catch(err){_iterator29.e(err);}finally{_iterator29.f();}}},{key:"ge",value:function ge(t,e){var _this48=this;this.le(e,37);ut.fromName(t).path.forEach(function(t){_this48.le(e,60),_this48.Ie(t,e);});}},{key:"le",value:function le(t,e){t.fe(e);}},{key:"we",value:function we(t){// While the SDK does not implement truncation, the truncation marker is
 // used to terminate all variable length values (which are strings, bytes,
 // references, arrays and maps).
 t.fe(2);}}]);return er;}();er.Te=new er();/**
@@ -9590,7 +9590,7 @@ this.changes=new ts(function(t){return t.toString();},function(t,e){return t.isE
 // might be a patch mutation whose precondition does not match before the
 // change (hence overlay is undefined), but would now match.
 s.has(e.key)&&(void 0===o||o.mutation instanceof Kn)?i=i.insert(e.key,e):void 0!==o&&(r.set(e.key,o.mutation.getFieldMask()),Bn(o.mutation,e,o.mutation.getFieldMask(),et.now()));}),this.recalculateAndSaveOverlays(t,i).next(function(t){return t.forEach(function(t,e){return r.set(t,e);}),e.forEach(function(t,e){var n;return o.set(t,new Jr(e,null!==(n=r.get(t))&&void 0!==n?n:null));}),o;});}},{key:"recalculateAndSaveOverlays",value:function recalculateAndSaveOverlays(t,e){var _this98=this;var n=cs();// A reverse lookup map from batch id to the documents within that batch.
-var s=new $t(function(t,e){return t-e;}),i=ls();return this.mutationQueue.getAllMutationBatchesAffectingDocumentKeys(t,e).next(function(t){var _iterator53=_createForOfIteratorHelper(t),_step53;try{var _loop7=function _loop7(){var i=_step53.value;i.keys().forEach(function(t){var r=e.get(t);if(null===r)return;var o=n.get(t)||Gt.empty();o=i.applyToLocalView(r,o),n.set(t,o);var u=(s.get(i.batchId)||ls()).add(t);s=s.insert(i.batchId,u);});};for(_iterator53.s();!(_step53=_iterator53.n()).done;){_loop7();}}catch(err){_iterator53.e(err);}finally{_iterator53.f();}}).next(function(){var r=[],o=s.getReverseIterator();// Iterate in descending order of batch IDs, and skip documents that are
+var s=new $t(function(t,e){return t-e;}),i=ls();return this.mutationQueue.getAllMutationBatchesAffectingDocumentKeys(t,e).next(function(t){var _iterator53=_createForOfIteratorHelper$1(t),_step53;try{var _loop7=function _loop7(){var i=_step53.value;i.keys().forEach(function(t){var r=e.get(t);if(null===r)return;var o=n.get(t)||Gt.empty();o=i.applyToLocalView(r,o),n.set(t,o);var u=(s.get(i.batchId)||ls()).add(t);s=s.insert(i.batchId,u);});};for(_iterator53.s();!(_step53=_iterator53.n()).done;){_loop7();}}catch(err){_iterator53.e(err);}finally{_iterator53.f();}}).next(function(){var r=[],o=s.getReverseIterator();// Iterate in descending order of batch IDs, and skip documents that are
 // already saved.
 var _loop8=function _loop8(){var s=o.getNext(),u=s.key,c=s.value,a=us();c.forEach(function(t){if(!i.has(t)){var _s18=Fn(e.get(t),n.get(t));null!==_s18&&a.set(t,_s18),i=i.add(t);}}),r.push(_this98.documentOverlayCache.saveOverlays(t,u,a));};for(;o.hasNext();){_loop8();}return Et.waitFor(r);}).next(function(){return n;});}/**
      * Recalculates overlays by reading the documents from remote document cache
@@ -9721,7 +9721,7 @@ this.rs=new Ut(eo.os);}/** Returns true if the reference set contains no referen
          * The set of all mutations that have been sent but not yet been applied to
          * the backend.
          */this.mutationQueue=[],/** Next value to use when assigning sequential IDs to each mutation batch. */this.ws=1,/** An ordered mapping between documents and the mutations batch IDs. */this.gs=new Ut(eo.ss);}_createClass(no,[{key:"checkEmpty",value:function checkEmpty(t){return Et.resolve(0===this.mutationQueue.length);}},{key:"addMutationBatch",value:function addMutationBatch(t,e,n,s){var i=this.ws;this.ws++,this.mutationQueue.length>0&&this.mutationQueue[this.mutationQueue.length-1];var r=new Ni(i,e,n,s);this.mutationQueue.push(r);// Track references by document key and index collection parents.
-var _iterator54=_createForOfIteratorHelper(s),_step54;try{for(_iterator54.s();!(_step54=_iterator54.n()).done;){var _e36=_step54.value;this.gs=this.gs.add(new eo(_e36.key,i)),this.indexManager.addToCollectionParentIndex(t,_e36.key.path.popLast());}}catch(err){_iterator54.e(err);}finally{_iterator54.f();}return Et.resolve(r);}},{key:"lookupMutationBatch",value:function lookupMutationBatch(t,e){return Et.resolve(this.ys(e));}},{key:"getNextMutationBatchAfterBatchId",value:function getNextMutationBatchAfterBatchId(t,e){var n=e+1,s=this.ps(n),i=s<0?0:s;// The requested batchId may still be out of range so normalize it to the
+var _iterator54=_createForOfIteratorHelper$1(s),_step54;try{for(_iterator54.s();!(_step54=_iterator54.n()).done;){var _e36=_step54.value;this.gs=this.gs.add(new eo(_e36.key,i)),this.indexManager.addToCollectionParentIndex(t,_e36.key.path.popLast());}}catch(err){_iterator54.e(err);}finally{_iterator54.f();}return Et.resolve(r);}},{key:"lookupMutationBatch",value:function lookupMutationBatch(t,e){return Et.resolve(this.ys(e));}},{key:"getNextMutationBatchAfterBatchId",value:function getNextMutationBatchAfterBatchId(t,e){var n=e+1,s=this.ps(n),i=s<0?0:s;// The requested batchId may still be out of range so normalize it to the
 // start of the queue.
 return Et.resolve(this.mutationQueue.length>i?this.mutationQueue[i]:null);}},{key:"getHighestUnacknowledgedBatchId",value:function getHighestUnacknowledgedBatchId(){return Et.resolve(0===this.mutationQueue.length?-1:this.ws-1);}},{key:"getAllMutationBatches",value:function getAllMutationBatches(t){return Et.resolve(this.mutationQueue.slice());}},{key:"getAllMutationBatchesAffectingDocumentKey",value:function getAllMutationBatchesAffectingDocumentKey(t,e){var _this110=this;var n=new eo(e,0),s=new eo(e,Number.POSITIVE_INFINITY),i=[];return this.gs.forEachInRange([n,s],function(t){var e=_this110.ys(t._s);i.push(e);}),Et.resolve(i);}},{key:"getAllMutationBatchesAffectingDocumentKeys",value:function getAllMutationBatchesAffectingDocumentKeys(t,e){var _this111=this;var n=new Ut(X);return e.forEach(function(t){var e=new eo(t,0),s=new eo(t,Number.POSITIVE_INFINITY);_this111.gs.forEachInRange([e,s],function(t){n=n.add(t._s);});}),Et.resolve(this.Is(n));}},{key:"getAllMutationBatchesAffectingQuery",value:function getAllMutationBatchesAffectingQuery(t,e){// Use the query path as a prefix for testing if a document matches the
 // query.
@@ -9880,7 +9880,7 @@ return 0;}},{key:"Us",value:function Us(t,e){var _this124=this;return Et.or([fun
  * A set of changes to what documents are currently in view and out of view for
  * a given query. These changes are sent to the LocalStore by the View (via
  * the SyncEngine) and are used to pin / unpin documents as appropriate.
- */var go=/*#__PURE__*/function(){function go(t,e,n,s){_classCallCheck(this,go);this.targetId=t,this.fromCache=e,this.Si=n,this.Di=s;}_createClass(go,null,[{key:"Ci",value:function Ci(t,e){var n=ls(),s=ls();var _iterator56=_createForOfIteratorHelper(e.docChanges),_step56;try{for(_iterator56.s();!(_step56=_iterator56.n()).done;){var _t76=_step56.value;switch(_t76.type){case 0/* Added */:n=n.add(_t76.doc.key);break;case 1/* Removed */:s=s.add(_t76.doc.key);// do nothing
+ */var go=/*#__PURE__*/function(){function go(t,e,n,s){_classCallCheck(this,go);this.targetId=t,this.fromCache=e,this.Si=n,this.Di=s;}_createClass(go,null,[{key:"Ci",value:function Ci(t,e){var n=ls(),s=ls();var _iterator56=_createForOfIteratorHelper$1(e.docChanges),_step56;try{for(_iterator56.s();!(_step56=_iterator56.n()).done;){var _t76=_step56.value;switch(_t76.type){case 0/* Added */:n=n.add(_t76.doc.key);break;case 1/* Removed */:s=s.add(_t76.doc.key);// do nothing
 }}}catch(err){_iterator56.e(err);}finally{_iterator56.f();}return new go(t,e.fromCache,n,s);}}]);return go;}();/**
  * @license
  * Copyright 2019 Google LLC
@@ -10038,7 +10038,7 @@ function To(_x9,_x10){return _To.apply(this,arguments);}/* Accepts locally gener
  */function _To(){_To=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee73(t,e){var n;return regenerator.wrap(function _callee73$(_context74){while(1)switch(_context74.prev=_context74.next){case 0:n=F(t);_context74.next=3;return n.persistence.runTransaction("Handle user change","readonly",function(t){// Swap out the mutation queue, grabbing the pending mutation batches
 // before and after.
 var s;return n.mutationQueue.getAllMutationBatches(t).next(function(i){return s=i,n.Qi(e),n.mutationQueue.getAllMutationBatches(t);}).next(function(e){var i=[],r=[];// Union the old/new changed keys.
-var o=ls();var _iterator82=_createForOfIteratorHelper(s),_step82;try{for(_iterator82.s();!(_step82=_iterator82.n()).done;){var _t116=_step82.value;i.push(_t116.batchId);var _iterator84=_createForOfIteratorHelper(_t116.mutations),_step84;try{for(_iterator84.s();!(_step84=_iterator84.n()).done;){var _e56=_step84.value;o=o.add(_e56.key);}}catch(err){_iterator84.e(err);}finally{_iterator84.f();}}}catch(err){_iterator82.e(err);}finally{_iterator82.f();}var _iterator83=_createForOfIteratorHelper(e),_step83;try{for(_iterator83.s();!(_step83=_iterator83.n()).done;){var _t117=_step83.value;r.push(_t117.batchId);var _iterator85=_createForOfIteratorHelper(_t117.mutations),_step85;try{for(_iterator85.s();!(_step85=_iterator85.n()).done;){var _e57=_step85.value;o=o.add(_e57.key);}}catch(err){_iterator85.e(err);}finally{_iterator85.f();}}// Return the set of all (potentially) changed documents and the list
+var o=ls();var _iterator82=_createForOfIteratorHelper$1(s),_step82;try{for(_iterator82.s();!(_step82=_iterator82.n()).done;){var _t116=_step82.value;i.push(_t116.batchId);var _iterator84=_createForOfIteratorHelper$1(_t116.mutations),_step84;try{for(_iterator84.s();!(_step84=_iterator84.n()).done;){var _e56=_step84.value;o=o.add(_e56.key);}}catch(err){_iterator84.e(err);}finally{_iterator84.f();}}}catch(err){_iterator82.e(err);}finally{_iterator82.f();}var _iterator83=_createForOfIteratorHelper$1(e),_step83;try{for(_iterator83.s();!(_step83=_iterator83.n()).done;){var _t117=_step83.value;r.push(_t117.batchId);var _iterator85=_createForOfIteratorHelper$1(_t117.mutations),_step85;try{for(_iterator85.s();!(_step85=_iterator85.n()).done;){var _e57=_step85.value;o=o.add(_e57.key);}}catch(err){_iterator85.e(err);}finally{_iterator85.f();}}// Return the set of all (potentially) changed documents and the list
 // of mutation batch IDs that were affected by change.
 }catch(err){_iterator83.e(err);}finally{_iterator83.f();}return n.localDocuments.getDocuments(t,o).next(function(t){return {ji:t,removedBatchIds:i,addedBatchIds:r};});});});case 3:return _context74.abrupt("return",_context74.sent);case 4:case"end":return _context74.stop();}},_callee73);}));return _To.apply(this,arguments);}function Eo(t,e){var n=F(t);return n.persistence.runTransaction("Acknowledge batch","readwrite-primary",function(t){var s=e.batch.keys(),i=n.Gi.newChangeBuffer({trackRemovals:!0});return function(t,e,n,s){var i=n.batch,r=i.keys();var o=Et.resolve();return r.forEach(function(t){o=o.next(function(){return s.getEntry(e,t);}).next(function(e){var r=n.docVersions.get(t);M(null!==r),e.version.compareTo(r)<0&&(i.applyToRemoteDocument(e,n),e.isValidDocument()&&(// We use the commitVersion as the readTime rather than the
 // document's updateTime since the updateTime is not advanced
@@ -10198,7 +10198,7 @@ function xo(t,e,n){var s=nt.min();n.forEach(function(t,e){e.readTime.compareTo(s
  */ // References to `window` are guarded by BrowserConnectivityMonitor.isAvailable()
 /* eslint-disable no-restricted-globals */ /**
  * Browser implementation of ConnectivityMonitor.
- */var jo=/*#__PURE__*/function(){function jo(){var _this153=this;_classCallCheck(this,jo);this.Kr=function(){return _this153.Gr();},this.Qr=function(){return _this153.jr();},this.Wr=[],this.zr();}_createClass(jo,[{key:"qr",value:function qr(t){this.Wr.push(t);}},{key:"shutdown",value:function shutdown(){window.removeEventListener("online",this.Kr),window.removeEventListener("offline",this.Qr);}},{key:"zr",value:function zr(){window.addEventListener("online",this.Kr),window.addEventListener("offline",this.Qr);}},{key:"Gr",value:function Gr(){D("ConnectivityMonitor","Network connectivity changed: AVAILABLE");var _iterator59=_createForOfIteratorHelper(this.Wr),_step59;try{for(_iterator59.s();!(_step59=_iterator59.n()).done;){var t=_step59.value;t(0/* AVAILABLE */);}}catch(err){_iterator59.e(err);}finally{_iterator59.f();}}},{key:"jr",value:function jr(){D("ConnectivityMonitor","Network connectivity changed: UNAVAILABLE");var _iterator60=_createForOfIteratorHelper(this.Wr),_step60;try{for(_iterator60.s();!(_step60=_iterator60.n()).done;){var t=_step60.value;t(1/* UNAVAILABLE */);}}catch(err){_iterator60.e(err);}finally{_iterator60.f();}}// TODO(chenbrian): Consider passing in window either into this component or
+ */var jo=/*#__PURE__*/function(){function jo(){var _this153=this;_classCallCheck(this,jo);this.Kr=function(){return _this153.Gr();},this.Qr=function(){return _this153.jr();},this.Wr=[],this.zr();}_createClass(jo,[{key:"qr",value:function qr(t){this.Wr.push(t);}},{key:"shutdown",value:function shutdown(){window.removeEventListener("online",this.Kr),window.removeEventListener("offline",this.Qr);}},{key:"zr",value:function zr(){window.addEventListener("online",this.Kr),window.addEventListener("offline",this.Qr);}},{key:"Gr",value:function Gr(){D("ConnectivityMonitor","Network connectivity changed: AVAILABLE");var _iterator59=_createForOfIteratorHelper$1(this.Wr),_step59;try{for(_iterator59.s();!(_step59=_iterator59.n()).done;){var t=_step59.value;t(0/* AVAILABLE */);}}catch(err){_iterator59.e(err);}finally{_iterator59.f();}}},{key:"jr",value:function jr(){D("ConnectivityMonitor","Network connectivity changed: UNAVAILABLE");var _iterator60=_createForOfIteratorHelper$1(this.Wr),_step60;try{for(_iterator60.s();!(_step60=_iterator60.n()).done;){var t=_step60.value;t(1/* UNAVAILABLE */);}}catch(err){_iterator60.e(err);}finally{_iterator60.f();}}// TODO(chenbrian): Consider passing in window either into this component or
 // here for testing via FakeWindow.
 /** Checks that all used attributes of window are available. */}],[{key:"C",value:function C(){return "undefined"!=typeof window&&void 0!==window.addEventListener&&void 0!==window.removeEventListener;}}]);return jo;}();/**
  * @license
@@ -10672,10 +10672,10 @@ this.ou=!1),this.cu(t);}},{key:"cu",value:function cu(t){t!==this.state&&(this.s
          */this.wu=[],this.mu=i,this.mu.qr(function(t){n.enqueueAndForget(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee20(){return regenerator.wrap(function _callee20$(_context21){while(1)switch(_context21.prev=_context21.next){case 0:_context21.t0=_u(_this168);if(!_context21.t0){_context21.next=5;break;}D("RemoteStore","Restarting streams for network reachability change.");_context21.next=5;return function(){var _ref33=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee19(t){var e;return regenerator.wrap(function _callee19$(_context20){while(1)switch(_context20.prev=_context20.next){case 0:e=F(t);e._u.add(4/* ConnectivityChange */);_context20.next=4;return uu(e);case 4:e.gu.set("Unknown"/* Unknown */);e._u.delete(4/* ConnectivityChange */);_context20.next=8;return ou(e);case 8:case"end":return _context20.stop();}},_callee19);}));return function(_x23){return _ref33.apply(this,arguments);};}()(_this168);case 5:case"end":return _context21.stop();}},_callee20);})));}),this.gu=new iu(n,s);});function ou(_x24){return _ou.apply(this,arguments);}/**
  * Temporarily disables the network. The network can be re-enabled using
  * enableNetwork().
- */function _ou(){_ou=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee77(t){var _iterator87,_step87,e;return regenerator.wrap(function _callee77$(_context78){while(1)switch(_context78.prev=_context78.next){case 0:if(!_u(t)){_context78.next=18;break;}_iterator87=_createForOfIteratorHelper(t.wu);_context78.prev=2;_iterator87.s();case 4:if((_step87=_iterator87.n()).done){_context78.next=10;break;}e=_step87.value;_context78.next=8;return e(/* enabled= */!0);case 8:_context78.next=4;break;case 10:_context78.next=15;break;case 12:_context78.prev=12;_context78.t0=_context78["catch"](2);_iterator87.e(_context78.t0);case 15:_context78.prev=15;_iterator87.f();return _context78.finish(15);case 18:case"end":return _context78.stop();}},_callee77,null,[[2,12,15,18]]);}));return _ou.apply(this,arguments);}function uu(_x25){return _uu.apply(this,arguments);}/**
+ */function _ou(){_ou=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee77(t){var _iterator87,_step87,e;return regenerator.wrap(function _callee77$(_context78){while(1)switch(_context78.prev=_context78.next){case 0:if(!_u(t)){_context78.next=18;break;}_iterator87=_createForOfIteratorHelper$1(t.wu);_context78.prev=2;_iterator87.s();case 4:if((_step87=_iterator87.n()).done){_context78.next=10;break;}e=_step87.value;_context78.next=8;return e(/* enabled= */!0);case 8:_context78.next=4;break;case 10:_context78.next=15;break;case 12:_context78.prev=12;_context78.t0=_context78["catch"](2);_iterator87.e(_context78.t0);case 15:_context78.prev=15;_iterator87.f();return _context78.finish(15);case 18:case"end":return _context78.stop();}},_callee77,null,[[2,12,15,18]]);}));return _ou.apply(this,arguments);}function uu(_x25){return _uu.apply(this,arguments);}/**
  * Starts new listen for the given target. Uses resume token if provided. It
  * is a no-op if the target of given `TargetData` is already being listened to.
- */function _uu(){_uu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee78(t){var _iterator88,_step88,e;return regenerator.wrap(function _callee78$(_context79){while(1)switch(_context79.prev=_context79.next){case 0:_iterator88=_createForOfIteratorHelper(t.wu);_context79.prev=1;_iterator88.s();case 3:if((_step88=_iterator88.n()).done){_context79.next=9;break;}e=_step88.value;_context79.next=7;return e(/* enabled= */!1);case 7:_context79.next=3;break;case 9:_context79.next=14;break;case 11:_context79.prev=11;_context79.t0=_context79["catch"](1);_iterator88.e(_context79.t0);case 14:_context79.prev=14;_iterator88.f();return _context79.finish(14);case 17:case"end":return _context79.stop();}},_callee78,null,[[1,11,14,17]]);}));return _uu.apply(this,arguments);}function cu(t,e){var n=F(t);n.du.has(e.targetId)||(// Mark this as something the client is currently listening for.
+ */function _uu(){_uu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee78(t){var _iterator88,_step88,e;return regenerator.wrap(function _callee78$(_context79){while(1)switch(_context79.prev=_context79.next){case 0:_iterator88=_createForOfIteratorHelper$1(t.wu);_context79.prev=1;_iterator88.s();case 3:if((_step88=_iterator88.n()).done){_context79.next=9;break;}e=_step88.value;_context79.next=7;return e(/* enabled= */!1);case 7:_context79.next=3;break;case 9:_context79.next=14;break;case 11:_context79.prev=11;_context79.t0=_context79["catch"](1);_iterator88.e(_context79.t0);case 14:_context79.prev=14;_iterator88.f();return _context79.finish(14);case 17:case"end":return _context79.stop();}},_callee78,null,[[1,11,14,17]]);}));return _uu.apply(this,arguments);}function cu(t,e){var n=F(t);n.du.has(e.targetId)||(// Mark this as something the client is currently listening for.
 n.du.set(e.targetId,e),du(n)?// The listen will be sent in onWatchStreamOpen
 fu(n):xu(n).ko()&&hu(n,e));}/**
  * Removes the listen from server. It is a no-op if the given target id is
@@ -10706,7 +10706,7 @@ t.gu.set("Unknown"/* Unknown */);case 1:case"end":return _context81.stop();}},_c
  * The returned Promise is resolved once the network is disabled and before
  * any retry attempt.
  */function _yu(){_yu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee82(t,e,n){var _e58;return regenerator.wrap(function _callee82$(_context83){while(1)switch(_context83.prev=_context83.next){case 0:if(!(// Mark the client as online since we got a message from the server
-t.gu.set("Online"/* Online */),e instanceof ys&&2/* Removed */===e.state&&e.cause)){_context83.next=13;break;}_context83.prev=1;_context83.next=4;return/** Handles an error on a target */function(){var _ref68=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee81(t,e){var n,_iterator89,_step89,s;return regenerator.wrap(function _callee81$(_context82){while(1)switch(_context82.prev=_context82.next){case 0:n=e.cause;_iterator89=_createForOfIteratorHelper(e.targetIds);_context82.prev=2;_iterator89.s();case 4:if((_step89=_iterator89.n()).done){_context82.next=14;break;}s=_step89.value;_context82.t0=t.du.has(s);if(!_context82.t0){_context82.next=12;break;}_context82.next=10;return t.remoteSyncer.rejectListen(s,n);case 10:t.du.delete(s);t.yu.removeTarget(s);case 12:_context82.next=4;break;case 14:_context82.next=19;break;case 16:_context82.prev=16;_context82.t1=_context82["catch"](2);_iterator89.e(_context82.t1);case 19:_context82.prev=19;_iterator89.f();return _context82.finish(19);case 22:case"end":return _context82.stop();}},_callee81,null,[[2,16,19,22]]);}));return function(_x135,_x136){return _ref68.apply(this,arguments);};}()/**
+t.gu.set("Online"/* Online */),e instanceof ys&&2/* Removed */===e.state&&e.cause)){_context83.next=13;break;}_context83.prev=1;_context83.next=4;return/** Handles an error on a target */function(){var _ref68=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee81(t,e){var n,_iterator89,_step89,s;return regenerator.wrap(function _callee81$(_context82){while(1)switch(_context82.prev=_context82.next){case 0:n=e.cause;_iterator89=_createForOfIteratorHelper$1(e.targetIds);_context82.prev=2;_iterator89.s();case 4:if((_step89=_iterator89.n()).done){_context82.next=14;break;}s=_step89.value;_context82.t0=t.du.has(s);if(!_context82.t0){_context82.next=12;break;}_context82.next=10;return t.remoteSyncer.rejectListen(s,n);case 10:t.du.delete(s);t.yu.removeTarget(s);case 12:_context82.next=4;break;case 14:_context82.next=19;break;case 16:_context82.prev=16;_context82.t1=_context82["catch"](2);_iterator89.e(_context82.t1);case 19:_context82.prev=19;_iterator89.f();return _context82.finish(19);case 22:case"end":return _context82.stop();}},_callee81,null,[[2,16,19,22]]);}));return function(_x135,_x136){return _ref68.apply(this,arguments);};}()/**
  * Attempts to fill our write pipeline with writes from the LocalStore.
  *
  * Called internally to bootstrap or refill the write pipeline and by
@@ -10745,7 +10745,7 @@ t.asyncQueue.enqueueRetryable(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/regene
  * Queues additional writes to be sent to the write stream, sending them
  * immediately if the write stream is established.
  */function Au(t,e){t.fu.push(e);var n=Nu(t);n.ko()&&n.Yo&&n.Xo(e.mutations);}function Ru(t){return _u(t)&&!Nu(t).No()&&t.fu.length>0;}function bu(t){Nu(t).start();}function Pu(_x36){return _Pu.apply(this,arguments);}function _Pu(){_Pu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee86(t){return regenerator.wrap(function _callee86$(_context87){while(1)switch(_context87.prev=_context87.next){case 0:Nu(t).eu();case 1:case"end":return _context87.stop();}},_callee86);}));return _Pu.apply(this,arguments);}function vu(_x37){return _vu.apply(this,arguments);}function _vu(){_vu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee87(t){var e,_iterator90,_step90,n;return regenerator.wrap(function _callee87$(_context88){while(1)switch(_context88.prev=_context88.next){case 0:e=Nu(t);// Send the write pipeline now that the stream is established.
-_iterator90=_createForOfIteratorHelper(t.fu);try{for(_iterator90.s();!(_step90=_iterator90.n()).done;){n=_step90.value;e.Xo(n.mutations);}}catch(err){_iterator90.e(err);}finally{_iterator90.f();}case 3:case"end":return _context88.stop();}},_callee87);}));return _vu.apply(this,arguments);}function Vu(_x38,_x39,_x40){return _Vu.apply(this,arguments);}function _Vu(){_Vu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee88(t,e,n){var s,i;return regenerator.wrap(function _callee88$(_context89){while(1)switch(_context89.prev=_context89.next){case 0:s=t.fu.shift(),i=ki.from(s,e,n);_context89.next=3;return Iu(t,function(){return t.remoteSyncer.applySuccessfulWrite(i);});case 3:_context89.next=5;return Tu(t);case 5:case"end":return _context89.stop();}},_callee88);}));return _Vu.apply(this,arguments);}function Su(_x41,_x42){return _Su.apply(this,arguments);}function _Su(){_Su=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee90(t,e){return regenerator.wrap(function _callee90$(_context91){while(1)switch(_context91.prev=_context91.next){case 0:_context91.t0=e&&Nu(t).Yo;if(!_context91.t0){_context91.next=4;break;}_context91.next=4;return function(){var _ref70=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee89(t,e){var _n43,n;return regenerator.wrap(function _callee89$(_context90){while(1)switch(_context90.prev=_context90.next){case 0:if(!(n=e.code,Xn(n)&&n!==$.ABORTED)){_context90.next=7;break;}// This was a permanent error, the request itself was the problem
+_iterator90=_createForOfIteratorHelper$1(t.fu);try{for(_iterator90.s();!(_step90=_iterator90.n()).done;){n=_step90.value;e.Xo(n.mutations);}}catch(err){_iterator90.e(err);}finally{_iterator90.f();}case 3:case"end":return _context88.stop();}},_callee87);}));return _vu.apply(this,arguments);}function Vu(_x38,_x39,_x40){return _Vu.apply(this,arguments);}function _Vu(){_Vu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee88(t,e,n){var s,i;return regenerator.wrap(function _callee88$(_context89){while(1)switch(_context89.prev=_context89.next){case 0:s=t.fu.shift(),i=ki.from(s,e,n);_context89.next=3;return Iu(t,function(){return t.remoteSyncer.applySuccessfulWrite(i);});case 3:_context89.next=5;return Tu(t);case 5:case"end":return _context89.stop();}},_callee88);}));return _Vu.apply(this,arguments);}function Su(_x41,_x42){return _Su.apply(this,arguments);}function _Su(){_Su=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee90(t,e){return regenerator.wrap(function _callee90$(_context91){while(1)switch(_context91.prev=_context91.next){case 0:_context91.t0=e&&Nu(t).Yo;if(!_context91.t0){_context91.next=4;break;}_context91.next=4;return function(){var _ref70=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee89(t,e){var _n43,n;return regenerator.wrap(function _callee89$(_context90){while(1)switch(_context90.prev=_context90.next){case 0:if(!(n=e.code,Xn(n)&&n!==$.ABORTED)){_context90.next=7;break;}// This was a permanent error, the request itself was the problem
 // so it's not going to succeed if we resend it.
 _n43=t.fu.shift();// In this case it's also unlikely that the server itself is melting
 // down -- this was just a bad request so inhibit backoff on the next
@@ -10919,7 +10919,7 @@ k():this.Tu=this.Tu.insert(e,t);}},{key:"Eu",value:function Eu(){var t=[];return
  * Holds the listeners and the last received ViewSnapshot for a query being
  * tracked by EventManager.
  */var Bu=/*#__PURE__*/_createClass(function Bu(){_classCallCheck(this,Bu);this.Au=void 0,this.listeners=[];});var Lu=/*#__PURE__*/_createClass(function Lu(){_classCallCheck(this,Lu);this.queries=new ts(function(t){return hn(t);},an),this.onlineState="Unknown"/* Unknown */,this.Ru=new Set();});function Uu(_x49,_x50){return _Uu.apply(this,arguments);}function _Uu(){_Uu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee93(t,e){var n,s,i,r,_n44;return regenerator.wrap(function _callee93$(_context94){while(1)switch(_context94.prev=_context94.next){case 0:n=F(t),s=e.query;i=!1,r=n.queries.get(s);if(!(r||(i=!0,r=new Bu()),i)){_context94.next=13;break;}_context94.prev=3;_context94.next=6;return n.onListen(s);case 6:r.Au=_context94.sent;_context94.next=13;break;case 9:_context94.prev=9;_context94.t0=_context94["catch"](3);_n44=Mu(_context94.t0,"Initialization of query '".concat(ln(e.query),"' failed"));return _context94.abrupt("return",void e.onError(_n44));case 13:if(n.queries.set(s,r),r.listeners.push(e),// Run global snapshot listeners if a consistent snapshot has been emitted.
-e.bu(n.onlineState),r.Au){e.Pu(r.Au)&&Qu(n);}case 14:case"end":return _context94.stop();}},_callee93,null,[[3,9]]);}));return _Uu.apply(this,arguments);}function qu(_x51,_x52){return _qu.apply(this,arguments);}function _qu(){_qu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee94(t,e){var n,s,i,r,_t120;return regenerator.wrap(function _callee94$(_context95){while(1)switch(_context95.prev=_context95.next){case 0:n=F(t),s=e.query;i=!1;r=n.queries.get(s);if(r){_t120=r.listeners.indexOf(e);_t120>=0&&(r.listeners.splice(_t120,1),i=0===r.listeners.length);}if(!i){_context95.next=6;break;}return _context95.abrupt("return",(n.queries.delete(s),n.onUnlisten(s)));case 6:case"end":return _context95.stop();}},_callee94);}));return _qu.apply(this,arguments);}function Ku(t,e){var n=F(t);var s=!1;var _iterator61=_createForOfIteratorHelper(e),_step61;try{for(_iterator61.s();!(_step61=_iterator61.n()).done;){var _t92=_step61.value;var _e44=_t92.query,i=n.queries.get(_e44);if(i){var _iterator62=_createForOfIteratorHelper(i.listeners),_step62;try{for(_iterator62.s();!(_step62=_iterator62.n()).done;){var _e45=_step62.value;_e45.Pu(_t92)&&(s=!0);}}catch(err){_iterator62.e(err);}finally{_iterator62.f();}i.Au=_t92;}}}catch(err){_iterator61.e(err);}finally{_iterator61.f();}s&&Qu(n);}function Gu(t,e,n){var s=F(t),i=s.queries.get(e);if(i){var _iterator63=_createForOfIteratorHelper(i.listeners),_step63;try{for(_iterator63.s();!(_step63=_iterator63.n()).done;){var _t93=_step63.value;_t93.onError(n);}}catch(err){_iterator63.e(err);}finally{_iterator63.f();}}// Remove all listeners. NOTE: We don't need to call syncEngine.unlisten()
+e.bu(n.onlineState),r.Au){e.Pu(r.Au)&&Qu(n);}case 14:case"end":return _context94.stop();}},_callee93,null,[[3,9]]);}));return _Uu.apply(this,arguments);}function qu(_x51,_x52){return _qu.apply(this,arguments);}function _qu(){_qu=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee94(t,e){var n,s,i,r,_t120;return regenerator.wrap(function _callee94$(_context95){while(1)switch(_context95.prev=_context95.next){case 0:n=F(t),s=e.query;i=!1;r=n.queries.get(s);if(r){_t120=r.listeners.indexOf(e);_t120>=0&&(r.listeners.splice(_t120,1),i=0===r.listeners.length);}if(!i){_context95.next=6;break;}return _context95.abrupt("return",(n.queries.delete(s),n.onUnlisten(s)));case 6:case"end":return _context95.stop();}},_callee94);}));return _qu.apply(this,arguments);}function Ku(t,e){var n=F(t);var s=!1;var _iterator61=_createForOfIteratorHelper$1(e),_step61;try{for(_iterator61.s();!(_step61=_iterator61.n()).done;){var _t92=_step61.value;var _e44=_t92.query,i=n.queries.get(_e44);if(i){var _iterator62=_createForOfIteratorHelper$1(i.listeners),_step62;try{for(_iterator62.s();!(_step62=_iterator62.n()).done;){var _e45=_step62.value;_e45.Pu(_t92)&&(s=!0);}}catch(err){_iterator62.e(err);}finally{_iterator62.f();}i.Au=_t92;}}}catch(err){_iterator61.e(err);}finally{_iterator61.f();}s&&Qu(n);}function Gu(t,e,n){var s=F(t),i=s.queries.get(e);if(i){var _iterator63=_createForOfIteratorHelper$1(i.listeners),_step63;try{for(_iterator63.s();!(_step63=_iterator63.n()).done;){var _t93=_step63.value;_t93.onError(n);}}catch(err){_iterator63.e(err);}finally{_iterator63.f();}}// Remove all listeners. NOTE: We don't need to call syncEngine.unlisten()
 // after an error.
 s.queries.delete(e);}// Call all global snapshot listeners that have been set.
 function Qu(t){t.Ru.forEach(function(t){t.next();});}/**
@@ -10936,7 +10936,7 @@ function Qu(t){t.Ru.forEach(function(t){t.next();});}/**
      * metadata-only changes, etc.). Returns true if a user-facing event was
      * indeed raised.
      */_createClass(ju,[{key:"Pu",value:function Pu(t){if(!this.options.includeMetadataChanges){// Remove the metadata only changes.
-var _e46=[];var _iterator64=_createForOfIteratorHelper(t.docChanges),_step64;try{for(_iterator64.s();!(_step64=_iterator64.n()).done;){var n=_step64.value;3/* Metadata */!==n.type&&_e46.push(n);}}catch(err){_iterator64.e(err);}finally{_iterator64.f();}t=new $u(t.query,t.docs,t.oldDocs,_e46,t.mutatedKeys,t.fromCache,t.syncStateChanged,/* excludesMetadataChanges= */!0);}var e=!1;return this.Vu?this.Du(t)&&(this.vu.next(t),e=!0):this.Cu(t,this.onlineState)&&(this.xu(t),e=!0),this.Su=t,e;}},{key:"onError",value:function onError(t){this.vu.error(t);}/** Returns whether a snapshot was raised. */},{key:"bu",value:function bu(t){this.onlineState=t;var e=!1;return this.Su&&!this.Vu&&this.Cu(this.Su,t)&&(this.xu(this.Su),e=!0),e;}},{key:"Cu",value:function Cu(t,e){// Always raise the first event when we're synced
+var _e46=[];var _iterator64=_createForOfIteratorHelper$1(t.docChanges),_step64;try{for(_iterator64.s();!(_step64=_iterator64.n()).done;){var n=_step64.value;3/* Metadata */!==n.type&&_e46.push(n);}}catch(err){_iterator64.e(err);}finally{_iterator64.f();}t=new $u(t.query,t.docs,t.oldDocs,_e46,t.mutatedKeys,t.fromCache,t.syncStateChanged,/* excludesMetadataChanges= */!0);}var e=!1;return this.Vu?this.Du(t)&&(this.vu.next(t),e=!0):this.Cu(t,this.onlineState)&&(this.xu(t),e=!0),this.Su=t,e;}},{key:"onError",value:function onError(t){this.vu.error(t);}/** Returns whether a snapshot was raised. */},{key:"bu",value:function bu(t){this.onlineState=t;var e=!1;return this.Su&&!this.Vu&&this.Cu(this.Su,t)&&(this.xu(this.Su),e=!0),e;}},{key:"Cu",value:function Cu(t,e){// Always raise the first event when we're synced
 if(!t.fromCache)return !0;// NOTE: We consider OnlineState.Unknown as online (it should become Offline
 // or Online if we wait long enough).
 var n="Offline"/* Offline */!==e;// Don't raise the event if we're online, aren't synced yet (checked
@@ -11175,7 +11175,7 @@ var u=ns(),c=ls();return n.Gi.getEntries(t,i).next(function(t){u=t,u.forEach(fun
 // later used to guarantee consistent values and prevents flicker
 // even if the backend sends us an update that already includes our
 // transform.
-var o=[];var _iterator91=_createForOfIteratorHelper(e),_step91;try{for(_iterator91.s();!(_step91=_iterator91.n()).done;){var _t123=_step91.value;var _e59=Ln(_t123,r.get(_t123.key).overlayedDocument);null!=_e59&&// NOTE: The base state should only be applied if there's some
+var o=[];var _iterator91=_createForOfIteratorHelper$1(e),_step91;try{for(_iterator91.s();!(_step91=_iterator91.n()).done;){var _t123=_step91.value;var _e59=Ln(_t123,r.get(_t123.key).overlayedDocument);null!=_e59&&// NOTE: The base state should only be applied if there's some
 // existing document to override, so use a Precondition of
 // exists=true
 o.push(new Kn(_t123.key,_e59,ve(_e59.value.mapValue),kn.exists(!0)));}}catch(err){_iterator91.e(err);}finally{_iterator91.f();}return n.mutationQueue.addMutationBatch(t,s,o,e);}).next(function(e){o=e;var s=e.applyToLocalDocumentSet(r,c);return n.documentOverlayCache.saveOverlays(t,e.batchId,s);});}).then(function(){return {batchId:o.batchId,changes:rs(r)};});}(s.localStore,e);case 4:_t122=_context100.sent;s.sharedClientState.addPendingMutation(_t122.batchId);(function(t,e,n){var s=t.ac[t.currentUser.toKey()];s||(s=new $t(X));s=s.insert(e,n),t.ac[t.currentUser.toKey()]=s;}/**
@@ -11192,7 +11192,7 @@ M(t.addedDocuments.size+t.modifiedDocuments.size+t.removedDocuments.size<=1),t.a
 // online state (the local client may go offline, even though the primary
 // tab remains online) and only apply the primary tab's online state from
 // SharedClientState.
-if(s.isPrimaryClient&&0/* RemoteStore */===n||!s.isPrimaryClient&&1/* SharedClientState */===n){var _t97=[];s.sc.forEach(function(n,s){var i=s.view.bu(e);i.snapshot&&_t97.push(i.snapshot);}),function(t,e){var n=F(t);n.onlineState=e;var s=!1;n.queries.forEach(function(t,n){var _iterator68=_createForOfIteratorHelper(n.listeners),_step68;try{for(_iterator68.s();!(_step68=_iterator68.n()).done;)// Run global snapshot listeners if a consistent snapshot has been emitted.
+if(s.isPrimaryClient&&0/* RemoteStore */===n||!s.isPrimaryClient&&1/* SharedClientState */===n){var _t97=[];s.sc.forEach(function(n,s){var i=s.view.bu(e);i.snapshot&&_t97.push(i.snapshot);}),function(t,e){var n=F(t);n.onlineState=e;var s=!1;n.queries.forEach(function(t,n){var _iterator68=_createForOfIteratorHelper$1(n.listeners),_step68;try{for(_iterator68.s();!(_step68=_iterator68.n()).done;)// Run global snapshot listeners if a consistent snapshot has been emitted.
 {var _t98=_step68.value;_t98.bu(e)&&(s=!0);}}catch(err){_iterator68.e(err);}finally{_iterator68.f();}}),s&&Qu(n);}(s.eventManager,e),_t97.length&&s.nc.Wo(_t97),s.onlineState=e,s.isPrimaryClient&&s.sharedClientState.setOnlineState(e);}}/**
  * Rejects the listen for the given targetID. This can be triggered by the
  * backend for any active target.
@@ -11228,10 +11228,10 @@ s.oc=s.oc.remove(r);s.uc.delete(e);pc(s);_context102.next=16;break;case 14:_cont
  * Returns `BATCHID_UNKNOWN` if the queue is empty.
  */(s.localStore,e);case 4:_t127=_context104.sent;_c(s,e,n);dc(s,e);s.sharedClientState.updateMutationState(e,"rejected",n);_context104.next=10;return Ic(s,_t127);case 10:_context104.next=16;break;case 12:_context104.prev=12;_context104.t0=_context104["catch"](1);_context104.next=16;return Tt(_context104.t0);case 16:case"end":return _context104.stop();}},_callee103,null,[[1,12]]);}));return _lc.apply(this,arguments);}function dc(t,e){(t.hc.get(e)||[]).forEach(function(t){t.resolve();}),t.hc.delete(e);}/** Reject all outstanding callbacks waiting for pending writes to complete. */function _c(t,e,n){var s=F(t);var i=s.ac[s.currentUser.toKey()];// NOTE: Mutations restored from persistence won't have callbacks, so it's
 // okay for there to be no callback for this ID.
-if(i){var _t99=i.get(e);_t99&&(n?_t99.reject(n):_t99.resolve(),i=i.remove(e)),s.ac[s.currentUser.toKey()]=i;}}function wc(t,e){var n=arguments.length>2&&arguments[2]!==undefined?arguments[2]:null;t.sharedClientState.removeLocalQueryTarget(e);var _iterator69=_createForOfIteratorHelper(t.ic.get(e)),_step69;try{for(_iterator69.s();!(_step69=_iterator69.n()).done;){var s=_step69.value;t.sc.delete(s),n&&t.nc._c(s,n);}}catch(err){_iterator69.e(err);}finally{_iterator69.f();}if(t.ic.delete(e),t.isPrimaryClient){t.cc.ls(e).forEach(function(e){t.cc.containsKey(e)||// We removed the last reference for this key
+if(i){var _t99=i.get(e);_t99&&(n?_t99.reject(n):_t99.resolve(),i=i.remove(e)),s.ac[s.currentUser.toKey()]=i;}}function wc(t,e){var n=arguments.length>2&&arguments[2]!==undefined?arguments[2]:null;t.sharedClientState.removeLocalQueryTarget(e);var _iterator69=_createForOfIteratorHelper$1(t.ic.get(e)),_step69;try{for(_iterator69.s();!(_step69=_iterator69.n()).done;){var s=_step69.value;t.sc.delete(s),n&&t.nc._c(s,n);}}catch(err){_iterator69.e(err);}finally{_iterator69.f();}if(t.ic.delete(e),t.isPrimaryClient){t.cc.ls(e).forEach(function(e){t.cc.containsKey(e)||// We removed the last reference for this key
 mc(t,e);});}}function mc(t,e){t.rc.delete(e.path.canonicalString());// It's possible that the target already got removed because the query failed. In that case,
 // the key won't exist in `limboTargetsByKey`. Only do the cleanup if we still have the target.
-var n=t.oc.get(e);null!==n&&(au(t.remoteStore,n),t.oc=t.oc.remove(e),t.uc.delete(n),pc(t));}function gc(t,e,n){var _iterator70=_createForOfIteratorHelper(n),_step70;try{for(_iterator70.s();!(_step70=_iterator70.n()).done;){var s=_step70.value;if(s instanceof Yu)t.cc.addReference(s.key,e),yc(t,s);else if(s instanceof Xu){D("SyncEngine","Document no longer in limbo: "+s.key),t.cc.removeReference(s.key,e);t.cc.containsKey(s.key)||// We removed the last reference for this key
+var n=t.oc.get(e);null!==n&&(au(t.remoteStore,n),t.oc=t.oc.remove(e),t.uc.delete(n),pc(t));}function gc(t,e,n){var _iterator70=_createForOfIteratorHelper$1(n),_step70;try{for(_iterator70.s();!(_step70=_iterator70.n()).done;){var s=_step70.value;if(s instanceof Yu)t.cc.addReference(s.key,e),yc(t,s);else if(s instanceof Xu){D("SyncEngine","Document no longer in limbo: "+s.key),t.cc.removeReference(s.key,e);t.cc.containsKey(s.key)||// We removed the last reference for this key
 mc(t,s.key);}else k();}}catch(err){_iterator70.e(err);}finally{_iterator70.f();}}function yc(t,e){var n=e.key,s=n.path.canonicalString();t.oc.get(n)||t.rc.has(s)||(D("SyncEngine","New document in limbo: "+n),t.rc.add(s),pc(t));}/**
  * Starts listens for documents in limbo that are enqueued for resolution,
  * subject to a maximum number of concurrent resolutions.
@@ -11243,10 +11243,10 @@ mc(t,s.key);}else k();}}catch(err){_iterator70.e(err);}finally{_iterator70.f();}
 // number for the documents that were included in this transaction.
 // This might trigger them to be deleted earlier than they otherwise
 // would have, but it should not invalidate the integrity of the data.
-D("LocalStore","Failed to update sequence numbers: "+_context106.t0);case 11:_iterator92=_createForOfIteratorHelper(e);try{for(_iterator92.s();!(_step92=_iterator92.n()).done;){_t129=_step92.value;_e62=_t129.targetId;if(!_t129.fromCache){_t130=n.Ui.get(_e62),_s35=_t130.snapshotVersion,_i20=_t130.withLastLimboFreeSnapshotVersion(_s35);// Advance the last limbo free snapshot version
+D("LocalStore","Failed to update sequence numbers: "+_context106.t0);case 11:_iterator92=_createForOfIteratorHelper$1(e);try{for(_iterator92.s();!(_step92=_iterator92.n()).done;){_t129=_step92.value;_e62=_t129.targetId;if(!_t129.fromCache){_t130=n.Ui.get(_e62),_s35=_t130.snapshotVersion,_i20=_t130.withLastLimboFreeSnapshotVersion(_s35);// Advance the last limbo free snapshot version
 n.Ui=n.Ui.insert(_e62,_i20);}}}catch(err){_iterator92.e(err);}finally{_iterator92.f();}case 13:case"end":return _context106.stop();}},_callee105,null,[[1,6]]);}));return function(_x143,_x144){return _ref73.apply(this,arguments);};}()(s.localStore,r);case 9:case"end":return _context107.stop();}},_callee106);}));return _Ic.apply(this,arguments);}function Tc(_x79,_x80){return _Tc.apply(this,arguments);}function _Tc(){_Tc=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee107(t,e){var n,_t131;return regenerator.wrap(function _callee107$(_context108){while(1)switch(_context108.prev=_context108.next){case 0:n=F(t);if(n.currentUser.isEqual(e)){_context108.next=11;break;}D("SyncEngine","User change. New user:",e.toKey());_context108.next=5;return To(n.localStore,e);case 5:_t131=_context108.sent;n.currentUser=e;// Fails tasks waiting for pending writes requested by previous user.
 (function(t,e){t.hc.forEach(function(t){t.forEach(function(t){t.reject(new B($.CANCELLED,e));});}),t.hc.clear();})(n,"'waitForPendingWrites' promise is rejected due to a user change.");// TODO(b/114226417): Consider calling this only in the primary tab.
-n.sharedClientState.handleUserChange(e,_t131.removedBatchIds,_t131.addedBatchIds);_context108.next=11;return Ic(n,_t131.ji);case 11:case"end":return _context108.stop();}},_callee107);}));return _Tc.apply(this,arguments);}function Ec(t,e){var n=F(t),s=n.uc.get(e);if(s&&s.ec)return ls().add(s.key);{var _t100=ls();var _s22=n.ic.get(e);if(!_s22)return _t100;var _iterator71=_createForOfIteratorHelper(_s22),_step71;try{for(_iterator71.s();!(_step71=_iterator71.n()).done;){var _e47=_step71.value;var _s23=n.sc.get(_e47);_t100=_t100.unionWith(_s23.view.Qu);}}catch(err){_iterator71.e(err);}finally{_iterator71.f();}return _t100;}}function xc(t){var e=F(t);return e.remoteStore.remoteSyncer.applyRemoteEvent=uc.bind(null,e),e.remoteStore.remoteSyncer.getRemoteKeysForTarget=Ec.bind(null,e),e.remoteStore.remoteSyncer.rejectListen=ac.bind(null,e),e.nc.Wo=Ku.bind(null,e.eventManager),e.nc._c=Gu.bind(null,e.eventManager),e;}function Nc(t){var e=F(t);return e.remoteStore.remoteSyncer.applySuccessfulWrite=hc.bind(null,e),e.remoteStore.remoteSyncer.rejectFailedWrite=lc.bind(null,e),e;}var Mc=/*#__PURE__*/function(){function Mc(){_classCallCheck(this,Mc);this.synchronizeTabs=!1;}_createClass(Mc,[{key:"initialize",value:function(){var _initialize=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee25(t){return regenerator.wrap(function _callee25$(_context26){while(1)switch(_context26.prev=_context26.next){case 0:this.It=Xo(t.databaseInfo.databaseId);this.sharedClientState=this.mc(t);this.persistence=this.gc(t);_context26.next=5;return this.persistence.start();case 5:this.localStore=this.yc(t);this.gcScheduler=this.Ic(t,this.localStore);this.indexBackfillerScheduler=this.Tc(t,this.localStore);case 8:case"end":return _context26.stop();}},_callee25,this);}));function initialize(_x104){return _initialize.apply(this,arguments);}return initialize;}()},{key:"Ic",value:function Ic(t,e){return null;}},{key:"Tc",value:function Tc(t,e){return null;}},{key:"yc",value:function yc(t){return Io(this.persistence,new yo(),t.initialUser,this.It);}},{key:"gc",value:function gc(t){return new oo(co.Bs,this.It);}},{key:"mc",value:function mc(t){return new Go();}},{key:"terminate",value:function(){var _terminate=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee26(){return regenerator.wrap(function _callee26$(_context27){while(1)switch(_context27.prev=_context27.next){case 0:this.gcScheduler&&this.gcScheduler.stop();_context27.next=3;return this.sharedClientState.shutdown();case 3:_context27.next=5;return this.persistence.shutdown();case 5:case"end":return _context27.stop();}},_callee26,this);}));function terminate(){return _terminate.apply(this,arguments);}return terminate;}()}]);return Mc;}();/**
+n.sharedClientState.handleUserChange(e,_t131.removedBatchIds,_t131.addedBatchIds);_context108.next=11;return Ic(n,_t131.ji);case 11:case"end":return _context108.stop();}},_callee107);}));return _Tc.apply(this,arguments);}function Ec(t,e){var n=F(t),s=n.uc.get(e);if(s&&s.ec)return ls().add(s.key);{var _t100=ls();var _s22=n.ic.get(e);if(!_s22)return _t100;var _iterator71=_createForOfIteratorHelper$1(_s22),_step71;try{for(_iterator71.s();!(_step71=_iterator71.n()).done;){var _e47=_step71.value;var _s23=n.sc.get(_e47);_t100=_t100.unionWith(_s23.view.Qu);}}catch(err){_iterator71.e(err);}finally{_iterator71.f();}return _t100;}}function xc(t){var e=F(t);return e.remoteStore.remoteSyncer.applyRemoteEvent=uc.bind(null,e),e.remoteStore.remoteSyncer.getRemoteKeysForTarget=Ec.bind(null,e),e.remoteStore.remoteSyncer.rejectListen=ac.bind(null,e),e.nc.Wo=Ku.bind(null,e.eventManager),e.nc._c=Gu.bind(null,e.eventManager),e;}function Nc(t){var e=F(t);return e.remoteStore.remoteSyncer.applySuccessfulWrite=hc.bind(null,e),e.remoteStore.remoteSyncer.rejectFailedWrite=lc.bind(null,e),e;}var Mc=/*#__PURE__*/function(){function Mc(){_classCallCheck(this,Mc);this.synchronizeTabs=!1;}_createClass(Mc,[{key:"initialize",value:function(){var _initialize=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee25(t){return regenerator.wrap(function _callee25$(_context26){while(1)switch(_context26.prev=_context26.next){case 0:this.It=Xo(t.databaseInfo.databaseId);this.sharedClientState=this.mc(t);this.persistence=this.gc(t);_context26.next=5;return this.persistence.start();case 5:this.localStore=this.yc(t);this.gcScheduler=this.Ic(t,this.localStore);this.indexBackfillerScheduler=this.Tc(t,this.localStore);case 8:case"end":return _context26.stop();}},_callee25,this);}));function initialize(_x104){return _initialize.apply(this,arguments);}return initialize;}()},{key:"Ic",value:function Ic(t,e){return null;}},{key:"Tc",value:function Tc(t,e){return null;}},{key:"yc",value:function yc(t){return Io(this.persistence,new yo(),t.initialUser,this.It);}},{key:"gc",value:function gc(t){return new oo(co.Bs,this.It);}},{key:"mc",value:function mc(t){return new Go();}},{key:"terminate",value:function(){var _terminate=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee26(){return regenerator.wrap(function _callee26$(_context27){while(1)switch(_context27.prev=_context27.next){case 0:this.gcScheduler&&this.gcScheduler.stop();_context27.next=3;return this.sharedClientState.shutdown();case 3:_context27.next=5;return this.persistence.shutdown();case 5:case"end":return _context27.stop();}},_callee26,this);}));function terminate(){return _terminate.apply(this,arguments);}return terminate;}()}]);return Mc;}();/**
  * Initializes and wires the components that are needed to interface with the
  * network.
  */var $c=/*#__PURE__*/function(){function $c(){_classCallCheck(this,$c);}_createClass($c,[{key:"initialize",value:function(){var _initialize4=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee30(t,e){var _this179=this;return regenerator.wrap(function _callee30$(_context31){while(1)switch(_context31.prev=_context31.next){case 0:_context31.t0=this.localStore;if(_context31.t0){_context31.next=12;break;}this.localStore=t.localStore;this.sharedClientState=t.sharedClientState;this.datastore=this.createDatastore(e);this.remoteStore=this.createRemoteStore(e);this.eventManager=this.createEventManager(e);this.syncEngine=this.createSyncEngine(e,/* startAsPrimary=*/!t.synchronizeTabs);this.sharedClientState.onlineStateHandler=function(t){return cc(_this179.syncEngine,t,1/* SharedClientState */);};this.remoteStore.remoteSyncer.handleCredentialChange=Tc.bind(null,this.syncEngine);_context31.next=12;return Cu(this.remoteStore,this.syncEngine.isPrimaryClient);case 12:case"end":return _context31.stop();}},_callee30,this);}));function initialize(_x108,_x109){return _initialize4.apply(this,arguments);}return initialize;}()},{key:"createEventManager",value:function createEventManager(t){return new Lu();}},{key:"createDatastore",value:function createDatastore(t){var e=Xo(t.databaseInfo.databaseId),n=(s=t.databaseInfo,new Ho(s));var s;/** Return the Platform-specific connectivity monitor. */return function(t,e,n,s){return new su(t,e,n,s);}(t.authCredentials,t.appCheckCredentials,n,e);}},{key:"createRemoteStore",value:function createRemoteStore(t){var _this180=this;return e=this.localStore,n=this.datastore,s=t.asyncQueue,i=function i(t){return cc(_this180.syncEngine,t,0/* RemoteStore */);},r=jo.C()?new jo():new Qo(),new ru(e,n,s,i,r);var e,n,s,i,r;/** Re-enables the network. Idempotent. */}},{key:"createSyncEngine",value:function createSyncEngine(t,e){return function(t,e,n,// PORTING NOTE: Manages state synchronization in multi-tab environments.
@@ -11538,7 +11538,7 @@ this.Qc.indexOf(t)>-1&&(e=0);var s=ku.createAndSchedule(this,t,e,n,function(t){r
      */},{key:"Yc",value:(function(){var _Yc=_asyncToGenerator(/*#__PURE__*/regenerator.mark(function _callee63(){var t;return regenerator.wrap(function _callee63$(_context64){while(1)switch(_context64.prev=_context64.next){case 0:t=this.$c;_context64.next=3;return t;case 3:if(t!==this.$c){_context64.next=0;break;}case 4:case"end":return _context64.stop();}},_callee63,this);}));function Yc(){return _Yc.apply(this,arguments);}return Yc;}()/**
      * For Tests: Determine if a delayed operation with a particular TimerId
      * exists.
-     */)},{key:"Xc",value:function Xc(t){var _iterator72=_createForOfIteratorHelper(this.Uc),_step72;try{for(_iterator72.s();!(_step72=_iterator72.n()).done;){var e=_step72.value;if(e.timerId===t)return !0;}}catch(err){_iterator72.e(err);}finally{_iterator72.f();}return !1;}/**
+     */)},{key:"Xc",value:function Xc(t){var _iterator72=_createForOfIteratorHelper$1(this.Uc),_step72;try{for(_iterator72.s();!(_step72=_iterator72.n()).done;){var e=_step72.value;if(e.timerId===t)return !0;}}catch(err){_iterator72.e(err);}finally{_iterator72.f();}return !1;}/**
      * For Tests: Runs some or all delayed operations early.
      *
      * @param lastTimerId - Delayed operations up to and including this TimerId
@@ -11546,13 +11546,13 @@ this.Qc.indexOf(t)>-1&&(e=0);var s=ku.createAndSchedule(this,t,e,n,function(t){r
      * @returns a Promise that resolves once all operations have been run.
      */},{key:"Zc",value:function Zc(t){var _this196=this;// Note that draining may generate more delayed ops, so we do that first.
 return this.Yc().then(function(){// Run ops in the same order they'd run if they ran naturally.
-_this196.Uc.sort(function(t,e){return t.targetTimeMs-e.targetTimeMs;});var _iterator73=_createForOfIteratorHelper(_this196.Uc),_step73;try{for(_iterator73.s();!(_step73=_iterator73.n()).done;){var e=_step73.value;if(e.skipDelay(),"all"/* All */!==t&&e.timerId===t)break;}}catch(err){_iterator73.e(err);}finally{_iterator73.f();}return _this196.Yc();});}/**
+_this196.Uc.sort(function(t,e){return t.targetTimeMs-e.targetTimeMs;});var _iterator73=_createForOfIteratorHelper$1(_this196.Uc),_step73;try{for(_iterator73.s();!(_step73=_iterator73.n()).done;){var e=_step73.value;if(e.skipDelay(),"all"/* All */!==t&&e.timerId===t)break;}}catch(err){_iterator73.e(err);}finally{_iterator73.f();}return _this196.Yc();});}/**
      * For Tests: Skip all subsequent delays for a timer id.
      */},{key:"ta",value:function ta(t){this.Qc.push(t);}/** Called once a DelayedOperation is run or canceled. */},{key:"Jc",value:function Jc(t){// NOTE: indexOf / slice are O(n), but delayedOperations is expected to be small.
 var e=this.Uc.indexOf(t);this.Uc.splice(e,1);}}]);return Sa;}();function Da(t){/**
  * Returns true if obj is an object and contains at least one of the specified
  * methods.
- */return function(t,e){if("object"!=_typeof$1(t)||null===t)return !1;var n=t;var _iterator74=_createForOfIteratorHelper(e),_step74;try{for(_iterator74.s();!(_step74=_iterator74.n()).done;){var _t102=_step74.value;if(_t102 in n&&"function"==typeof n[_t102])return !0;}}catch(err){_iterator74.e(err);}finally{_iterator74.f();}return !1;}/**
+ */return function(t,e){if("object"!=_typeof$1(t)||null===t)return !1;var n=t;var _iterator74=_createForOfIteratorHelper$1(e),_step74;try{for(_iterator74.s();!(_step74=_iterator74.n()).done;){var _t102=_step74.value;if(_t102 in n&&"function"==typeof n[_t102])return !0;}}catch(err){_iterator74.e(err);}finally{_iterator74.f();}return !1;}/**
  * @license
  * Copyright 2020 Google LLC
  *
@@ -11785,7 +11785,7 @@ return this.sa({path:void 0,ra:!0});}},{key:"aa",value:function aa(t){return Rh(
 if(this.path)for(var t=0;t<this.path.length;t++)this.oa(this.path.get(t));}},{key:"oa",value:function oa(t){if(0===t.length)throw this.aa("Document fields must not be empty");if(sh(this.na)&&th.test(t))throw this.aa('Document fields cannot begin and end with "__"');}}]);return ih;}();/**
  * Helper for parsing raw user input (provided via the API) into internal model
  * classes.
- */var rh=/*#__PURE__*/function(){function rh(t,e,n){_classCallCheck(this,rh);this.databaseId=t,this.ignoreUndefinedProperties=e,this.It=n||Xo(t);}/** Creates a new top-level parse context. */_createClass(rh,[{key:"fa",value:function fa(t,e,n){var s=arguments.length>3&&arguments[3]!==undefined?arguments[3]:!1;return new ih({na:t,methodName:e,la:n,path:ot.emptyPath(),ra:!1,ha:s},this.databaseId,this.It,this.ignoreUndefinedProperties);}}]);return rh;}();function oh(t){var e=t._freezeSettings(),n=Xo(t._databaseId);return new rh(t._databaseId,!!e.ignoreUndefinedProperties,n);}/** Parse document data from a set() call. */function uh(t,e,n,s,i){var r=arguments.length>5&&arguments[5]!==undefined?arguments[5]:{};var o=t.fa(r.merge||r.mergeFields?2/* MergeSet */:0/* Set */,e,n,i);Ih("Data must be an object, but it was:",o,s);var u=yh(s,o);var c,a;if(r.merge)c=new Gt(o.fieldMask),a=o.fieldTransforms;else if(r.mergeFields){var _t104=[];var _iterator75=_createForOfIteratorHelper(r.mergeFields),_step75;try{for(_iterator75.s();!(_step75=_iterator75.n()).done;){var _s29=_step75.value;var _i16=Th(e,_s29,n);if(!o.contains(_i16))throw new B($.INVALID_ARGUMENT,"Field '".concat(_i16,"' is specified in your field mask but missing from your input data."));bh(_t104,_i16)||_t104.push(_i16);}}catch(err){_iterator75.e(err);}finally{_iterator75.f();}c=new Gt(_t104),a=o.fieldTransforms.filter(function(t){return c.covers(t.field);});}else c=null,a=o.fieldTransforms;return new eh(new Pe(u),c,a);}/**
+ */var rh=/*#__PURE__*/function(){function rh(t,e,n){_classCallCheck(this,rh);this.databaseId=t,this.ignoreUndefinedProperties=e,this.It=n||Xo(t);}/** Creates a new top-level parse context. */_createClass(rh,[{key:"fa",value:function fa(t,e,n){var s=arguments.length>3&&arguments[3]!==undefined?arguments[3]:!1;return new ih({na:t,methodName:e,la:n,path:ot.emptyPath(),ra:!1,ha:s},this.databaseId,this.It,this.ignoreUndefinedProperties);}}]);return rh;}();function oh(t){var e=t._freezeSettings(),n=Xo(t._databaseId);return new rh(t._databaseId,!!e.ignoreUndefinedProperties,n);}/** Parse document data from a set() call. */function uh(t,e,n,s,i){var r=arguments.length>5&&arguments[5]!==undefined?arguments[5]:{};var o=t.fa(r.merge||r.mergeFields?2/* MergeSet */:0/* Set */,e,n,i);Ih("Data must be an object, but it was:",o,s);var u=yh(s,o);var c,a;if(r.merge)c=new Gt(o.fieldMask),a=o.fieldTransforms;else if(r.mergeFields){var _t104=[];var _iterator75=_createForOfIteratorHelper$1(r.mergeFields),_step75;try{for(_iterator75.s();!(_step75=_iterator75.n()).done;){var _s29=_step75.value;var _i16=Th(e,_s29,n);if(!o.contains(_i16))throw new B($.INVALID_ARGUMENT,"Field '".concat(_i16,"' is specified in your field mask but missing from your input data."));bh(_t104,_i16)||_t104.push(_i16);}}catch(err){_iterator75.e(err);}finally{_iterator75.f();}c=new Gt(_t104),a=o.fieldTransforms.filter(function(t){return c.covers(t.field);});}else c=null,a=o.fieldTransforms;return new eh(new Pe(u),c,a);}/**
  * Parses user data to Protobuf Values.
  *
  * @param input - Data to be parsed.
@@ -11819,7 +11819,7 @@ e.path&&e.fieldMask.push(e.path),t instanceof Array){// TODO(b/34871131): Includ
 // the set of values to be included for the IN query) that may directly
 // contain additional arrays (each representing an individual field
 // value), so we disable this validation.
-if(e.settings.ra&&4/* ArrayArgument */!==e.na)throw e.aa("Nested arrays are not supported");return function(t,e){var n=[];var s=0;var _iterator76=_createForOfIteratorHelper(t),_step76;try{for(_iterator76.s();!(_step76=_iterator76.n()).done;){var i=_step76.value;var _t109=gh(i,e.ca(s));null==_t109&&(// Just include nulls in the array for fields being replaced with a
+if(e.settings.ra&&4/* ArrayArgument */!==e.na)throw e.aa("Nested arrays are not supported");return function(t,e){var n=[];var s=0;var _iterator76=_createForOfIteratorHelper$1(t),_step76;try{for(_iterator76.s();!(_step76=_iterator76.n()).done;){var i=_step76.value;var _t109=gh(i,e.ca(s));null==_t109&&(// Just include nulls in the array for fields being replaced with a
 // sentinel.
 _t109={nullValue:"NULL_VALUE"}),n.push(_t109),s++;}}catch(err){_iterator76.e(err);}finally{_iterator76.f();}return {arrayValue:{values:n}};}(t,e);}return function(t,e){if(null===(t=getModularInstance(t)))return {nullValue:"NULL_VALUE"};if("number"==typeof t)return yn(e.It,t);if("boolean"==typeof t)return {booleanValue:t};if("string"==typeof t)return {stringValue:t};if(t instanceof Date){var n=et.fromDate(t);return {timestampValue:Ps(e.It,n)};}if(t instanceof et){// Firestore backend truncates precision down to microseconds. To ensure
 // offline mode works the same with regards to truncation, perform the
@@ -12146,6 +12146,10 @@ return s=t?n&&(n.merge||n.mergeFields)?t.toFirestore(e,n):t.toFirestore(e):e,s;}
  */ /** Sentinel value that sorts before any Mutation Batch ID. */(i,n),i);return s=Object.assign({useFetchStreams:e},s),r._setSettings(s),r;},"PUBLIC").setMultipleInstances(!0)),registerVersion(R,"3.5.0",t),// BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
 registerVersion(R,"3.5.0","esm2017");}();
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+
 //
 // import * as firestore from 'firebase/firestore/lite';
 // import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
@@ -12212,8 +12216,10 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     this.runtime = runtime;
     this.firstInstall = true;
 
-    //onSnapshot
+    //
+    this.whenUpdatedCallCountMap = new Map();
     this.LisningBankCard_flag = false;
+    //onSnapshot
     this.unsubscribe = function () {};
     if (runtime.formatMessage) {
       // Replace 'formatMessage' to a formatter which is used in the runtime.
@@ -12240,6 +12246,8 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         return obj;
       });
     }
+
+    //onSnapshot設定時にトリガーしてしまう初回を回避
   }, {
     key: "lisningState",
     value: function lisningState() {
@@ -12249,6 +12257,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         this.LisningBankCard_flag = false;
       } else {
         this.LisningBankCard_flag = true;
+        this.snapshotCalled();
       }
     }
   }, {
@@ -12726,13 +12735,65 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       return state;
     }
   }, {
-    key: "whenUpdated",
-    value: function whenUpdated(args, util) {
-      var state = this.LisningBankCard_flag;
-      if (state) {
+    key: "snapshotCalled",
+    value: function snapshotCalled() {
+      var _iterator = _createForOfIteratorHelper(this.whenUpdatedCallCountMap.entries()),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var _step$value = _slicedToArray(_step.value, 2),
+            blockId = _step$value[0],
+            callCount = _step$value[1];
+          callCount += 1;
+          this.whenUpdatedCallCountMap.set(blockId, callCount);
+        }
+
+        //console.log('==snapCalled:', Array.from(this.whenUpdatedCallCountMap));
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+  }, {
+    key: "whenUpdatedCalled",
+    value: function whenUpdatedCalled(blockId) {
+      //console.log('Called:', instanceId);
+      var callCount = this.whenUpdatedCallCountMap.get(blockId) || 0;
+      if (this.LisningBankCard_flag) {
+        if (callCount > 0) {
+          callCount -= 1;
+          this.whenUpdatedCallCountMap.set(blockId, callCount);
+        }
+        //console.log('checkCalled', Array.from(this.whenUpdatedCallCountMap));
+        this.checkAllWhenUpdatedCalled();
+      } else {
+        this.whenUpdatedCallCountMap.set(blockId, callCount);
+      }
+    }
+  }, {
+    key: "checkAllWhenUpdatedCalled",
+    value: function checkAllWhenUpdatedCalled() {
+      var allCalled = Array.from(this.whenUpdatedCallCountMap.values()).every(function (count) {
+        return count === 0;
+      });
+      //console.log('checkCalled', Array.from(this.whenUpdatedCallCountMap));
+
+      if (allCalled) {
         this.LisningBankCard_flag = false;
       }
-      return state;
+    }
+  }, {
+    key: "whenUpdated",
+    value: function whenUpdated(args, util) {
+      var blockId = util.target.id;
+      //console.log('ARGUTIL:', args, util);
+      //const instanceId = util.target.id; 
+      //const blockId = ?
+
+      var callCount = this.whenUpdatedCallCountMap.get(blockId) || 0;
+      this.whenUpdatedCalled(blockId);
+      return callCount > 0;
     }
   }, {
     key: "LISNING_INFO",
