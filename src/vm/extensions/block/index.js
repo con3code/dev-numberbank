@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221203 - dev ver1.2(028)
+// 20221204 - dev ver1.2(030)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -33,10 +33,6 @@ import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestor
 const encoder = new TextEncoder();
 const deoder_utf8 = new TextDecoder('utf-8');
 
-// API呼び出し管理キュー
-let apiCallQueue = [];
-let processing = false;
-
 
 /**
  * Formatter which is used for translation.
@@ -69,21 +65,10 @@ const EXTENSION_ID = 'numberbank';
 let extensionURL = 'https://con3office.github.io/dev-numberbank/dist/numberbank.mjs';
 
 
-//onSnapshot対象
-const Lisning = {
-    OFF: 'off',
-    ON: 'on',
-    BANK:'',
-    CARD:'',
-    UNI:'',
-    FIRST:false
-}
-
-
 /**
  * Scratch 3.0 blocks for example of Xcratch.
  */
-class ExtensionBlocks {
+class Scratch3Numberbank {
 
     /**
      * @return {string} - the name of this extension.
@@ -133,7 +118,7 @@ class ExtensionBlocks {
 
         this.firstInstall = true;
 
-        //
+        //updated
         this.whenUpdatedCallCountMap = new Map();
         this.LisningBankCard_flag = false;
         //onSnapshot
@@ -796,10 +781,8 @@ class ExtensionBlocks {
 
 
     whenUpdated(args, util) {
-        const blockId = util.target.id;
-        //console.log('ARGUTIL:', args, util);
-        //const instanceId = util.target.id; 
-        //const blockId = ?
+        const blockId = util.thread.topBlock;
+        //console.log('util:', util.thread.topBlock);
 
         let callCount = this.whenUpdatedCallCountMap.get(blockId) || 0;
 
@@ -807,7 +790,6 @@ class ExtensionBlocks {
 
         return callCount > 0;
     }
-
 
 
     static get Lisning () {
@@ -851,9 +833,9 @@ class ExtensionBlocks {
     getInfo() {
         setupTranslations();
         return {
-            id: ExtensionBlocks.EXTENSION_ID,
-            name: ExtensionBlocks.EXTENSION_NAME,
-            extensionURL: ExtensionBlocks.extensionURL,
+            id: Scratch3Numberbank.EXTENSION_ID,
+            name: Scratch3Numberbank.EXTENSION_NAME,
+            extensionURL: Scratch3Numberbank.extensionURL,
             blockIconURI: blockIcon,
             showStatusButton: false,
             color1: '#78A0B4',
@@ -1185,6 +1167,19 @@ function hexString(textStr) {
 var fbApp;
 var db;
 
+// API呼び出し管理キュー
+let apiCallQueue = [];
+let processing = false;
+
+//onSnapshot対象
+const Lisning = {
+    OFF: 'off',
+    ON: 'on',
+    BANK:'',
+    CARD:'',
+    UNI:'',
+    FIRST:false
+}
 
 // Variables
 let masterKey = '';
@@ -1329,6 +1324,6 @@ function crypt_decode(cryptedConfigData, decodedConfigData) {
 
 
 export {
-    ExtensionBlocks as default,
-    ExtensionBlocks as blockClass
+    Scratch3Numberbank as default,
+    Scratch3Numberbank as blockClass
 };
