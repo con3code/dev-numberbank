@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221204 - dev ver1.2(030)
+// 20221205 - dev ver1.2(035)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -14,19 +14,19 @@ import Variable from '../../engine/variable';
 
 
 //Dev:
-//import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compat/app';
-//import { initializeApp, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
+//import { initializeApp, getApps, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
 //import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //import { initializeFirestore } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
-//import { getFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+//import { doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
-import firebase from 'firebase/compat/app';
-import { initializeApp, deleteApp } from 'firebase/app';
+import { initializeApp, getApps, deleteApp } from 'firebase/app';
 import * as firestore from 'firebase/firestore';
 import { initializeFirestore } from "firebase/firestore";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
 //
+// import firebase from 'firebase/compat/app';
+// import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compat/app';
 // import * as firestore from 'firebase/firestore/lite';
 // import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
 
@@ -307,6 +307,9 @@ class Scratch3Numberbank {
                             console.log("No MasterKey!");
                             resolve();  // MasterKeyがない場合
                         }
+                    }).catch(error => {
+                        console.error("Error: ", error);
+                        reject(error);
                     });
             } else {
                 resolve();
@@ -380,6 +383,9 @@ class Scratch3Numberbank {
                             console.log("No MasterKey!");
                             resolve('');  // MasterKeyがない場合
                         }
+                    }).catch(error => {
+                        console.error("Error: ", error);
+                        reject(error);
                     });
             } else {
                 resolve('');
@@ -519,6 +525,9 @@ class Scratch3Numberbank {
                         console.log("No MasterKey!");
                         reject('');  // MasterKeyがない場合
                     }
+                }).catch(error => {
+                    console.error("Error: ", error);
+                    reject(error);
                 });
             } else {
                 resolve('');
@@ -535,16 +544,18 @@ class Scratch3Numberbank {
 
 
     setMaster(args) {
+        masterSetted = args.KEY;
+        if (masterKey == masterSetted) { return masterKey; }
+
         return new Promise((resolve, reject) => {
             if (args.KEY == '') { resolve(''); }
-            if (inoutFlag_setting) { resolve(''); }
+            if (inoutFlag_setting) { resolve(); }
 
             inoutFlag_setting = true;
             inoutFlag = true;
     
             masterSha256 = '';
-            masterSetted = args.KEY;
-    
+
             mkbUrl = FBaseUrl + 'mkeybank/?mkey=' + masterSetted;
             mkbRequest = new Request(mkbUrl, { mode: 'cors' });
     
@@ -557,7 +568,6 @@ class Scratch3Numberbank {
                     masterSha256 = hexString(masterStr);
     
                     enqueueApiCall(() => fetch(mkbRequest).then(response => {
-                    
                         if (response.ok) {
                             return response.json();
                         } else {
@@ -593,21 +603,22 @@ class Scratch3Numberbank {
         
                         // Initialize Firebase
                         try {
-                            if (!firebase.apps.length) {
+                            if(!getApps().length){ //V9
+                            //if (!firebase.apps.length) {
                                         
-                                fbApp = initializeApp(firebaseConfig);
+                                fbApp = initializeApp(firebaseConfig, masterSetted); //V9
                                 //db = initializeFirestore(fbApp, {localCache: PersistentLocalCache});
                                 db = initializeFirestore(fbApp, {});
 
                                 inoutFlag_setting = false;
+                                inoutFlag = false;
             
                             } else {
             
                                 deleteApp(fbApp)
                                 .then(() => {
-                                    cloudFlag = false;
 
-                                    fbApp = initializeApp(firebaseConfig);
+                                    fbApp = initializeApp(firebaseConfig, masterSetted); //V9
                                     //db = initializeFirestore(fbApp, {localCache: PersistentLocalCache}); 
                                     db = initializeFirestore(fbApp, {});
 
@@ -626,37 +637,39 @@ class Scratch3Numberbank {
                             console.log('Error initializing or deleting fbApp:', error);
                             inoutFlag = false;
                             inoutFlag_setting = false;
+                            reject();
                         }
             
                         return sleep(1);
         
                     }).then(() => {
-                        masterKey = masterSetted;
-                        cloudFlag = true;
+                        ResponseMaster = masterKey = masterSetted;
                         console.log("= MasterKey:", masterSetted);
                         console.log('= Interval:', interval);
-                        console.log("= MasterKey Accepted! =");
+                        console.log("= MasterKey Accepted =");
 
-                        resolve(masterKey);
+                        resolve(ResponseMaster);
         
                     })
-                    .catch(function (error) {
-                        console.log("No such MasterKey!");
-                        console.error("Error setting MasterKey:", error);
-                        reject(error);  // MasterKeyがマッチしない場合
+                    .catch((error) => {
+                        ResponseMaster = 'No masterkey';  // MasterKeyがマッチしない場合
+                        console.log("= No such MasterKey =");
+                        inoutFlag_setting = false;
+                        resolve(ResponseMaster);
                     }));
 
                 })
                 .catch((error) => {
-                    console.log('Err fetch:', error);
-                    reject(error);
+                        console.log('Erorr:', error);
+                        reject(error);
                 });
+
         })
         .then(() => {
             return ioSettingWaiter(1);
         })
         .then(() => {
-            return masterKey;
+            return ResponseMaster;
         });
     }
 
@@ -672,8 +685,6 @@ class Scratch3Numberbank {
             //onSnapshotに登録
 
             return new Promise((resolve, reject) => {
-
-                console.log("Lisning ON");
         
                 bankKey = bankName = new String(args.BANK);
                 cardKey = new String(args.CARD);
@@ -711,6 +722,9 @@ class Scratch3Numberbank {
                                     console.log("onSnapshot Error:",err);
                                 
                                 });
+
+                                console.log("= Lisning ON =");
+
                                 resolve(state);
                                                                     
                             } else {
@@ -718,6 +732,9 @@ class Scratch3Numberbank {
                                 resolve();  // MasterKeyがない場合
                             }
     
+                        }).catch(error => {
+                            console.error("Error: ", error);
+                            reject(error);
                         });
 
                 } else {
@@ -728,7 +745,7 @@ class Scratch3Numberbank {
 
         } else {
 
-            console.log("Lisning OFF");
+            console.log("= Lisning OFF =");
 
             //onSnapshotを解除
             this.unsubscribe();
@@ -1184,6 +1201,7 @@ const Lisning = {
 // Variables
 let masterKey = '';
 let masterSetted = '';
+let ResponseMaster = '';
 let bankName = '';
 let bankKey = '';
 let cardKey = '';
@@ -1196,8 +1214,6 @@ let cardSha256 = '';
 let uniSha256 = '';
 let inoutFlag = false;
 let inoutFlag_setting = false;
-let availableFlag = false;
-let cloudFlag = false;
 let mkbRequest;
 let mkbUrl;
 const FBaseUrl = 'https://us-central1-masterkey-bank.cloudfunctions.net/';
