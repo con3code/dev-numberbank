@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221205 - dev ver1.2(035)
+// 20221205 - dev ver1.2(036)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -544,9 +544,6 @@ class Scratch3Numberbank {
 
 
     setMaster(args) {
-        masterSetted = args.KEY;
-        if (masterKey == masterSetted) { return masterKey; }
-
         return new Promise((resolve, reject) => {
             if (args.KEY == '') { resolve(''); }
             if (inoutFlag_setting) { resolve(); }
@@ -555,6 +552,7 @@ class Scratch3Numberbank {
             inoutFlag = true;
     
             masterSha256 = '';
+            masterSetted = args.KEY;
 
             mkbUrl = FBaseUrl + 'mkeybank/?mkey=' + masterSetted;
             mkbRequest = new Request(mkbUrl, { mode: 'cors' });

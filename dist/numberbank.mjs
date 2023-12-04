@@ -11614,10 +11614,6 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
   }, {
     key: "setMaster",
     value: function setMaster(args) {
-      masterSetted = args.KEY;
-      if (masterKey == masterSetted) {
-        return masterKey;
-      }
       return new Promise(function (resolve, reject) {
         if (args.KEY == '') {
           resolve('');
@@ -11628,6 +11624,7 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
         inoutFlag_setting = true;
         inoutFlag = true;
         masterSha256 = '';
+        masterSetted = args.KEY;
         mkbUrl = FBaseUrl + 'mkeybank/?mkey=' + masterSetted;
         mkbRequest = new Request(mkbUrl, {
           mode: 'cors'
@@ -11698,7 +11695,7 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
               }
               return sleep(1);
             }).then(function () {
-              ResponseMaster = masterKey = masterSetted;
+              ResponseMaster = masterSetted;
               console.log("= MasterKey:", masterSetted);
               console.log('= Interval:', interval);
               console.log("= MasterKey Accepted =");
@@ -12230,9 +12227,6 @@ var Lisning = {
   UNI: '',
   FIRST: false
 };
-
-// Variables
-var masterKey = '';
 var masterSetted = '';
 var ResponseMaster = '';
 var bankName = '';
