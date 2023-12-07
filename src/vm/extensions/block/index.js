@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221205 - dev ver1.2(036)
+// 20221207 - dev ver1.2(037)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -16,19 +16,12 @@ import Variable from '../../engine/variable';
 //Dev:
 //import { initializeApp, getApps, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
 //import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-//import { initializeFirestore } from "/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore";
-//import { doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+//import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
 import { initializeApp, getApps, deleteApp } from 'firebase/app';
 import * as firestore from 'firebase/firestore';
-import { initializeFirestore } from "firebase/firestore";
-import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
-//
-// import firebase from 'firebase/compat/app';
-// import firebase from '/usr/local/xcratch/scratch-gui/node_modules/firebase/compat/app';
-// import * as firestore from 'firebase/firestore/lite';
-// import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
 
 const encoder = new TextEncoder();
 const deoder_utf8 = new TextDecoder('utf-8');
@@ -130,15 +123,15 @@ class Scratch3Numberbank {
         }
     }
 
-        /**
-         * Create data for a menu in scratch-blocks format, consisting of an array
-         * of objects with text and value properties. The text is a translated
-         * string, and the value is one-indexed.
-         * @param {object[]} info - An array of info objects each having a name
-         *   property.
-         * @return {array} - An array of objects with text and value properties.
-         * @private
-         */
+    /**
+     * Create data for a menu in scratch-blocks format, consisting of an array
+     * of objects with text and value properties. The text is a translated
+     * string, and the value is one-indexed.
+     * @param {object[]} info - An array of info objects each having a name
+     *   property.
+     * @return {array} - An array of objects with text and value properties.
+     * @private
+     */
     _buildMenu (info) {
         return info.map((entry, index) => {
             const obj = {};
@@ -255,7 +248,8 @@ class Scratch3Numberbank {
 
             const variable = util.target.lookupOrCreateVariable(null, args.VAL);
 
-            bankKey = bankName = new String(args.BANK);
+            bankKey = new String(args.BANK);
+            bankName = args.BANK;
             cardKey = new String(args.CARD);
 
             uniKey = bankKey.trim().concat(cardKey.trim());
@@ -397,6 +391,7 @@ class Scratch3Numberbank {
                 }, interval.MsGet);
             });
         });
+
     }
 
 
@@ -760,9 +755,6 @@ class Scratch3Numberbank {
             callCount += 1;
             this.whenUpdatedCallCountMap.set(blockId, callCount);
         }
-
-        //console.log('==snapCalled:', Array.from(this.whenUpdatedCallCountMap));
-
 
     }
 
