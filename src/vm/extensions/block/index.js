@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221207 - dev ver1.2(037)
+// 20221207 - dev ver1.2(038)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -636,7 +636,7 @@ class Scratch3Numberbank {
                         return sleep(1);
         
                     }).then(() => {
-                        ResponseMaster = masterKey = masterSetted;
+                        ResponseMaster = masterSetted;
                         console.log("= MasterKey:", masterSetted);
                         console.log('= Interval:', interval);
                         console.log("= MasterKey Accepted =");
@@ -1189,7 +1189,6 @@ const Lisning = {
 }
 
 // Variables
-let masterKey = '';
 let masterSetted = '';
 let ResponseMaster = '';
 let bankName = '';

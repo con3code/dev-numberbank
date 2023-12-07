@@ -1,4 +1,4 @@
-# dev NumberBank1.2
+# dev NumberBank 1.2 (-> cloudbank)
 An example extension for [Xcratch](https://xcratch.github.io/)
 
 This extension add extra-block "do it", that executes string in its input field as a sentence in Javascript and return the result.
