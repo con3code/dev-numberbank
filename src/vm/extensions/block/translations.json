@@ -8,17 +8,17 @@
     "numberbank.argments.bank": "バンク",
     "numberbank.argments.card": "カード",
     "numberbank.argments.key": "key",
-    "numberbank.putNum": "[BANK]の[CARD]を[NUM]にする",
+    "numberbank.putNum": "[BANK]の[CARD]を[VAL]にする",
     "numberbank.setNum": "[VAL]を[BANK]の[CARD]にする",
     "numberbank.getNum": "[BANK]の[CARD]を読む",
     "numberbank.repNum": "クラウドの値",
     "numberbank.repCloudNum": "[BANK]の[CARD]の値",
     "numberbank.boolAvl": "[BANK]の[CARD]がある",
     "numberbank.setMaster": "マスター[KEY]をセット",
-    "numberbank.lisningNum":"[BANK]の[CARD]の更新確認を[LISNING_STATE]にする",
-    "numberbank.whenUpdated":"更新されたとき",
-    "lisning.off":"切",
-    "lisning.on":"入"
+    "numberbank.lisningNum": "[BANK]の[CARD]の更新確認を[LISNING_STATE]にする",
+    "numberbank.whenUpdated": "更新されたとき",
+    "lisning.off": "切",
+    "lisning.on": "入"
   },
   "ja-Hira": {
     "numberbank.name": "なんばーばんく",
@@ -26,16 +26,16 @@
     "numberbank.argments.bank": "ばんく",
     "numberbank.argments.card": "かーど",
     "numberbank.argments.key": "key",
-    "numberbank.putNum": "[BANK]の[CARD]を[NUM]にする",
+    "numberbank.putNum": "[BANK]の[CARD]を[VAL]にする",
     "numberbank.setNum": "[VAL]を[BANK]の[CARD]にする",
     "numberbank.getNum": "[BANK]の[CARD]をよむ",
     "numberbank.repNum": "クラウドのあたい",
     "numberbank.repCloudNum": "[BANK]の[CARD]のあたい",
     "numberbank.boolAvl": "[BANK]の[CARD]がある",
     "numberbank.setMaster": "ますたー[KEY]をセット",
-    "numberbank.lisningNum":"[BANK]の[CARD]のこうしんかくにんを[LISNING_STATE]にする",
-    "numberbank.whenUpdated":"こうしんされたとき",
-    "lisning.off":"きり",
-    "lisning.on":"いり"
+    "numberbank.lisningNum": "[BANK]の[CARD]のこうしんかくにんを[LISNING_STATE]にする",
+    "numberbank.whenUpdated": "こうしんされたとき",
+    "lisning.off": "きり",
+    "lisning.on": "いり"
   }
 }

@@ -4,18 +4,18 @@ var img$1 = "data:image/svg+xml,%3c%3fxml version='1.0' encoding='UTF-8'%3f%3e%3
 
 var en$2 = {
 	"numberbank.entry.name": "NumberBank 1.2d",
-	"numberbank.entry.description": "Store Numbers to Cloud."
+	"numberbank.entry.description": "Store Value to Cloud."
 };
 var ja$2 = {
 	"numberbank.entry.name": "NumberBank 1.2d",
-	"numberbank.entry.description": "数字をクラウドに保存する。"
+	"numberbank.entry.description": "値をクラウドに保存する。"
 };
 var translations$1 = {
 	en: en$2,
 	ja: ja$2,
 	"ja-Hira": {
 	"numberbank.entry.name": "ナンバーバンク 1.2d",
-	"numberbank.entry.description": "すうじをクラウドにほぞんする。"
+	"numberbank.entry.description": "あたいをクラウドにほぞんする。"
 }
 };
 
@@ -276,11 +276,11 @@ var ja$1 = {
 	"numberbank.argments.bank": "バンク",
 	"numberbank.argments.card": "カード",
 	"numberbank.argments.key": "key",
-	"numberbank.putNum": "[BANK]の[CARD]の数字を[NUM]にする",
-	"numberbank.setNum": "[VAL]を[BANK]の[CARD]の数字にする",
+	"numberbank.putNum": "[BANK]の[CARD]を[VAL]にする",
+	"numberbank.setNum": "[VAL]を[BANK]の[CARD]にする",
 	"numberbank.getNum": "[BANK]の[CARD]を読む",
-	"numberbank.repNum": "クラウド数字",
-	"numberbank.repCloudNum": "[BANK]の[CARD]の数字",
+	"numberbank.repNum": "クラウドの値",
+	"numberbank.repCloudNum": "[BANK]の[CARD]の値",
 	"numberbank.boolAvl": "[BANK]の[CARD]がある",
 	"numberbank.setMaster": "マスター[KEY]をセット",
 	"numberbank.lisningNum": "[BANK]の[CARD]の更新確認を[LISNING_STATE]にする",
@@ -297,11 +297,11 @@ var translations = {
 	"numberbank.argments.bank": "ばんく",
 	"numberbank.argments.card": "かーど",
 	"numberbank.argments.key": "key",
-	"numberbank.putNum": "[BANK]の[CARD]のすうじを[NUM]にする",
-	"numberbank.setNum": "[VAL]を[BANK]の[CARD]のすうじにする",
+	"numberbank.putNum": "[BANK]の[CARD]を[VAL]にする",
+	"numberbank.setNum": "[VAL]を[BANK]の[CARD]にする",
 	"numberbank.getNum": "[BANK]の[CARD]をよむ",
-	"numberbank.repNum": "クラウドすうじ",
-	"numberbank.repCloudNum": "[BANK]の[CARD]のすうじ",
+	"numberbank.repNum": "クラウドのあたい",
+	"numberbank.repCloudNum": "[BANK]の[CARD]のあたい",
 	"numberbank.boolAvl": "[BANK]の[CARD]がある",
 	"numberbank.setMaster": "ますたー[KEY]をセット",
 	"numberbank.lisningNum": "[BANK]の[CARD]のこうしんかくにんを[LISNING_STATE]にする",
@@ -11272,15 +11272,15 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
         if (masterSha256 == '') {
           resolve();
         }
-        if (args.BANK == '' || args.CARD == '' || args.NUM == '') {
+        if (args.BANK == '' || args.CARD == '' || args.VAL == '') {
           resolve();
         }
         bankKey = new String(args.BANK);
         bankName = args.BANK;
         cardKey = new String(args.CARD);
         uniKey = bankKey.trim().concat(cardKey.trim());
-        if (args.NUM != '' && args.NUM != undefined) {
-          settingNum = args.NUM;
+        if (args.VAL != '' && args.VAL != undefined) {
+          settingNum = args.VAL;
         }
         if (!crypto || !crypto.subtle) {
           reject("crypto.subtle is not supported.");
@@ -11873,8 +11873,8 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
           opcode: 'putNum',
           text: formatMessage({
             id: 'numberbank.putNum',
-            default: 'put[NUM]to[CARD]of[BANK]',
-            description: 'put number to Firebase'
+            default: 'put [VAL] to [CARD]of[BANK]',
+            description: 'put value to Firebase'
           }),
           blockType: blockType.COMMAND,
           arguments: {
@@ -11892,7 +11892,7 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
                 default: 'card'
               })
             },
-            NUM: {
+            VAL: {
               type: argumentType.NUMBER,
               defaultValue: '10'
             }
@@ -11901,8 +11901,8 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
           opcode: 'setNum',
           text: formatMessage({
             id: 'numberbank.setNum',
-            default: 'set [VAL] to number of[CARD]of[BANK]',
-            description: 'set number by Firebase'
+            default: 'set [VAL] to [CARD]of[BANK]',
+            description: 'set value by Firebase'
           }),
           blockType: blockType.COMMAND,
           arguments: {
@@ -11931,8 +11931,8 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
           opcode: 'getNum',
           text: formatMessage({
             id: 'numberbank.getNum',
-            default: 'get number of[CARD]of[BANK]',
-            description: 'get number from Firebase'
+            default: 'get [CARD]of[BANK]',
+            description: 'get vlaue from Firebase'
           }),
           blockType: blockType.COMMAND,
           arguments: {
@@ -11956,16 +11956,16 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
           blockType: blockType.REPORTER,
           text: formatMessage({
             id: 'numberbank.repNum',
-            default: 'cloud number',
-            description: 'report Number'
+            default: 'cloud value',
+            description: 'report value'
           })
         }, '---', {
           opcode: 'repCloudNum',
           blockType: blockType.REPORTER,
           text: formatMessage({
             id: 'numberbank.repCloudNum',
-            default: 'number of[CARD]of[BANK]',
-            description: 'report Cloud number'
+            default: 'value of [CARD]of[BANK]',
+            description: 'report cloud value'
           }),
           arguments: {
             BANK: {
@@ -11989,7 +11989,7 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
           text: formatMessage({
             id: 'numberbank.boolAvl',
             default: '[CARD]of[BANK] available?',
-            description: 'report Number'
+            description: 'report value'
           }),
           arguments: {
             BANK: {
@@ -12013,7 +12013,7 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
           text: formatMessage({
             id: 'numberbank.setMaster',
             default: 'set Master[KEY]',
-            description: 'readFirebase'
+            description: 'initFirebase'
           }),
           arguments: {
             KEY: {
@@ -12029,8 +12029,8 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
           blockType: blockType.COMMAND,
           text: formatMessage({
             id: 'numberbank.lisningNum',
-            default: ' turn lisning number of[CARD]of[BANK][LISNING_STATE]',
-            description: 'lisning number by Firebase'
+            default: ' turn lisning value of[CARD]of[BANK] [LISNING_STATE]',
+            description: 'lisning value by Firebase'
           }),
           arguments: {
             BANK: {

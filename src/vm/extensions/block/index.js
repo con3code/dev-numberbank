@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221210 - dev ver1.2(040)
+// 20221210 - dev ver1.2(041)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -146,7 +146,7 @@ class Scratch3Numberbank {
     putNum(args) {
         return new Promise((resolve, reject) => {
             if (masterSha256 == '') { resolve(); }
-            if (args.BANK == '' || args.CARD == '' || args.NUM == '') { resolve(); }
+            if (args.BANK == '' || args.CARD == '' || args.VAL == '') { resolve(); }
 
             bankKey = new String(args.BANK);
             bankName = args.BANK;
@@ -154,8 +154,8 @@ class Scratch3Numberbank {
 
             uniKey = bankKey.trim().concat(cardKey.trim());
 
-            if (args.NUM != '' && args.NUM != undefined) {
-                settingNum = args.NUM;
+            if (args.VAL != '' && args.VAL != undefined) {
+                settingNum = args.VAL;
             }
 
             if (!crypto || !crypto.subtle) {
@@ -854,7 +854,7 @@ class Scratch3Numberbank {
                     opcode: 'putNum',
                     text: formatMessage({
                         id: 'numberbank.putNum',
-                        default: 'put[VAL]to[CARD]of[BANK]',
+                        default: 'put [VAL] to [CARD]of[BANK]',
                         description: 'put value to Firebase'
                     }),
                     blockType: BlockType.COMMAND,
@@ -952,7 +952,7 @@ class Scratch3Numberbank {
                     blockType: BlockType.REPORTER,
                     text: formatMessage({
                         id: 'numberbank.repCloudNum',
-                        default: 'value of[CARD]of[BANK]',
+                        default: 'value of [CARD]of[BANK]',
                         description: 'report cloud value'
                     }),
                     arguments: {
@@ -1024,7 +1024,7 @@ class Scratch3Numberbank {
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
                         id: 'numberbank.lisningNum',
-                        default: ' turn lisning value of[CARD]of[BANK][LISNING_STATE]',
+                        default: ' turn lisning value of[CARD]of[BANK] [LISNING_STATE]',
                         description: 'lisning value by Firebase'
                     }),
                     arguments: {
