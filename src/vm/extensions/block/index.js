@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221207 - dev ver1.2(038)
+// 20221209 - dev ver1.2(039)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -55,7 +55,7 @@ const EXTENSION_ID = 'numberbank';
  * When it was loaded as a module, 'extensionURL' will be replaced a URL which is retrieved from.
  * @type {string}
  */
-let extensionURL = 'https://con3office.github.io/dev-numberbank/dist/numberbank.mjs';
+let extensionURL = 'https://con3code.github.io/dev-numberbank/dist/numberbank.mjs';
 
 
 /**
@@ -139,18 +139,6 @@ class Scratch3Numberbank {
             obj.value = entry.value || String(index + 1);
             return obj;
         });
-    }
-
-    //onSnapshot設定時にトリガーしてしまう初回を回避
-    lisningState () {
-        const first = Lisning.FIRST;
-        if (first) {
-            Lisning.FIRST = false;
-            this.LisningBankCard_flag = false;
-        } else {
-            this.LisningBankCard_flag = true;
-            this.snapshotCalled();
-        }
     }
 
 
@@ -760,6 +748,24 @@ class Scratch3Numberbank {
     }
 
 
+    //onSnapshot設定時にトリガーしてしまう初回を回避
+    lisningState () {
+        const first = Lisning.FIRST;
+        if (first) {
+            Lisning.FIRST = false;
+            this.LisningBankCard_flag = false;
+        } else {
+            this.LisningBankCard_flag = true;
+            this.snapshotCalled();
+        }
+    }
+    
+    
+    static get Lisning () {
+        return Lisning;
+    }
+
+
     whenUpdatedCalled(blockId) {
         //console.log('Called:', instanceId);
         let callCount = this.whenUpdatedCallCountMap.get(blockId) || 0;
@@ -797,11 +803,6 @@ class Scratch3Numberbank {
         this.whenUpdatedCalled(blockId);
 
         return callCount > 0;
-    }
-
-
-    static get Lisning () {
-        return Lisning;
     }
 
 
@@ -847,7 +848,7 @@ class Scratch3Numberbank {
             blockIconURI: blockIcon,
             showStatusButton: false,
             color1: '#78A0B4',
-            color2: '#78A0B4',      
+            color2: '#78A0B4',
             blocks: [
                 {
                     opcode: 'putNum',
@@ -1057,7 +1058,6 @@ class Scratch3Numberbank {
                         description: 'whenFirebaseUpdated'
                     }),
                 },
-
 
             ],
             menus: {
