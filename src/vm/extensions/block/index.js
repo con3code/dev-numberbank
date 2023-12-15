@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221210 - dev ver1.2(041)
+// 20221215 - dev ver1.2(042)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -766,6 +766,8 @@ class Scratch3Numberbank {
     }
 
 
+    // whenUpdatedが呼ばれたカウントを処理
+    // 更新確認が行なわれる毎に各callCountは増えているので、呼び出された毎にcallCountを0になるまで減らす
     whenUpdatedCalled(blockId) {
         //console.log('Called:', instanceId);
         let callCount = this.whenUpdatedCallCountMap.get(blockId) || 0;
@@ -783,7 +785,9 @@ class Scratch3Numberbank {
 
     }
 
-    
+
+    // すべてのwhenUpdatedハットブロックが呼ばれたかチェック
+    // すべてのcallCountが0になったらLisningBankCard_flagをfalseにする
     checkAllWhenUpdatedCalled() {
         const allCalled = Array.from(this.whenUpdatedCallCountMap.values()).every(count => count === 0);
         //console.log('checkCalled', Array.from(this.whenUpdatedCallCountMap));
@@ -794,6 +798,7 @@ class Scratch3Numberbank {
     }
 
 
+    // whenUpdatedハットブロック
     whenUpdated(args, util) {
         const blockId = util.thread.topBlock;
         //console.log('util:', util.thread.topBlock);
