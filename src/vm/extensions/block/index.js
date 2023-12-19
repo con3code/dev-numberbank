@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221215 - dev ver1.2(042)
+// 20221219 - dev ver1.2(043)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -8,19 +8,19 @@ import translations from './translations.json';
 import blockIcon from './numberbank_icon.png';
 
 //Dev:
-//import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
+import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
 //Relese:
-import Variable from '../../engine/variable';
+//import Variable from '../../engine/variable';
 
 
 //Dev:
-//import { initializeApp, getApps, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
-//import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-//import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+import { initializeApp, getApps, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
+import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
-import { initializeApp, getApps, deleteApp } from 'firebase/app';
-import * as firestore from 'firebase/firestore';
-import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+//import { initializeApp, getApps, deleteApp } from 'firebase/app';
+//import * as firestore from 'firebase/firestore';
+//import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
 
 const encoder = new TextEncoder();
@@ -889,8 +889,8 @@ class Scratch3Numberbank {
                     opcode: 'setNum',
                     text: formatMessage({
                         id: 'numberbank.setNum',
-                        default: 'set [VAL] to [CARD]of[BANK]',
-                        description: 'set value by Firebase'
+                        default: 'set [VAR] to [CARD]of[BANK]',
+                        description: 'set variable by Firebase'
                     }),
                     blockType: BlockType.COMMAND,
                     arguments: {
@@ -908,11 +908,11 @@ class Scratch3Numberbank {
                                 default: 'card'
                             })
                         },
-                        VAL: {
+                        VAR: {
                             type: ArgumentType.STRING,
                             fieldName: 'VARIABLE',
                             variableType: Variable.SCALAR_TYPE,
-                            menu: 'valMenu'
+                            menu: 'varMenu'
                         }
                     }
                 },
@@ -1066,7 +1066,7 @@ class Scratch3Numberbank {
 
             ],
             menus: {
-                valMenu: {
+                varMenu: {
                     acceptReporters: true,
                     items: 'getDynamicMenuItems'
                 },

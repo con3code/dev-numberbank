@@ -1,15 +1,14 @@
 {
   "en": {
-    "numberbank.NumberBank": "NumberBank"
+    "numberbank.name": "NumberBank"
   },
   "ja": {
     "numberbank.name": "NumberBank",
-    "numberbank.NumberBank": "ナンバーバンク",
     "numberbank.argments.bank": "バンク",
     "numberbank.argments.card": "カード",
     "numberbank.argments.key": "key",
     "numberbank.putNum": "[BANK]の[CARD]を[VAL]にする",
-    "numberbank.setNum": "[VAL]を[BANK]の[CARD]にする",
+    "numberbank.setNum": "[VAR]を[BANK]の[CARD]にする",
     "numberbank.getNum": "[BANK]の[CARD]を読む",
     "numberbank.repNum": "クラウドの値",
     "numberbank.repCloudNum": "[BANK]の[CARD]の値",
@@ -22,12 +21,11 @@
   },
   "ja-Hira": {
     "numberbank.name": "なんばーばんく",
-    "numberbank.NumberBank": "なんばーばんく",
     "numberbank.argments.bank": "ばんく",
     "numberbank.argments.card": "かーど",
     "numberbank.argments.key": "key",
     "numberbank.putNum": "[BANK]の[CARD]を[VAL]にする",
-    "numberbank.setNum": "[VAL]を[BANK]の[CARD]にする",
+    "numberbank.setNum": "[VAR]を[BANK]の[CARD]にする",
     "numberbank.getNum": "[BANK]の[CARD]をよむ",
     "numberbank.repNum": "クラウドのあたい",
     "numberbank.repCloudNum": "[BANK]の[CARD]のあたい",
