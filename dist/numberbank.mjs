@@ -37,7 +37,7 @@ var entry = {
     return formatMessage$1({
       id: 'numberbank.entry.name',
       default: 'NumberBank 2.0d',
-      description: 'name of the extension'
+      description: 'Name of the extension'
     });
   },
   extensionId: 'numberbank',
@@ -48,7 +48,7 @@ var entry = {
   get description() {
     return formatMessage$1({
       defaultMessage: 'Store Numbers to Cloud.',
-      description: 'description of the extension',
+      description: 'Description of the extension',
       id: 'numberbank.entry.description'
     });
   },
@@ -12253,8 +12253,14 @@ registerVersion(w,"4.4.0","esm2017");}();
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+//Relese:
+//import {initializeApp, getApps, deleteApp} from 'firebase/app';
+//import * as firestore from 'firebase/firestore';
+//import {initializeFirestore, doc, getDoc, setDoc, onSnapshot} from 'firebase/firestore';
+
 var encoder = new TextEncoder();
 var decoderUtf8 = new TextDecoder('utf-8');
+var numberbankVersion = 'NumberBank 2.0(046)';
 
 /**
  * Formatter which is used for translation.
@@ -12306,6 +12312,7 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
     this.LisningBankCard_flag = false;
     //onSnapshot
     this.unsubscribe = function () {};
+    console.log(numberbankVersion);
     if (runtime.formatMessage) {
       // Replace 'formatMessage' to a formatter which is used in the runtime.
       formatMessage = runtime.formatMessage;

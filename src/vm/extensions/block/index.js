@@ -1,6 +1,6 @@
 //
 // NumberBank for Xcratch
-// 20221220 - dev ver2.0(045)
+// 20221220 - dev ver2.0(046)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -9,23 +9,25 @@ import translations from './translations.json';
 import blockIcon from './numberbank_icon.png';
 
 //Dev:
-//import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
+import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
 //Relese:
-import Variable from '../../engine/variable';
+//import Variable from '../../engine/variable';
 
 
 //Dev:
-//import {initializeApp, getApps, deleteApp} from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
-//import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-//import {initializeFirestore, doc, getDoc, setDoc, onSnapshot} from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+import {initializeApp, getApps, deleteApp} from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
+import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+import {initializeFirestore, doc, getDoc, setDoc, onSnapshot} from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
-import {initializeApp, getApps, deleteApp} from 'firebase/app';
-import * as firestore from 'firebase/firestore';
-import {initializeFirestore, doc, getDoc, setDoc, onSnapshot} from 'firebase/firestore';
+//import {initializeApp, getApps, deleteApp} from 'firebase/app';
+//import * as firestore from 'firebase/firestore';
+//import {initializeFirestore, doc, getDoc, setDoc, onSnapshot} from 'firebase/firestore';
 
 
 const encoder = new TextEncoder();
 const decoderUtf8 = new TextDecoder('utf-8');
+
+const numberbankVersion = 'NumberBank 2.0(046)';
 
 
 /**
@@ -118,10 +120,13 @@ class Scratch3Numberbank {
         //onSnapshot
         this.unsubscribe = () => {};
 
+        console.log(numberbankVersion);
+
         if (runtime.formatMessage) {
             // Replace 'formatMessage' to a formatter which is used in the runtime.
             formatMessage = runtime.formatMessage;
         }
+
     }
 
     /**
