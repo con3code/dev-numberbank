@@ -1,5 +1,5 @@
 // NumberBank for Xcratch
-// 20221219 - dev ver1.2(043)
+// 20221220 - dev ver2.0(044)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -8,23 +8,23 @@ import translations from './translations.json';
 import blockIcon from './numberbank_icon.png';
 
 //Dev:
-import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
+//import Variable from '/usr/local/xcratch/scratch-gui/node_modules/scratch-vm/src/engine/variable';
 //Relese:
-//import Variable from '../../engine/variable';
+import Variable from '../../engine/variable';
 
 
 //Dev:
-import { initializeApp, getApps, deleteApp } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
-import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
-import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+//import {initializeApp, getApps, deleteApp} from '/usr/local/xcratch/scratch-gui/node_modules/firebase/app';
+//import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
+//import {initializeFirestore, doc, getDoc, setDoc, onSnapshot} from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
-//import { initializeApp, getApps, deleteApp } from 'firebase/app';
-//import * as firestore from 'firebase/firestore';
-//import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+import { initializeApp, getApps, deleteApp } from 'firebase/app';
+import * as firestore from 'firebase/firestore';
+import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
 
 const encoder = new TextEncoder();
-const deoder_utf8 = new TextDecoder('utf-8');
+const decoderUtf8 = new TextDecoder('utf-8');
 
 
 /**
@@ -71,7 +71,7 @@ class Scratch3Numberbank {
             id: 'numberbank.name',
             default: 'NumberBank',
             description: 'name of the extension'
-        });
+        }).toString();
     }
 
     /**
@@ -1029,7 +1029,7 @@ class Scratch3Numberbank {
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
                         id: 'numberbank.lisningNum',
-                        default: ' turn lisning value of[CARD]of[BANK] [LISNING_STATE]',
+                        default: 'turn lisning value of[CARD]of[BANK] [LISNING_STATE]',
                         description: 'lisning value by Firebase'
                     }),
                     arguments: {
@@ -1294,7 +1294,7 @@ function de_get(data) {
 }
 
 function de_disp(data) {
-    return deoder_utf8.decode(data);
+    return decoderUtf8.decode(data);
 }
 
 function en_crt(data) {

@@ -1,14 +1,14 @@
 {
   "en": {
-    "numberbank.entry.name": "NumberBank 1.2d",
+    "numberbank.entry.name": "NumberBank 2.0d",
     "numberbank.entry.description": "Store Value to Cloud."
   },
   "ja": {
-    "numberbank.entry.name": "ナンバーバンク 1.2d",
+    "numberbank.entry.name": "ナンバーバンク 2.0d",
     "numberbank.entry.description": "値をクラウドに保存する。"
   },
   "ja-Hira": {
-    "numberbank.entry.name": "なんばーばんく 1.2d",
+    "numberbank.entry.name": "なんばーばんく 2.0d",
     "numberbank.entry.description": "あたいをクラウドにほぞんする。"
   }
 }

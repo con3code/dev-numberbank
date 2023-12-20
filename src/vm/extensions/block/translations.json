@@ -1,9 +1,23 @@
 {
   "en": {
-    "numberbank.name": "NumberBank"
+    "numberbank.name": "NumberBank",
+    "numberbank.argments.bank": "bank",
+    "numberbank.argments.card": "card",
+    "numberbank.argments.key": "key",
+    "numberbank.putNum": "put [VAL] to [CARD]of[BANK]",
+    "numberbank.setNum": "set [VAR] to [CARD]of[BANK]",
+    "numberbank.getNum": "get [CARD]of[BANK]",
+    "numberbank.repNum": "cloud value",
+    "numberbank.repCloudNum": "value of [CARD]of[BANK]",
+    "numberbank.boolAvl": "[CARD]of[BANK] available?",
+    "numberbank.setMaster": "set Master[KEY]",
+    "numberbank.lisningNum": "turn lisning value of[CARD]of[BANK] [LISNING_STATE]",
+    "numberbank.whenUpdated": "when updated",
+    "lisning.off": "off",
+    "lisning.on": "on"
   },
   "ja": {
-    "numberbank.name": "NumberBank",
+    "numberbank.name": "ナンバーバンク",
     "numberbank.argments.bank": "バンク",
     "numberbank.argments.card": "カード",
     "numberbank.argments.key": "key",
