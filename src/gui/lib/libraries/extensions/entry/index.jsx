@@ -18,8 +18,8 @@ const entry = {
     get name() {
         return formatMessage({
             id: 'numberbank.entry.name',
-            default: 'NumberBank 1.12d',
-            description: 'Store Numbers to Cloud.'
+            default: 'NumberBank 2.0d',
+            description: 'name of the extension'
         });
     },
     extensionId: 'numberbank',
@@ -29,8 +29,8 @@ const entry = {
     insetIconURL: insetIconURL,
     get description() {
         return formatMessage({
-            defaultMessage: 'an extension for Xcratch',
-            description: 'Store Numbers to Cloud.',
+            defaultMessage: 'Store Numbers to Cloud.',
+            description: 'description of the extension',
             id: 'numberbank.entry.description'
         });
     },

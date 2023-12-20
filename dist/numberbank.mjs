@@ -36,8 +36,8 @@ var entry = {
   get name() {
     return formatMessage$1({
       id: 'numberbank.entry.name',
-      default: 'NumberBank 1.12d',
-      description: 'Store Numbers to Cloud.'
+      default: 'NumberBank 2.0d',
+      description: 'name of the extension'
     });
   },
   extensionId: 'numberbank',
@@ -47,8 +47,8 @@ var entry = {
   insetIconURL: img$1,
   get description() {
     return formatMessage$1({
-      defaultMessage: 'an extension for Xcratch',
-      description: 'Store Numbers to Cloud.',
+      defaultMessage: 'Store Numbers to Cloud.',
+      description: 'description of the extension',
       id: 'numberbank.entry.description'
     });
   },
@@ -285,7 +285,7 @@ var en = {
 	"lisning.on": "on"
 };
 var ja = {
-	"numberbank.name": "ナンバーバンク",
+	"numberbank.name": "NumberBank",
 	"numberbank.argments.bank": "バンク",
 	"numberbank.argments.card": "カード",
 	"numberbank.argments.key": "key",
@@ -12945,12 +12945,12 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
         color2: '#78A0B4',
         blocks: [{
           opcode: 'putNum',
+          blockType: blockType.COMMAND,
           text: formatMessage({
             id: 'numberbank.putNum',
             default: 'put [VAL] to [CARD]of[BANK]',
             description: 'put value to Firebase'
           }),
-          blockType: blockType.COMMAND,
           arguments: {
             BANK: {
               type: argumentType.STRING,
@@ -12973,12 +12973,12 @@ var Scratch3Numberbank = /*#__PURE__*/function () {
           }
         }, '---', {
           opcode: 'setNum',
+          blockType: blockType.COMMAND,
           text: formatMessage({
             id: 'numberbank.setNum',
             default: 'set [VAR] to [CARD]of[BANK]',
             description: 'set variable by Firebase'
           }),
-          blockType: blockType.COMMAND,
           arguments: {
             BANK: {
               type: argumentType.STRING,

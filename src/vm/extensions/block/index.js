@@ -1,5 +1,6 @@
+//
 // NumberBank for Xcratch
-// 20221220 - dev ver2.0(044)
+// 20221220 - dev ver2.0(045)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -18,9 +19,9 @@ import Variable from '../../engine/variable';
 //import * as firestore from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //import {initializeFirestore, doc, getDoc, setDoc, onSnapshot} from '/usr/local/xcratch/scratch-gui/node_modules/firebase/firestore';
 //Relese:
-import { initializeApp, getApps, deleteApp } from 'firebase/app';
+import {initializeApp, getApps, deleteApp} from 'firebase/app';
 import * as firestore from 'firebase/firestore';
-import { initializeFirestore, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+import {initializeFirestore, doc, getDoc, setDoc, onSnapshot} from 'firebase/firestore';
 
 
 const encoder = new TextEncoder();
@@ -857,12 +858,12 @@ class Scratch3Numberbank {
             blocks: [
                 {
                     opcode: 'putNum',
+                    blockType: BlockType.COMMAND,
                     text: formatMessage({
                         id: 'numberbank.putNum',
                         default: 'put [VAL] to [CARD]of[BANK]',
                         description: 'put value to Firebase'
                     }),
-                    blockType: BlockType.COMMAND,
                     arguments: {
                         BANK: {
                             type: ArgumentType.STRING,
@@ -887,12 +888,12 @@ class Scratch3Numberbank {
                 '---',
                 {
                     opcode: 'setNum',
+                    blockType: BlockType.COMMAND,
                     text: formatMessage({
                         id: 'numberbank.setNum',
                         default: 'set [VAR] to [CARD]of[BANK]',
                         description: 'set variable by Firebase'
                     }),
-                    blockType: BlockType.COMMAND,
                     arguments: {
                         BANK: {
                             type: ArgumentType.STRING,
