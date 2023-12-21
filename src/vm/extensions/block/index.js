@@ -1,6 +1,6 @@
 //
 // NumberBank for Xcratch
-// 20221221 - dev ver2.0(047)
+// 20221221 - dev ver2.0(048)
 //
 
 import BlockType from '../../extension-support/block-type';
@@ -233,7 +233,7 @@ class Scratch3NumberbankBlocks {
             if (masterSha256 == '') { resolve(); }
             if (args.BANK == '' || args.CARD == '') { resolve(); }
 
-            const variable = util.target.lookupOrCreateVariable(null, args.VAL);
+            const variable = util.target.lookupOrCreateVariable(null, args.VAR);
 
             bankKey = new String(args.BANK);
             bankName = args.BANK;
