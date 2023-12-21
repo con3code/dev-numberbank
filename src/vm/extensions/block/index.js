@@ -27,7 +27,7 @@ import {initializeFirestore, doc, getDoc, setDoc, onSnapshot} from '/usr/local/x
 const encoder = new TextEncoder();
 const decoderUtf8 = new TextDecoder('utf-8');
 
-const numberbankVersion = 'NumberBank 2.0(047)';
+const numberbankVersion = 'NumberBank 2.0(048)';
 
 
 /**
